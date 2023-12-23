@@ -1,0 +1,16 @@
+meals_and_prep_times = {
+    "meatless bolognese": 45,
+    "butter chicken": 30,
+    "cheeseburgers and tots": 45,
+    "chicken caesar salad": 15,
+    "fajita chicken skillet": 20,
+    "lo carb pot pie": 40,
+    "steak and potatoes": 75,
+    "sweet potato enchiladas": 45,
+    "taco bowls": 30,
+    "protein and veggie tray bake": 60,
+    "salmon and vegetables": 45,
+    "stir fry": 30,
+    "leftovers": 20,
+    "ORDER/DINE OUT pizza": 45,
+}
