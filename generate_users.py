@@ -5,18 +5,16 @@ import string
 import random
 import json
 
+from names import first_names, surnames
+
 min_pass_length = 12
-max_pass_length = 64
+max_pass_length = 32
 number_of_users = 10
 
 def password_generator():
     pw_values = string.printable.replace(string.whitespace,'') + ' '
     p = (random.choice(pw_values) for _ in range(random.randint(min_pass_length, max_pass_length)))
     return ''.join(p)
-
-first_names = [ 'Alex','Blake','Chris','Dylan','Elliott','Flynn','Gene','Hunter','Ira','Jaime','Kelly','Lee','McKenzie','Nell','Owen','Peyton','Quinn','Reese','Sam','Taylor','Uri','Val','Wynn','Xi','Yordan','Zoe']
-
-surnames = [ 'Adams','Allen','Anderson','Baker','Brown','Campbell','Carter','Clark','Davis','Flores','Garcia','Gonzalez','Green','Hall','Harris','Hernandez','Hill','Jackson','Johnson','Jones','King','Lee','Lewis','Lopez','Martin','Martinez','Miller','Mitchell','Moore','Nelson','Nguyen','Perez','Ramirez','Rivera','Roberts','Robinson','Sanchez','Scott','Taylor','Thomas','Thompson','Torres','Walker','White','Williams','Wilson','Wright','Young']
 
 # CREATE USER LIST
 new_users_needing_passwords = [(random.choice(first_names) + ' ' + random.choice(surnames).title()) for _ in range(number_of_users)]
