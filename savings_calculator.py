@@ -1,5 +1,6 @@
 """
-GOAL: Calculate a monthly savings target from a user-friendly input array of savings goal, starting balance, monthly savings rate and number of months over which to save.
+GOAL: Calculate a monthly savings target from a user-friendly input array of savings goal
+starting balance, monthly savings rate and number of months over which to save.
 """
 
 input_error = "Please enter a valid number."

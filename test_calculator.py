@@ -1,5 +1,6 @@
 from calculator import Calculator
 
+
 def test_add():
     # Arrange
     calculator_instance = Calculator()
@@ -7,6 +8,7 @@ def test_add():
     result = calculator_instance.add(2, 3)
     # Assert
     assert result == 5
+
 
 def test_subtract():
     # Arrange
@@ -16,6 +18,7 @@ def test_subtract():
     # Assert
     assert result == -1
 
+
 def test_multiply():
     # Arrange
     calculator_instance = Calculator()
@@ -23,6 +26,7 @@ def test_multiply():
     result = calculator_instance.multiply(3, 7)
     # Assert
     assert result == 21
+
 
 def test_divide():
     # Arrange
