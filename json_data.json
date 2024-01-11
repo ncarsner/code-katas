@@ -1,0 +1,88 @@
+{
+    "students": [
+        {
+            "first": "Alex",
+            "last": "Anderson",
+            "addresses": [
+                {
+                    "addy_nickname": "my last house",
+                    "addy_year_start": "2022",
+                    "addy_year_end": "2023",
+                    "address": "1234 Main St.",
+                    "city": "Nashville",
+                    "state": "TN",
+                    "zip_code": "37203"
+                }
+            ]
+        },
+        {
+            "first": "Blake",
+            "last": "Banford",
+            "addresses": [
+                {
+                    "addy_nickname": "not a rental",
+                    "addy_year_start": "2018",
+                    "addy_year_end": "2020",
+                    "address": "4321 Hillsboro Pike",
+                    "city": "Nashville",
+                    "state": "TN",
+                    "zip_code": "37203"
+                },
+                {
+                    "addy_nickname": "smelly apartment",
+                    "addy_year_start": "2011",
+                    "addy_year_end": "2018",
+                    "address": "85 Eastgate Ave.",
+                    "city": "Nashville",
+                    "state": "TN",
+                    "zip_code": "37206"
+                }
+            ]
+        },
+        {
+            "first": "Cris",
+            "last": "Carpenter",
+            "addresses": [
+                {
+                    "addy_nickname": "my folks' place",
+                    "addy_year_start": "2010",
+                    "addy_year_end": "2015",
+                    "address": "1234 Main St.",
+                    "city": "Nashville",
+                    "state": "TN",
+                    "zip_code": "37211"
+                }
+            ]
+        },
+        {
+            "first": "Dylan",
+            "last": "Donover",
+            "addresses": [
+                {
+                    "addy_nickname": "Stark mansion",
+                    "addy_year_start": "2004",
+                    "addy_year_end": "2023",
+                    "address": "10880 Malibu Point",
+                    "city": "Malibu",
+                    "state": "CA",
+                    "zip_code": "90265"
+                }
+            ]
+        },
+        {
+            "first": "Elliott",
+            "last": "Evers",
+            "addresses": [
+                {
+                    "addy_nickname": "my work address",
+                    "addy_year_start": "1800",
+                    "addy_year_end": "2024",
+                    "address": "1600 Pennsylvania Ave NW",
+                    "city": "Washington",
+                    "state": "DC",
+                    "zip_code": "20500"
+                }
+            ]
+        }
+    ]
+}
