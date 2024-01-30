@@ -133,14 +133,12 @@ for key, group in itertools.groupby(sorted(orders, key=lambda x: x[0]), lambda x
 print(list(itertools.islice(range(10), 2, 8, 2)))
 # Output: [2, 4, 6]
 # Use-case: Slice an iterable with start, stop, and step.
-from itertools import islice
 
 # Function: Slices an iterable.
-
-# Use-case: Displaying the first few lines of a large text file.
 lines = ["Line1", "Line2", "Line3", "Line4", "Line5"]
-preview_lines = list(islice(lines, 0, 3))
+preview_lines = list(itertools.islice(lines, 0, 3))
 print(preview_lines)
+# Use-case: Displaying the first few lines of a large text file.
 
 
 data = [(1, 2), (3, 4)]
