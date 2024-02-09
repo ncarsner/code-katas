@@ -3,11 +3,15 @@ import re
 
 def sort_lists_in_file_mixed_comments(file_path):
     """
-    This script adjustment focuses on correctly extracting both commented and uncommented items, sorting them while ignoring the comment markers for the purpose of sorting, but preserving these markers in the sorted output. The re.findall() function is used here to match list names and their contents accurately, and the loop unpacks these matches correctly as two elements per iteration. Adjust the path of the target file.
+    This script focuses on correctly extracting both commented and uncommented items in a list,
+    sorting indiscriminantly, and preserving these markers in the sorted output.
+    The re.findall() function is used to match list names and their contents accurately,
+    and the loop unpacks these matches as two elements per iteration.
+    Adjust the path of the target file.
     """
 
     def extract_and_sort_items(list_content):
-        # Extract all items, including commented ones, while preserving their format
+        # Extract all items, preserving their commented or uncommented format
         items = re.findall(r'\s*(#?\s*".+?",?)', list_content, flags=re.DOTALL)
         # Sort items by their content, ignoring comment markers for sorting
         sorted_items = sorted(items, key=lambda x: x.lstrip("#").strip().lower())
