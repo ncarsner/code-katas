@@ -16,4 +16,4 @@ def prime_distances():
 
         print(f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}")
 
-prime_distances()
+# prime_distances()
