@@ -21,10 +21,8 @@ unfiltered_responses = [
 
 # FILTERED LIST OF USER INPUT BASED ON: 1) CONTROL QUESTION VALUES and 2) NOT ALL RESPONSE VALUES ARE THE SAME
 filtered_responses = [
-    subset
-    for subset in unfiltered_responses
-    if all(subset[k - 1] == v for k, v in control_questions.items())
-    and (len(set(subset)) != 1)
+    subset for subset in unfiltered_responses
+    if all(subset[k - 1] == v for k, v in control_questions.items()) and (len(set(subset)) != 1)
 ]
 
 filtered_pct = len(filtered_responses) / len(unfiltered_responses)
@@ -37,8 +35,8 @@ print(
 for question in range(no_of_survey_questions):
     score_unf = sum([r[question] for r in unfiltered_responses]) / len(unfiltered_responses)
     score_fil = sum([r[question] for r in filtered_responses]) / len(filtered_responses)
-    print(\
-        f"Question {question + 1} avg: {score_unf:.1f} | filtered: {score_fil:.1f} -- diff: {score_fil-score_unf:+.1f}"\
+    print(
+        f"Question {question + 1} avg: {score_unf:.1f} | filtered: {score_fil:.1f} -- diff: {score_fil-score_unf:+.1f}"
     )
 
 
