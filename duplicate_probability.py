@@ -10,8 +10,8 @@ combos = factorial(pool) // (factorial(drawn) * factorial(pool - drawn)) * bonus
 factors = [100, 5_000, 10_000, 25_000, 50_000]
 
 # for factoring a shared birthday among a group of people
-combos = 365.25
-factors = [5, 10, 15, 20, 25, 30]
+# combos = 365.25
+# factors = [5, 10, 15, 20, 25, 30]
 
 def duplicate_probability():
     results = []

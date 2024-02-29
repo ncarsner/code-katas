@@ -40,7 +40,7 @@ def sort_lists_in_file_mixed_comments(file_path):
 
 
 # Replace 'your_path/unordered_list.py' with the actual path to your file
-sort_lists_in_file_mixed_comments("long_unsorted_list.py")
+sort_lists_in_file_mixed_comments("long_list_unsorted.py")
 
 
 """
