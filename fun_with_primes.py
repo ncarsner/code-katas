@@ -61,9 +61,9 @@ def print_incremental_primes(n, increment):
 
 
 primes = [
-    # 150_001,
-    # 586_711,
-    # 1_053_179,
+    150_001,  # 45,155 digits / ~30ms time to calculate
+    586_711,  # 176,618 digits / ~ 550ms time to calculate
+    1_053_179,  # 317,039 digits / ~ 1.75 seconds to calculate
     # 1_534_853,
     # 2_529_619,
     # 5_121_511,
@@ -74,16 +74,28 @@ primes = [
     # 36_723_041,  # 11,054,737 / 33:52
     # 43_333_139,  # 13,044,575 / 43:43
     # 48_663_887,  # 14,649,290 / 55:17
-    50_000_017,  # 15,051,505 / 1:06:55
-    62_315_479,  # 18,758,829 / 1:44:14
-    74_763_967,  # 22,506,197 / 2:30:17
-    87_332_057,  # 26,289,569 / 3:25:14
+    # 50_000_017,  # 15,051,505 / 1:06:55
+    # 62_315_479,  # 18,758,829 / 1:44:14
+    # 74_763_967,  # 22,506,197 / 2:30:17
+    # 87_332_057,  # 26,289,569 / 3:25:14
+    100_000_007, # 30,103,002 / 4:30:40
+    112_389_727, # 33,832,680 / 5:40:38
+    # 124_865_857,
+    # 137_402_539,
 ]
 
 
 def format_time(milliseconds):
     """Function to format time in suitable increments."""
-    if milliseconds >= 60000:
+    if milliseconds >= 3600000:
+        hours, remainder = divmod(milliseconds / 1000, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        if hours == 1:
+            hour_str = "hour"
+        else:
+            hour_str = "hours"
+        return f"{int(hours)} {hour_str} {int(minutes)} minutes {seconds:.2f} seconds"
+    elif milliseconds >= 60000:
         minutes, seconds = divmod(milliseconds / 1000, 60)
         if minutes == 1:
             return f"{int(minutes)} minute {seconds:.2f} seconds"
@@ -152,13 +164,13 @@ def get_primes_in_range(x=x, y=y):
     return almost_even_primes
 
 
-print(get_primes_in_range())
+# print(get_primes_in_range())
 
 
 # Loop through the exponents and measure time for each iteration
-# for exponent in primes:
-#     start_time = time.time()
-#     prime_check = is_prime(exponent)
-#     length = digit_length_of_prime(exponent)
-#     duration = time.time() - start_time
-#     print(f"{exponent:,} {prime_check} -- len: {length:,} -- {format_time(duration * 1000)}")
+for exponent in primes:
+    start_time = time.time()
+    prime_check = is_prime(exponent)
+    length = digit_length_of_prime(exponent)
+    duration = time.time() - start_time
+    print(f"{exponent:,} {prime_check} -- len: {length:,} -- {format_time(duration * 1000)}")
