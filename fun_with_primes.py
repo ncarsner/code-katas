@@ -20,7 +20,9 @@ def prime_distances():
         next_distance = primes[i + 1] - prime if i < len(primes) - 1 else 0
         tot_distance = prev_distance + next_distance
 
-        print(f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}")
+        print(
+            f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}"
+        )
 
 
 # prime_distances()
@@ -51,7 +53,9 @@ def print_incremental_primes(n, increment):
         if num % increment == 0:
             # range_start = num - 9
             range_end = num
-            print(f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}")
+            print(
+                f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}"
+            )
 
 
 # print_incremental_primes(500, 50)
@@ -78,12 +82,17 @@ primes = [
     # 62_315_479,  # 18,758,829 / 1:44:14
     # 74_763_967,  # 22,506,197 / 2:30:17
     # 87_332_057,  # 26,289,569 / 3:25:14
-    100_000_007,  # 30,103,002 / 4:30:40
-    112_389_727,  # 33,832,680 / 5:40:38
-    # 124_865_857,
-    # 137_402_539,
+    # 100_000_007,  # 30,103,002 / 4:30:40
+    # 112_389_727,  # 33,832,680 / 5:40:38
+    # 124_865_857, # 37,588,369 / 6:16:17
+    # 137_402_539, # 41,362,286 / 7:54:29
+    150_000_001,
+    # 186_968_443,
+    # 224_335_357,
+    # 262_022_639,
 ]
 
+# print(is_prime(150_000_001))
 
 def format_time(milliseconds):
     """Function to format time in suitable increments."""
@@ -130,7 +139,9 @@ def primes_in_range(start, end):
 def almost_evenly_spaced_primes(primes_list, n=20):
     """Function to select almost-evenly spaced primes from a list of primes."""
     if len(primes_list) <= n:
-        return primes_list  # Return all primes if the list is smaller than or equal to 20
+        return (
+            primes_list  # Return all primes if the list is smaller than or equal to 20
+        )
     else:
         selected_primes = []
         interval = len(primes_list) / (n - 1)
@@ -149,10 +160,10 @@ def digit_length_of_prime(num):
 
 
 # Set the maximum number of digits allowed for integer string conversion
-# sys.set_int_max_str_digits(100_000_000)
+sys.set_int_max_str_digits(100_000_000)
 
-x = 100_000_001
-y = 150_000_001
+x = 150_000_001
+y = 300_000_001
 
 
 def get_primes_in_range(x=x, y=y):
@@ -173,4 +184,6 @@ for exponent in primes:
     prime_check = is_prime(exponent)
     length = digit_length_of_prime(exponent)
     duration = time.time() - start_time
-    print(f"{exponent:,} {prime_check} -- len: {length:,} -- {format_time(duration * 1000)}")
+    print(
+        f"{exponent:,} {prime_check} -- len: {length:,} -- {format_time(duration * 1000)}"
+    )

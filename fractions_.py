@@ -34,7 +34,14 @@ def fraction_to_decimal(fraction):
 
 # Example usage:
 # fraction = Fraction(1, 3)
-fractions = [Fraction(1, 3), Fraction(1, 5), Fraction(1, 8), Fraction(1, 7), Fraction(4,9), Fraction(4, 11)]
+fractions = [
+    Fraction(1, 3),
+    Fraction(1, 5),
+    Fraction(1, 8),
+    Fraction(1, 7),
+    Fraction(4, 9),
+    Fraction(4, 11),
+]
 
 
 for fraction in fractions:
