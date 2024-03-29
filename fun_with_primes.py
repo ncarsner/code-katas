@@ -68,8 +68,8 @@ primes = [
     150_001,  # 45,155 digits / ~30ms time to calculate
     586_711,  # 176,618 digits / ~ 550ms time to calculate
     1_053_179,  # 317,039 digits / ~ 1.75 seconds to calculate
-    # 1_534_853,
-    # 2_529_619,
+    # 1_534_853,  # 462,037 digits / ~ 3.74 seconds
+    # 2_529_619,  # 761,492 digits / ~ 9.50 seconds
     # 5_121_511,
     # 10_000_019,  # 3,010,306 digits / 2:22 time to calculate
     # 25_000_009,  # 7,525,753 digits / 15:12 time to calculate
@@ -84,15 +84,16 @@ primes = [
     # 87_332_057,  # 26,289,569 / 3:25:14
     # 100_000_007,  # 30,103,002 / 4:30:40
     # 112_389_727,  # 33,832,680 / 5:40:38
-    # 124_865_857, # 37,588,369 / 6:16:17
-    # 137_402_539, # 41,362,286 / 7:54:29
-    # 150_000_001, # 45,154,500 / 8:45:45
-    186_968_443,
+    # 124_865_857,  # 37,588,369 / 6:16:17
+    # 137_402_539,  # 41,362,286 / 7:54:29
+    # 150_000_001,  # 45,154,500 / 8:45:45
+    # 186_968_443,  # 56,283,110 / 14:04:43
     # 224_335_357,
     # 262_022_639,
 ]
 
 # print(is_prime(150_000_001))
+
 
 def format_time(milliseconds):
     """Function to format time in suitable increments."""
@@ -181,6 +182,8 @@ def get_primes_in_range(x=x, y=y):
 # Loop through the exponents and measure time for each iteration
 for exponent in primes:
     start_time = time.time()
+    code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
+    print(f"\n--- STARTED AT: {code_exec_at:^24} ---")
     prime_check = is_prime(exponent)
     length = digit_length_of_prime(exponent)
     duration = time.time() - start_time
