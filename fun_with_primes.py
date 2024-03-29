@@ -88,8 +88,8 @@ primes = [
     # 137_402_539,  # 41,362,286 / 7:54:29
     # 150_000_001,  # 45,154,500 / 8:45:45
     # 186_968_443,  # 56,283,110 / 14:04:43
-    # 224_335_357,
-    # 262_022_639,
+    224_335_357,  # 67,531,672 / 19:51:59
+    # 262_022_639,  #
 ]
 
 # print(is_prime(150_000_001))
@@ -154,7 +154,7 @@ def almost_evenly_spaced_primes(primes_list, n=20):
 
 
 # Function to calculate the length of the prime number
-def digit_length_of_prime(num):
+def mersenne_number(num):
     result = 2**num - 1
     result = str(result)
     return len(result)
@@ -185,8 +185,10 @@ for exponent in primes:
     code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
     print(f"\n--- STARTED AT: {code_exec_at:^24} ---")
     prime_check = is_prime(exponent)
-    length = digit_length_of_prime(exponent)
+    length = mersenne_number(exponent)
     duration = time.time() - start_time
     print(
         f"{exponent:,} {prime_check} -- len: {length:,} -- {format_time(duration * 1000)}"
     )
+    code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
+    print(f"\n--- COMPLETE AT: {code_done_at:^24} ---")
