@@ -68,9 +68,9 @@ primes = [
     150_001,  # 45,155 digits / ~30ms time to calculate
     586_711,  # 176,618 digits / ~ 550ms time to calculate
     1_053_179,  # 317,039 digits / ~ 1.75 seconds to calculate
-    # 1_534_853,  # 462,037 digits / ~ 3.74 seconds
+    1_534_853,  # 462,037 digits / ~ 3.74 seconds
     # 2_529_619,  # 761,492 digits / ~ 9.50 seconds
-    # 5_121_511,
+    # 5_121_511,  # 1,541,729 digits / ~ 36 seconds
     # 10_000_019,  # 3,010,306 digits / 2:22 time to calculate
     # 25_000_009,  # 7,525,753 digits / 15:12 time to calculate
     # 27_581_471,  # 8,302,851 digits / 19:03 time to calculate
@@ -88,8 +88,8 @@ primes = [
     # 137_402_539,  # 41,362,286 / 7:54:29
     # 150_000_001,  # 45,154,500 / 8:45:45
     # 186_968_443,  # 56,283,110 / 14:04:43
-    224_335_357,  # 67,531,672 / 19:51:59
-    # 262_022_639,  #
+    # 224_335_357,  # 67,531,672 / 19:51:59
+    262_022_639,  #
 ]
 
 # print(is_prime(150_000_001))
@@ -183,12 +183,12 @@ def get_primes_in_range(x=x, y=y):
 for exponent in primes:
     start_time = time.time()
     code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
-    print(f"\n--- STARTED AT: {code_exec_at:^24} ---")
-    prime_check = is_prime(exponent)
+    print(f"\n--- STARTED: {code_exec_at:^24} ---")
+    exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
     length = mersenne_number(exponent)
     duration = time.time() - start_time
     print(
-        f"{exponent:,} {prime_check} -- len: {length:,} -- {format_time(duration * 1000)}"
+        f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
     )
     code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
-    print(f"\n--- COMPLETE AT: {code_done_at:^24} ---")
+    print(f"--- COMPLETED: {code_done_at:^24} ---")
