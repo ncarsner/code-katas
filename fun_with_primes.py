@@ -89,15 +89,23 @@ primes = [
     # 150_000_001,  # 45,154,500 / 8:45:45
     # 186_968_443,  # 56,283,110 / 14:04:43
     # 224_335_357,  # 67,531,672 / 19:51:59
-    262_022_639,  #
+    # 262_022_639,  # 78,876,674 / 27:57:30
+    300_000_037,
+    # 354_545_487,
+    # 409_090_939,
+    # 463_636_391,
+    # 500_000_019,
 ]
 
 # print(is_prime(150_000_001))
 
+for prime in primes:
+    print(f"{prime:,} {is_prime(prime)}, Mersenne is prime: {is_prime(2**prime)}")
+
 
 def format_time(milliseconds):
     """Function to format time in suitable increments."""
-    if milliseconds >= 3600000:
+    if milliseconds >= 3_600_000:
         hours, remainder = divmod(milliseconds / 1000, 3600)
         minutes, seconds = divmod(remainder, 60)
         if hours == 1:
@@ -105,7 +113,7 @@ def format_time(milliseconds):
         else:
             hour_str = "hours"
         return f"{int(hours)} {hour_str} {int(minutes)} minutes {seconds:.2f} seconds"
-    elif milliseconds >= 60000:
+    elif milliseconds >= 60_000:
         minutes, seconds = divmod(milliseconds / 1000, 60)
         if minutes == 1:
             return f"{int(minutes)} minute {seconds:.2f} seconds"
@@ -163,8 +171,8 @@ def mersenne_number(num):
 # Set the maximum number of digits allowed for integer string conversion
 sys.set_int_max_str_digits(100_000_000)
 
-x = 150_000_001
-y = 300_000_001
+x = 300_000_001
+y = 500_000_001
 
 
 def get_primes_in_range(x=x, y=y):
@@ -176,19 +184,19 @@ def get_primes_in_range(x=x, y=y):
     return almost_even_primes
 
 
-# print(get_primes_in_range())
+print(get_primes_in_range())
 
 
 # Loop through the exponents and measure time for each iteration
-for exponent in primes:
-    start_time = time.time()
-    code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
-    print(f"\n--- STARTED: {code_exec_at:^24} ---")
-    exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
-    length = mersenne_number(exponent)
-    duration = time.time() - start_time
-    print(
-        f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
-    )
-    code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
-    print(f"--- COMPLETED: {code_done_at:^24} ---")
+# for exponent in primes:
+#     start_time = time.time()
+#     code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
+#     print(f"\n--- STARTED: {code_exec_at:^24} ---")
+#     exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
+#     length = mersenne_number(exponent)
+#     duration = time.time() - start_time
+#     print(
+#         f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
+#     )
+#     code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
+#     print(f"--- COMPLETED: {code_done_at:^24} ---")
