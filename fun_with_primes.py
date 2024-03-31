@@ -3,6 +3,10 @@ import sys
 import time
 
 
+# Set the maximum number of digits allowed for integer string conversion
+sys.set_int_max_str_digits(200_000_000)
+
+
 def is_prime(n):
     if n <= 1:
         return False
@@ -65,13 +69,13 @@ def print_incremental_primes(n, increment):
 
 
 primes = [
-    150_001,  # 45,155 digits / ~30ms time to calculate
+    # 150_001,  # 45,155 digits / ~30ms time to calculate
     586_711,  # 176,618 digits / ~ 550ms time to calculate
-    1_053_179,  # 317,039 digits / ~ 1.75 seconds to calculate
+    # 1_053_179,  # 317,039 digits / ~ 1.75 seconds to calculate
     1_534_853,  # 462,037 digits / ~ 3.74 seconds
     # 2_529_619,  # 761,492 digits / ~ 9.50 seconds
-    # 5_121_511,  # 1,541,729 digits / ~ 36 seconds
-    # 10_000_019,  # 3,010,306 digits / 2:22 time to calculate
+    5_121_511,  # 1,541,729 digits / ~ 36 seconds
+    10_000_019,  # 3,010,306 digits / 2:22 time to calculate
     # 25_000_009,  # 7,525,753 digits / 15:12 time to calculate
     # 27_581_471,  # 8,302,851 digits / 19:03 time to calculate
     # 34_092_731,  # 10,262,935 / 28:16
@@ -90,17 +94,18 @@ primes = [
     # 186_968_443,  # 56,283,110 / 14:04:43
     # 224_335_357,  # 67,531,672 / 19:51:59
     # 262_022_639,  # 78,876,674 / 27:57:30
-    300_000_037,
-    # 354_545_487,
-    # 409_090_939,
-    # 463_636_391,
-    # 500_000_019,
+    300_000_007,
+    # 349_504_721,
+    # 399_366_239,
+    # 449_540_227,
 ]
 
 # print(is_prime(150_000_001))
 
 for prime in primes:
-    print(f"{prime:,} {is_prime(prime)}, Mersenne is prime: {is_prime(2**prime)}")
+    # mersenne = 2 ** prime - 1
+    # print(f"{prime:,} {is_prime(prime)}")
+    pass
 
 
 def format_time(milliseconds):
@@ -161,18 +166,15 @@ def almost_evenly_spaced_primes(primes_list, n=20):
         return selected_primes
 
 
-# Function to calculate the length of the prime number
+# Function to calculate the length of the Mersenne number
 def mersenne_number(num):
     result = 2**num - 1
     result = str(result)
     return len(result)
 
 
-# Set the maximum number of digits allowed for integer string conversion
-sys.set_int_max_str_digits(100_000_000)
-
-x = 300_000_001
-y = 500_000_001
+x = 500_000_001
+y = 750_000_001
 
 
 def get_primes_in_range(x=x, y=y):
@@ -184,19 +186,19 @@ def get_primes_in_range(x=x, y=y):
     return almost_even_primes
 
 
-print(get_primes_in_range())
+# print(get_primes_in_range())
 
 
 # Loop through the exponents and measure time for each iteration
-# for exponent in primes:
-#     start_time = time.time()
-#     code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
-#     print(f"\n--- STARTED: {code_exec_at:^24} ---")
-#     exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
-#     length = mersenne_number(exponent)
-#     duration = time.time() - start_time
-#     print(
-#         f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
-#     )
-#     code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
-#     print(f"--- COMPLETED: {code_done_at:^24} ---")
+for exponent in primes:
+    start_time = time.time()
+    code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
+    print(f"\n--- STARTED: {code_exec_at:^24} ---")
+    exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
+    length = mersenne_number(exponent)
+    duration = time.time() - start_time
+    print(
+        f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
+    )
+    code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
+    print(f"--- COMPLETED: {code_done_at:^24} ---")
