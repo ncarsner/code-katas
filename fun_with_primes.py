@@ -24,9 +24,7 @@ def prime_distances():
         next_distance = primes[i + 1] - prime if i < len(primes) - 1 else 0
         tot_distance = prev_distance + next_distance
 
-        print(
-            f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}"
-        )
+        print(f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}")
 
 
 # prime_distances()
@@ -57,9 +55,7 @@ def print_incremental_primes(n, increment):
         if num % increment == 0:
             # range_start = num - 9
             range_end = num
-            print(
-                f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}"
-            )
+            print(f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}")
 
 
 # print_incremental_primes(500, 50)
@@ -75,7 +71,7 @@ primes = [
     1_534_853,  # 462,037 digits / ~ 3.74 seconds
     # 2_529_619,  # 761,492 digits / ~ 9.50 seconds
     5_121_511,  # 1,541,729 digits / ~ 36 seconds
-    # 10_000_019,  # 3,010,306 digits / 2:22 time to calculate
+    # # 10_000_019,  # 3,010,306 digits / 2:22 time to calculate
     # 25_000_009,  # 7,525,753 digits / 15:12 time to calculate
     # 27_581_471,  # 8,302,851 digits / 19:03 time to calculate
     # 34_092_731,  # 10,262,935 / 28:16
@@ -94,9 +90,9 @@ primes = [
     # 186_968_443,  # 56,283,110 / 14:04:43
     # 224_335_357,  # 67,531,672 / 19:51:59
     # 262_022_639,  # 78,876,674 / 27:57:30
-    # 300_000_007,
-    349_504_721,
-    # 399_366_239,
+    # 300_000_007,  # 90,309,001 / 40:24:20
+    # 349_504_721,
+    399_366_239,
     # 449_540_227,
 ]
 
@@ -153,9 +149,7 @@ def primes_in_range(start, end):
 def almost_evenly_spaced_primes(primes_list, n=20):
     """Function to select almost-evenly spaced primes from a list of primes."""
     if len(primes_list) <= n:
-        return (
-            primes_list  # Return all primes if the list is smaller than or equal to 20
-        )
+        return primes_list  # Return all primes if the list is smaller than or equal to 20
     else:
         selected_primes = []
         interval = len(primes_list) / (n - 1)
@@ -197,8 +191,6 @@ for exponent in primes:
     exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
     length = mersenne_number(exponent)
     duration = time.time() - start_time
-    print(
-        f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
-    )
+    print(f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}")
     code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
     print(f"--- COMPLETED: {code_done_at:^24} ---")
