@@ -24,7 +24,9 @@ def prime_distances():
         next_distance = primes[i + 1] - prime if i < len(primes) - 1 else 0
         tot_distance = prev_distance + next_distance
 
-        print(f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}")
+        print(
+            f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}"
+        )
 
 
 # prime_distances()
@@ -55,7 +57,9 @@ def print_incremental_primes(n, increment):
         if num % increment == 0:
             # range_start = num - 9
             range_end = num
-            print(f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}")
+            print(
+                f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}"
+            )
 
 
 # print_incremental_primes(500, 50)
@@ -91,7 +95,7 @@ primes = [
     # 224_335_357,  # 67,531,672 / 19:51:59
     # 262_022_639,  # 78,876,674 / 27:57:30
     # 300_000_007,  # 90,309,001 / 40:24:20
-    # 349_504_721,
+    # 349_504_721,  # 105,211,405 / 50:59:43
     399_366_239,
     # 449_540_227,
 ]
@@ -149,7 +153,9 @@ def primes_in_range(start, end):
 def almost_evenly_spaced_primes(primes_list, n=20):
     """Function to select almost-evenly spaced primes from a list of primes."""
     if len(primes_list) <= n:
-        return primes_list  # Return all primes if the list is smaller than or equal to 20
+        return (
+            primes_list  # Return all primes if the list is smaller than or equal to 20
+        )
     else:
         selected_primes = []
         interval = len(primes_list) / (n - 1)
@@ -191,6 +197,8 @@ for exponent in primes:
     exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
     length = mersenne_number(exponent)
     duration = time.time() - start_time
-    print(f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}")
+    print(
+        f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
+    )
     code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
     print(f"--- COMPLETED: {code_done_at:^24} ---")
