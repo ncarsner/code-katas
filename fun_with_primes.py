@@ -93,7 +93,7 @@ primes = [
     # 300_000_007,  # 90,309,001 / 40:24:20
     # 349_504_721,  # 105,211,405 / 50:59:43
     # 399_366_239,  # 120,221,218 / 71:41:35
-    449_540_227,
+    449_540_227, # 135,325,093 / 90:41:53
     # 750_000_007,
     # 812_158_001,
     # 874_560_419,
@@ -184,17 +184,17 @@ def get_primes_in_range(x=x, y=y):
     return almost_even_primes
 
 
-print(get_primes_in_range())
+# print(get_primes_in_range())
 
 
 # Loop through the exponents and measure time for each iteration
-# for exponent in primes:
-#     start_time = time.time()
-#     code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
-#     print(f"\n--- STARTED: {code_exec_at:^24} ---")
-#     exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
-#     length = mersenne_number(exponent)
-#     duration = time.time() - start_time
-#     print(f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}")
-#     code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
-#     print(f"--- COMPLETED: {code_done_at:^24} ---")
+for exponent in primes:
+    start_time = time.time()
+    code_exec_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(start_time))
+    print(f"\n--- STARTED: {code_exec_at:^24} ---")
+    exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
+    length = mersenne_number(exponent)
+    duration = time.time() - start_time
+    print(f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}")
+    code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
+    print(f"--- COMPLETED: {code_done_at:^24} ---")
