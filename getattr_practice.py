@@ -20,10 +20,14 @@ def get_attribute_value(car_instance, attribute_name):
 # Example usage:
 my_car = Car("Toyota", "Camry", 2020)
 attribute_name = "make"
+
 print(f"{attribute_name}: {get_attribute_value(my_car, attribute_name)}")
+
 attribute_name = "model"
 print(f"{attribute_name}: {get_attribute_value(my_car, attribute_name)}")
+
 attribute_name = "year"
 print(f"{attribute_name}: {get_attribute_value(my_car, attribute_name)}")
+
 attribute_name = "color"  # Non-existent attribute
 print(f"{attribute_name}: {get_attribute_value(my_car, attribute_name)}")
