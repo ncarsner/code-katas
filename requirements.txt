@@ -2,6 +2,7 @@ bs4
 httpx
 numpy
 openpyxl
+ortools
 prettytable
 pytest
 pywin32
