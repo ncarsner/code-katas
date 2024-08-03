@@ -3,6 +3,7 @@ Faker
 httpx
 numpy
 openpyxl
+ortools
 prettytable
 pytest
 pywin32
