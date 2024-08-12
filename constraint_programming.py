@@ -1,3 +1,6 @@
+from ortools.sat.python import cp_model
+import json
+
 """Discrete optimization problem solutions using constraint programming within Python.
     https://pganalyze.com/blog/a-practical-introduction-to-constraint-programming-using-cp-sat"""
 
@@ -16,7 +19,14 @@ Constraints:
         b != c
     Objective: How much should each of them contribute?"""
 
-# a, b, c = Alex, Blake, Chris
+a = b = c = 0
+a + b + c == 50
+a >= b
+c % 5 == 0
+a != b
+a != c
+b != c
+
 
 """Problem Statement:
     A store owner needs to create the weekly work schedule for its employees.
@@ -35,32 +45,31 @@ Constraints:
         If they do work 2 shifts in a day, they must be consecutive.
 """
 
+model = cp_model.CpModel()
 
-employees = {"Phil": ["Restocker"],
-             "Emma": ["Cashier", "Restocker"],
-             "David": ["Cashier", "Restocker"],
-             "Rebecca": ["Cashier"]}
+employees = {
+    "Phil": ["Restocker"],
+    "Emma": ["Cashier", "Restocker"],
+    "David": ["Cashier", "Restocker"],
+    "Rebecca": ["Cashier"],
+}
 
-days = ["Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"]
+days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-shifts = ["Morning",
-          "Afternoon",
-          "Evening"]
+shifts = ["Morning", "Afternoon", "Evening"]
 
-roles = ["Cashier",
-         "Restocker"]
+roles = ["Cashier", "Restocker"]
 
-# schedule = {e:
-#              {r:
-#                {d:
-#                  {s: model.new_bool_var(f"schedule_{e}_{r}_{d}_{s}")
-#                    for s in shifts}
-#                  for d in days}
-#                for r in roles}
-#              for e in employees}
+schedule = {
+    e: {
+        r: {
+            d: {s: model.new_bool_var(f"schedule_{e}_{r}_{d}_{s}") for s in shifts}
+            for d in days
+        }
+        for r in roles
+    }
+    for e in employees
+}
+
+print(schedule)
+# print(json.dumps(schedule))
