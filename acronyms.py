@@ -1,3 +1,5 @@
+import re
+
 sample_text = """
 In a recent review by the National Institutes of Health (NIH), the consumption of BLT sandwiches at Minor League Baseball (MiLB) venues has garnered notable attention. The NIH's Dietary Guidelines for Americans (DGA) emphasize nutritional balance, and the prevalence of BLTs at these ballparks raises questions about sodium intake and lipid consumption. BLTs, characterized by bacon, lettuce, and tomato, offer a high sodium content and significant saturated fats, which the NIH suggests could impact cardiovascular health if consumed excessively.
 
@@ -5,11 +7,8 @@ In response, Major League Baseball (MLB) has taken a cautious stance. The MLB’
 
 Furthermore, the MLB's collaboration with the Centers for Disease Control and Prevention (CDC) underscores the league's commitment to promoting healthier eating habits. The CDC's Dietary Recommendations for Athletic Populations (DRAP) advocate for reduced sodium and increased vegetable intake, principles which the MLB is now integrating into its food service standards. By fostering a more health-conscious environment, MLB hopes to mitigate potential dietary risks associated with popular but nutritionally questionable foods like the BLT.
 
-Overall, while the NIH highlights potential health concerns related to BLTs in MiLB parks, MLB’s proactive measures, guided by FHSC and CDC recommendations, reflect an evolving stance towards integrating health and nutrition with the traditional ballpark experience. This balanced approach aims to enhance the overall well-being of fans while preserving the essence of America’s pastime.
+Overall, while the NIH highlights potential health concerns related to BLTs in MiLB parks, MLB’s proactive measures, guided by FHSC and CDC recommendations, reflect an evolving stance towards integrating health and nutrition with the traditional ballpark experience. This balanced approach aims to enhance the overall well-being of fans while preserving the essence of America’s 
 """
-
-import re
-
 
 def process_acronyms(text):
     # Regular expression to find acronyms
