@@ -9,11 +9,11 @@ import json
     They want to pool their money to purchase a gift worth $50.
 
 Constraints:
-    Alice has stated that she will put in at least as much money as Bob.
+    Alex will put in at least as much money as Blake.
         a >= b
-    Carol only has $5 bills, so her contribution will be a multiple of that.
+    Chris only has $5 bills, so Chris' contribution will be a multiple of that.
         c % 5 == 0
-    None of them want to contribute the exact same amount as any other.
+    None want to contribute the exact same amount as any other.
         a != b
         a != c
         b != c
@@ -47,11 +47,10 @@ b != c
 
 model = cp_model.CpModel()
 
-employees = {
-    "Phil": ["Restocker"],
-    "Emma": ["Cashier", "Restocker"],
-    "David": ["Cashier", "Restocker"],
-    "Rebecca": ["Cashier"],
+employees = {"Phil": ["Restocker"],
+             "Emma": ["Cashier", "Restocker"],
+             "David": ["Cashier", "Restocker"],
+             "Rebecca": ["Cashier"],
 }
 
 days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
