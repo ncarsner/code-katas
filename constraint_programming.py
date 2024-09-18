@@ -6,11 +6,11 @@
     They want to pool their money to purchase a gift worth $50.
 
 Constraints:
-    Alice has stated that she will put in at least as much money as Bob.
+    Alex will put in at least as much money as Blake.
         a >= b
-    Carol only has $5 bills, so her contribution will be a multiple of that.
+    Chris only has $5 bills, so Chris' contribution will be a multiple of that.
         c % 5 == 0
-    None of them want to contribute the exact same amount as any other.
+    None want to contribute the exact same amount as any other.
         a != b
         a != c
         b != c
@@ -34,6 +34,7 @@ Constraints:
     - Employees cannot work more than 8 hours (2 shifts) per day.
         If they do work 2 shifts in a day, they must be consecutive.
 """
+
 
 
 employees = {"Phil": ["Restocker"],
