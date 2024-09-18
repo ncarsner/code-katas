@@ -45,9 +45,6 @@ b != c
         If they do work 2 shifts in a day, they must be consecutive.
 """
 
-
-model = cp_model.CpModel()
-
 model = cp_model.CpModel()
 
 employees = {"Phil": ["Restocker"],
