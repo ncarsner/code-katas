@@ -1,5 +1,5 @@
 from ortools.sat.python import cp_model
-import json
+# import json
 
 """Discrete optimization problem solutions using constraint programming within Python.
     https://pganalyze.com/blog/a-practical-introduction-to-constraint-programming-using-cp-sat"""
@@ -62,7 +62,7 @@ roles = ["Cashier", "Restocker"]
 schedule = {
     e: {
         r: {
-            d: {s: model.new_bool_var(f"schedule_{e}_{r}_{d}_{s}") for s in shifts}
+            d: {s: model.NewBoolVar(f"schedule_{e}_{r}_{d}_{s}") for s in shifts}
             for d in days
         }
         for r in roles
@@ -70,5 +70,18 @@ schedule = {
     for e in employees
 }
 
-print(schedule)
-# print(json.dumps(schedule))
+# Function to print the schedule in a grid-style layout
+def print_schedule(schedule):
+    header = "Employee".ljust(10) + "Role".ljust(10) + "Day".ljust(10) + "Morning".ljust(10) + "Afternoon".ljust(10) + "Evening".ljust(10)
+    print(header)
+    print("-" * len(header))
+    
+    for employee, roles in schedule.items():
+        for role, days in roles.items():
+            for day, shifts in days.items():
+                row = f"{employee}".ljust(10) + f"{role}".ljust(10) + f"{day}".ljust(10)
+                for shift in ["Morning", "Afternoon", "Evening"]:
+                    row += f"{shifts[shift].Name()}".ljust(10)
+                print(row)
+
+print_schedule(schedule)
