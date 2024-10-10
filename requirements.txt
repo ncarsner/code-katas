@@ -1,6 +1,7 @@
 bs4
 Faker
 httpx
+matplotlib
 numpy
 openpyxl
 ortools

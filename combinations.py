@@ -32,9 +32,9 @@ for i in range(10):
 # print(len(tgt_sum_combos))
 def evaluate_combinations(x):
     matches = {3: 0, 4: 0, 5: 0}
-    random_selection = random.choice(combos)
+    random_selection = random.choice(tgt_sum_combos)
     for _ in range(x):
-        random_combo = random.choice(combos)
+        random_combo = random.choice(tgt_sum_combos)
         match_count = len(set(random_combo) & set(random_selection))
         if match_count in matches:
             matches[match_count] += 1
