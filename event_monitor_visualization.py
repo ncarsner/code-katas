@@ -17,7 +17,6 @@ def generate_sample_data():
     now = datetime.now()
     today = now.date()
 
-    # Define specific events for X (On Prem Server offline)
     def random_time_span():
         start_hour = random.randint(0, 23)
         start_minute = random.randint(0, 59)
@@ -28,20 +27,42 @@ def generate_sample_data():
         end_time = f"{end_hour:02}:{end_minute:02}"
         return start_time, end_time
 
+    # Define specific events for X (GREY)
     x_events = [
         # (today + timedelta(days=(1 - today.weekday() + 1) % 7), *random_time_span()),  # Next Tuesday
         # (today + timedelta(days=(3 - today.weekday() + 1) % 7), *random_time_span()),  # Next Thursday
         # (today + timedelta(days=(5 - today.weekday() + 1) % 7), *random_time_span()),  # Next Saturday
-        (datetime(2023, 10, 15), "10:00", "11:00"),
-        (datetime(2023, 10, 20), "13:00", "14:00"),
+        (datetime(2024, 9, 28), "15:13", "18:41"),
+        (datetime(2024, 9, 29), "8:52", "12:28"),
+        (datetime(2024, 10, 1), "8:56", "18:05"),
+        (datetime(2024, 10, 3), "11:40", "13:05"),
+        (datetime(2024, 10, 4), "9:57", "16:26"),
+        (datetime(2024, 10, 6), "9:28", "14:09"),
+        (datetime(2024, 10, 10), "13:49", "18:12"),
+
+        # (datetime(2024, 10, 20), "13:00", "14:00"),
     ]
 
-    # Define specific events for Y (Cloud Server offline)
+    # Define specific events for Y (PURPLE)
     y_events = [
         # (today + timedelta(days=(0 - today.weekday() + 1) % 7), *random_time_span()),  # Next Monday
         # (today + timedelta(days=(4 - today.weekday() + 1) % 7), *random_time_span())   # Next Friday
-        (datetime(2023, 10, 11), "15:30", "14:15"),
-        (datetime(2023, 10, 14), "8:00", "10:30"),
+        (datetime(2024, 9, 28), "16:43", "23:59"), # default midnight
+        (datetime(2024, 9, 30), "15:19", "15:55"),
+        (datetime(2024, 9, 30), "18:29", "23:59"),
+        (datetime(2024, 10, 1), "7:02", "12:25"),
+        (datetime(2024, 10, 1), "13:30", "17:58"),
+        (datetime(2024, 10, 1), "18:23", "23:59"),
+        (datetime(2024, 10, 2), "7:26", "15:37"),
+        (datetime(2024, 10, 2), "18:30", "23:59"),
+        (datetime(2024, 10, 3), "14:09", "14:32"),
+        (datetime(2024, 10, 3), "17:58", "23:59"),
+        (datetime(2024, 10, 4), "18:28", "23:59"),
+        (datetime(2024, 10, 5), "13:57", "14:34"),
+        (datetime(2024, 10, 9), "12:11", "12:33"),
+        (datetime(2024, 10, 9), "16:09", "16:23"),
+        (datetime(2024, 10, 10), "10:09", "11:46"),
+        # (datetime(2024, 10, 14), "8:00", "10:30"),
     ]
 
     # Helper function to create datetime objects for events
@@ -65,7 +86,7 @@ def generate_sample_data():
 def visualize_event_occurrences(
     data, show_vertical_gridlines=True, show_horizontal_gridlines=True
 ):
-    fig, ax = plt.subplots(figsize=(11, 6))
+    fig, ax = plt.subplots(figsize=(10, 5))
 
     alpha = 1.0
 
@@ -84,6 +105,16 @@ def visualize_event_occurrences(
             alpha=alpha,
         )
 
+    # Add background shading for weekends
+    start_date = min(event.start_time for event in data["x"] + data["y"]).date()
+    end_date = max(event.start_time for event in data["x"] + data["y"]).date()
+
+    current_date = start_date
+    while current_date <= end_date:
+        if current_date.weekday() >= 5:
+            ax.axvspan(current_date, current_date + timedelta(days=1), color='lightgrey', alpha=0.5)
+        current_date += timedelta(days=1)
+
     # Plot y events
     for event in data["y"]:
         ax.plot(
@@ -100,9 +131,9 @@ def visualize_event_occurrences(
         )
 
     # Formatting the plot
-    ax.plot([], [], color="grey", alpha=alpha, label="Event X")
-    ax.plot([], [], color="purple", alpha=alpha, label="Event Y")
-    ax.legend()
+    ax.plot([], [], color="grey", alpha=alpha, label="RAV4")
+    ax.plot([], [], color="purple", alpha=alpha, label="Pathfinder")
+    ax.legend(loc="upper right")
     ax.xaxis.set_major_locator(mdates.DayLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
     ax.set_xlabel("Date")
@@ -112,8 +143,8 @@ def visualize_event_occurrences(
     plt.tight_layout()
 
     # Set Y-axis to 24-hour span in 3-hour increments
-    ax.set_yticks(range(0, 24, 3))
-    ax.set_yticklabels([f"{i:2}:00" for i in range(0, 24, 3)])
+    ax.set_yticks(range(0, 27, 3))
+    ax.set_yticklabels([f"{i:2}:00" for i in range(0, 27, 3)])
 
     # Reverse the Y-axis
     ax.invert_yaxis()
