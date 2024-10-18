@@ -1,5 +1,6 @@
 from ortools.sat.python import cp_model
 # import json
+from decorators import log_to_json
 
 """Discrete optimization problem solutions using constraint programming within Python.
     https://pganalyze.com/blog/a-practical-introduction-to-constraint-programming-using-cp-sat"""
