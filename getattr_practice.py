@@ -4,6 +4,9 @@ class Car:
         self.model = model
         self.year = year
 
+    def __str__(self) -> str:
+        return f"{self.make}, {self.model}, {self.year}"
+
 def get_attribute_value(car_instance, attribute_name):
     """
     Get the value of a specified attribute of a Car instance using getattr.
