@@ -30,6 +30,6 @@ def read_file_mmap(file_path):
 
 
 if __name__ == "__main__":
-    file_path = r"path_to_your_file.txt"
+    file_path = "path_to_your_file.txt"
     read_file_regular(file_path)
     read_file_mmap(file_path)
