@@ -1,5 +1,7 @@
 import time
 from tqdm import tqdm
+import json
+from datetime import datetime
 
 
 def timer(func):
@@ -33,6 +35,25 @@ def debug(func):
         print(f"Args: {args}, Kwargs: {kwargs}")
         result = func(*args, **kwargs)
         print(f"Value returned: {result}")
+        return result
+
+    return wrapper
+
+
+def log_to_json(func):
+    def wrapper(*args, **kwargs):
+        log_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "function": func.__name__,
+            "args": args,
+            "kwargs": kwargs,
+        }
+        result = func(*args, **kwargs)
+        log_entry["result"] = result
+
+        with open("logging.json", "a") as log_file:
+            log_file.write(json.dumps(log_entry) + "\n")
+
         return result
 
     return wrapper

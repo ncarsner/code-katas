@@ -1,7 +1,8 @@
 from faker import Faker
 import re
+from decorators import log_to_json
 
-
+@log_to_json
 def split_street_address(street_address):
     # Regular expression to find secondary address indicators
     secondary_address_pattern = r"\b(suite|apt|unit|apartment|room|floor)\b"

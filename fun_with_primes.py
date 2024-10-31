@@ -16,6 +16,15 @@ def is_prime(n):
     return True
 
 
+def generate_primes_up_to_n(n):
+    return [x for x in range(2, n) if not any(x % y == 0 for y in range(2, x))]
+
+
+n = 1_000
+# Example usage:
+print(generate_primes_up_to_n(n)[-5:])
+
+
 def prime_distances():
     primes = [p for p in range(1, 501) if is_prime(p)]
 
@@ -24,7 +33,9 @@ def prime_distances():
         next_distance = primes[i + 1] - prime if i < len(primes) - 1 else 0
         tot_distance = prev_distance + next_distance
 
-        print(f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}")
+        print(
+            f"{i+1} - Prime: {prime}, Prev: {prev_distance}, Next: {next_distance}, Total: {tot_distance}"
+        )
 
 
 # prime_distances()
@@ -42,9 +53,6 @@ def count_primes_up_to_500():
             prime_count = 0
 
 
-# count_primes_up_to_500()
-
-
 def print_incremental_primes(n, increment):
     for num in range(1, n + 1):
         if num % increment == 1:
@@ -55,13 +63,12 @@ def print_incremental_primes(n, increment):
         if num % increment == 0:
             # range_start = num - 9
             range_end = num
-            print(f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}")
+            print(
+                f"Range {range_start}-{range_end}: Primes - {', '.join(map(str,primes))}"
+            )
 
 
 # print_incremental_primes(500, 50)
-
-
-# 13_466_917 contains 4,053,946 digits
 
 
 primes = [
@@ -131,7 +138,7 @@ def format_time(milliseconds):
 
 
 def generate_primes(n, start, end):
-    """Function to generate n prime numbers within the range [start, end]."""
+    """Function to generate n prime numbers within the defined range."""
     primes = []
     num = start
     while len(primes) < n and num <= end:
@@ -142,7 +149,7 @@ def generate_primes(n, start, end):
 
 
 def primes_in_range(start, end):
-    """Function to generate all prime numbers between start and end."""
+    """Function to generate all prime numbers between defined range."""
     primes = []
     for num in range(start, end + 1):
         if is_prime(num):
@@ -153,7 +160,9 @@ def primes_in_range(start, end):
 def almost_evenly_spaced_primes(primes_list, n=20):
     """Function to select almost-evenly spaced primes from a list of primes."""
     if len(primes_list) <= n:
-        return primes_list  # Return all primes if the list is smaller than or equal to 20
+        return (
+            primes_list  # Return all primes if the list is smaller than or equal to n
+        )
     else:
         selected_primes = []
         interval = len(primes_list) / (n - 1)
@@ -179,7 +188,7 @@ def get_primes_in_range(x=x, y=y):
     # Generate all prime numbers between 101 and 5000
     all_primes = primes_in_range(x, y)
 
-    # Select 20 almost-evenly spaced primes from the list of all primes
+    # Select n almost-evenly spaced primes from the list of all primes
     almost_even_primes = almost_evenly_spaced_primes(all_primes, n=5)
     return almost_even_primes
 
@@ -195,6 +204,8 @@ for exponent in primes:
     exponent_is_prime = "is prime" if is_prime(exponent) else "not prime"
     length = mersenne_number(exponent)
     duration = time.time() - start_time
-    print(f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}")
+    print(
+        f"Exponent {exponent:,} {exponent_is_prime} -- Mersenne len: {length:,} -- {format_time(duration * 1000)}"
+    )
     code_done_at = time.strftime("%#m/%#d/%Y %H:%M:%S %p", time.localtime(time.time()))
     print(f"--- COMPLETED: {code_done_at:^24} ---")
