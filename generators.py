@@ -1,8 +1,10 @@
 import sys
 from typing import Generator
+import random
+from string import digits
 
 
-def fibonacci_generator() -> (Generator[int, None, None]):  # 3 types [yield, input, return]
+def fibonacci_generator() -> Generator[int, None, None]:
     a, b = 0, 1
     while True:
         yield f"{a:,}"
@@ -16,26 +18,44 @@ def prime_generator() -> Generator[int, None, None]:
             yield f"{num:,}"
         num += 1
 
-def read(path: str) -> Generator[str, None, str]: # reads a string, None as input, outputs a string
-    with open(path, 'r') as file:
+
+def otp_generator() -> Generator[str, None, str]:
+    while True:
+        yield ''.join([random.choice(digits) for _ in range(6)])
+
+
+def read(path: str,) -> Generator[str, None, str]:
+    with open(path, "r") as file:
         for line in file:
             yield line.strip()
 
-        return 'end of file'
+        return "end of file"
 
 
 def main() -> None:  # 1 usage
-    selection = ["fibonacci", "prime", "reader"]
-    selection = selection[0]
+    selection = ["fibonacci", "prime", "otp", "reader"]
+    selection = selection[2]
 
     fibonacci: Generator[int, None, None] = fibonacci_generator()
     primes: Generator[int, None, None] = prime_generator()
-    reader: Generator[str, None, str] = read(r'moon.txt')
+    reader: Generator[str, None, str] = read(r"moon.txt")
+    otp: Generator[str, None, str] = otp_generator()
 
     n: int = 10
     line_break: str = "-" * 20
 
-    if selection == "reader":
+    if selection == "otp":
+        while True:
+            input(f"Press ENTER for the next {n} {selection} numbers")
+
+            print(line_break)
+
+            for i in range(n):
+                print(f"{next(otp)}")
+
+            print(line_break)
+
+    elif selection == "reader":
         while True:
             try:
                 print(next(reader))
