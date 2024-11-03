@@ -16,8 +16,14 @@ def fibonacci_generator() -> Generator[int, None, None]:
         yield f"{a:,}"
         a, b = b, (a + b)
 
-
+        
 def prime_generator() -> Generator[int, None, None]:
+    """
+    A generator function that yields prime numbers indefinitely.
+
+    Yields:
+        int: The next prime number in the sequence, formatted with commas.
+    """
     num = 2
     while True:
         if not any(num % y == 0 for y in range(2, int(num / 2) + 1)):
