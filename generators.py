@@ -32,6 +32,12 @@ def prime_generator() -> Generator[int, None, None]:
 
 
 def otp_generator() -> Generator[str, None, str]:
+    """
+    A generator function that yields a random 6-digit OTP (One-Time Password) indefinitely.
+
+    Yields:
+        str: A random 6-digit OTP.
+    """
     while True:
         yield ''.join([random.choice(digits) for _ in range(6)])
 
