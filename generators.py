@@ -42,7 +42,19 @@ def otp_generator() -> Generator[str, None, str]:
         yield ''.join([random.choice(digits) for _ in range(6)])
 
 
-def read(path: str,) -> Generator[str, None, str]:
+def read(path: str) -> Generator[str, None, str]:
+    """
+    A generator function that reads a file line by line.
+
+    Args:
+        path (str): The path to the file to read.
+
+    Yields:
+        str: The next line in the file, stripped of leading and trailing whitespace.
+
+    Returns:
+        str: "end of file" when the file has been completely read.
+    """
     with open(path, "r") as file:
         for line in file:
             yield line.strip()
