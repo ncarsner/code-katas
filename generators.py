@@ -3,8 +3,14 @@ from typing import Generator
 import random
 from string import digits
 
-
+        
 def fibonacci_generator() -> Generator[int, None, None]:
+    """
+    A generator function that yields Fibonacci numbers indefinitely.
+
+    Yields:
+        int: The next Fibonacci number in the sequence, formatted with commas.
+    """
     a, b = 0, 1
     while True:
         yield f"{a:,}"
