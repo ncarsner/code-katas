@@ -9,4 +9,6 @@ prettytable
 pytest
 pywin32
 requests
+scipy
+shapely
 tqdm
