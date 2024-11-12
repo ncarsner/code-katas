@@ -1,3 +1,5 @@
+import json
+
 state_coordinates = { # State: [latitude, longitude]
     'AL': [32.31823, -86.902298],
     'AK': [66.160507, -153.369141],
@@ -52,9 +54,14 @@ state_coordinates = { # State: [latitude, longitude]
 }
 
 select_states = [
-    'WA',
-    'OR',
-    'CA',
-    'NV',
+    'WA', 'OR', 'CA', 'NV',
+    'MT', 'CO', 'MN', 'KS',
+    'IL', 'MI', 'OH', 'NY',
+    'MD', 'NJ', 'VT', 'CT',
+    'MA', 'ME',
 ]
 
+selected_coordinates = {state: state_coordinates[state] for state in select_states}
+sorted_coordinates = dict(sorted(selected_coordinates.items(), key=lambda item: item[1][0]))
+
+print(json.dumps(sorted_coordinates, indent=4))
