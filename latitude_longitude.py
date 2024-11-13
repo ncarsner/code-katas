@@ -62,6 +62,9 @@ select_states = [
 ]
 
 selected_coordinates = {state: state_coordinates[state] for state in select_states}
-sorted_coordinates = dict(sorted(selected_coordinates.items(), key=lambda item: item[1][0]))
+sorted_coordinates = dict(sorted(selected_coordinates.items(), key=lambda item: item[1][1]))
 
 print(json.dumps(sorted_coordinates, indent=4))
+
+sorted_list = list(sorted_coordinates)
+print(sorted_list)

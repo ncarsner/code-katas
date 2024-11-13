@@ -10,7 +10,7 @@ def count_words_in_document(document, n):
     return word_frequencies.most_common(n)
 
 
-document_file = r"C:\Users\Documents\speech_day_of_infamy.txt"
+document_file = "data/raw/speech_day_of_infamy.txt"
 common_words = {
     "a", "about", "above", "after", "again", "against", "ain", "all", "am", "an", "and", "any", "are",
     "aren't", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but",
