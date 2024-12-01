@@ -1,0 +1,113 @@
+# Basic bitwise operations
+def basic_bitwise_operations(a, b):
+    print(f"{a=}, {bin(a)=})")
+    print(f"{b=}, {bin(b)=})")
+    print(f"a & b (AND): {a & b} (binary: {bin(a & b)})")
+    print(f"a | b (OR): {a | b} (binary: {bin(a | b)})")
+    print(f"a ^ b (XOR): {a ^ b} (binary: {bin(a ^ b)})")
+    print(f"~a (NOT): {~a} (binary: {bin(~a)})")
+    print(f"a << 2 (Left Shift): {a << 2} (binary: {bin(a << 2)})")
+    print(f"a >> 2 (Right Shift): {a >> 2} (binary: {bin(a >> 2)})")
+
+
+# Example
+basic_bitwise_operations(5, 3)
+
+
+# Check odd or even using bitwise AND
+def check_odd_even(number):
+    if number & 1:
+        print(f"{number} is Odd")
+    else:
+        print(f"{number} is Even")
+
+# Example
+check_odd_even(10)
+check_odd_even(15)
+
+
+# Swap two numbers using XOR
+def swap_numbers(a, b):
+    print(f"Before Swap: a = {a}, b = {b}")
+    a = a ^ b
+    b = a ^ b
+    a = a ^ b
+    print(f"After Swap: a = {a}, b = {b}")
+
+# Example
+swap_numbers(7, 12)
+
+
+# Find the unique element in a list where every other element appears twice
+def find_unique(arr):
+    result = 0
+    for num in arr:
+        result ^= num
+    print(f"The unique element is: {result}")
+
+# Example
+find_unique([2, 3, 5, 3, 2, 5, 7])
+
+
+# Masking specific bits
+def mask_bits(number, mask):
+    print(f"Original number: {number} (binary: {bin(number)})")
+    print(f"Mask: {mask} (binary: {bin(mask)})")
+    masked_number = number & mask
+    print(f"Masked number: {masked_number} (binary: {bin(masked_number)})")
+
+# Example
+mask_bits(0b110101, 0b111000)
+
+
+# Setting specific bits
+def set_bits(number, mask):
+    print(f"Original number: {number} (binary: {bin(number)})")
+    print(f"Mask: {mask} (binary: {bin(mask)})")
+    new_number = number | mask
+    print(f"New number: {new_number} (binary: {bin(new_number)})")
+
+# Example
+set_bits(0b1001, 0b0100)
+
+
+# Check if a number is a power of 2
+def is_power_of_two(number):
+    if number & (number - 1) == 0 and number != 0:
+        print(f"{number} is a power of 2")
+    else:
+        print(f"{number} is not a power of 2")
+
+# Example
+is_power_of_two(8)
+is_power_of_two(10)
+
+
+# Toggle a specific bit
+def toggle_bit(number, position):
+    print(f"Original number: {number} (binary: {bin(number)})")
+    toggle_mask = 1 << position
+    toggled_number = number ^ toggle_mask
+    print(f"Number after toggling bit at position {position}: {toggled_number} (binary: {bin(toggled_number)})")
+
+# Example
+toggle_bit(0b1011, 2)
+
+
+# Permissions system using bit flags
+READ = 0b001
+WRITE = 0b010
+EXECUTE = 0b100
+
+def check_permission(user_permission, required_permission):
+    if user_permission & required_permission:
+        print(f"Permission granted for {bin(required_permission)}")
+    else:
+        print(f"Permission denied for {bin(required_permission)}")
+
+# Example
+user_permission = READ | EXECUTE
+print(f"User permissions: {bin(user_permission)}")
+check_permission(user_permission, READ)
+check_permission(user_permission, WRITE)
+check_permission(user_permission, EXECUTE)
