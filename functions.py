@@ -91,7 +91,5 @@ def get_current_time() -> str:
     return f"{now:%F %T %p}"
 
 print(get_current_time())
-
-print(f"{type(get_current_time())=}")
-
+# print(f"{type(get_current_time())=}")
 print(get_current_time.__doc__)

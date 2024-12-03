@@ -45,6 +45,8 @@ def generate_sample_data():
 
         (datetime(2024, 10, 24), "9:58", "14:09"),
         (datetime(2024, 10, 25), "9:38", "17:45"),
+
+        (datetime(2024, 11, 10), "11:36", "12:14"),
     ]
 
     # Define specific events for Y (PURPLE)
@@ -71,6 +73,8 @@ def generate_sample_data():
         (datetime(2024, 10, 22), "16:03", "16:30"),
 
         (datetime(2024, 10, 25), "12:23", "13:42"),
+
+        (datetime(2024, 11, 15), "14:27", "15:06"),
         
     ]
 
