@@ -5,16 +5,16 @@ from datetime import datetime as dt
 def basic_bitwise_operations(a, b):
     print(f"{a=}, {bin(a)=})")
     print(f"{b=}, {bin(b)=})")
-    print(f"a & b (AND): {a & b} (binary: {bin(a & b)})")
-    print(f"a | b (OR): {a | b} (binary: {bin(a | b)})")
-    print(f"a ^ b (XOR): {a ^ b} (binary: {bin(a ^ b)})")
-    print(f"~a (NOT): {~a} (binary: {bin(~a)})")
-    print(f"a << 2 (Left Shift): {a << 2} (binary: {bin(a << 2)})")
-    print(f"a >> 2 (Right Shift): {a >> 2} (binary: {bin(a >> 2)})")
+    print(f"{a & b=}, {bin(a & b)=})")
+    print(f"{a | b=}, {bin(a | b)=})")
+    print(f"{a ^ b=}, {bin(a ^ b)=})")
+    print(f"{~a=}, {bin(~a)=})")
+    print(f"{a << 2=}, {bin(a << 2)=})")
+    print(f"{a >> 2=}, {bin(a >> 2)=})")
 
 
-# Example
-basic_bitwise_operations(5, 3)
+# Example:
+# basic_bitwise_operations(5, 3)
 
 
 # Check odd or even using bitwise AND
@@ -26,21 +26,21 @@ def check_odd_even(number):
 
 
 # Example
-check_odd_even(10)
-check_odd_even(15)
+# check_odd_even(10)
+# check_odd_even(15)
 
 
 # Swap two numbers using XOR
 def swap_numbers(a, b):
-    print(f"Before Swap: a = {a}, b = {b}")
+    print(f"Before Swap: {a=}, {b=}")
     a = a ^ b
     b = a ^ b
     a = a ^ b
-    print(f"After Swap: a = {a}, b = {b}")
+    print(f"After Swap: {a=}, {b=}")
 
 
 # Example
-swap_numbers(7, 12)
+# swap_numbers(7, 12)
 
 
 # Find the unique element in a list where every other element appears twice
@@ -52,7 +52,7 @@ def find_unique(arr):
 
 
 # Example
-find_unique([2, 3, 5, 3, 2, 5, 7])
+# find_unique([2, 3, 5, 3, 2, 5, 7])
 
 
 # Masking specific bits
@@ -64,19 +64,19 @@ def mask_bits(number, mask):
 
 
 # Example
-mask_bits(0b110101, 0b111000)
+# mask_bits(0b110101, 0b111000)
 
 
 # Setting specific bits
 def set_bits(number, mask):
-    print(f"Original number: {number} (binary: {bin(number)})")
-    print(f"Mask: {mask} (binary: {bin(mask)})")
+    print(f"Original number: {number}, {bin(number)=})")
+    print(f"{mask=}, {bin(mask)=})")
     new_number = number | mask
-    print(f"New number: {new_number} (binary: {bin(new_number)})")
+    print(f"{new_number=}, {bin(new_number)=})")
 
 
 # Example
-set_bits(0b1001, 0b0100)
+# set_bits(0b1001, 0b0100)
 
 
 # Check if a number is a power of 2
@@ -88,13 +88,13 @@ def is_power_of_two(number):
 
 
 # Example
-is_power_of_two(8)
-is_power_of_two(10)
+# is_power_of_two(8)
+# is_power_of_two(10)
 
 
 # Toggle a specific bit
 def toggle_bit(number, position):
-    print(f"Original number: {number} (binary: {bin(number)})")
+    print(f"Original number: {number}, {bin(number)=})")
     toggle_mask = 1 << position
     toggled_number = number ^ toggle_mask
     print(
@@ -103,7 +103,7 @@ def toggle_bit(number, position):
 
 
 # Example
-toggle_bit(0b1011, 2)
+# toggle_bit(0b1011, 2)
 
 
 # Permissions system using bit flags
@@ -122,9 +122,9 @@ def check_permission(user_permission, required_permission):
 # Example
 user_permission = READ | EXECUTE
 print(f"User permissions: {bin(user_permission)}")
-check_permission(user_permission, READ)
-check_permission(user_permission, WRITE)
-check_permission(user_permission, EXECUTE)
+# check_permission(user_permission, READ)
+# check_permission(user_permission, WRITE)
+# check_permission(user_permission, EXECUTE)
 
 
 # # Bitwise shift a string
@@ -179,9 +179,9 @@ key = 7
 space_placeholder = "`%"
 
 # Encrypt the string
-encrypted_text = xor_encrypt_decrypt(original_text, key, space_placeholder)
+encrypted_text = xor_encrypt_decrypt(original_text, key)
 print(f"{encrypted_text=}")
 
 # Decrypt the string
-decrypted_text = decrypt_transformed(encrypted_text, key, space_placeholder)
+decrypted_text = decrypt_transformed(encrypted_text, key)
 print(f"{decrypted_text=}")
