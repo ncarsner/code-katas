@@ -48,6 +48,7 @@ def generate_sample_data():
 
         (datetime(2024, 12, 13), "10:00", "15:37"),
         (datetime(2024, 12, 15), "8:40", "12:11"),
+        (datetime(2024, 12, 20), "9:41", "14:29"),
 
     ]
 
@@ -81,6 +82,11 @@ def generate_sample_data():
         (datetime(2024, 12, 14), "9:29", "9:58"),
         (datetime(2024, 12, 14), "10:30", "13:18"),
 
+        (datetime(2024, 12, 17), "6:40", "16:02"),
+        (datetime(2024, 12, 18), "7:57", "11:54"),
+        (datetime(2024, 12, 18), "14:47", "16:21"),
+        (datetime(2024, 12, 19), "7:15", "15:46"),
+
     ]
 
     # Helper function to create datetime objects for events
@@ -102,8 +108,7 @@ def generate_sample_data():
 
 # Visualization function
 def visualize_event_occurrences(
-    data, show_vertical_gridlines=True, show_horizontal_gridlines=True
-):
+    data, show_vertical_gridlines=True, show_horizontal_gridlines=True):
     fig, ax = plt.subplots(figsize=(10, 5))
 
     alpha = 1.0
@@ -177,6 +182,16 @@ def visualize_event_occurrences(
 # Main execution
 if __name__ == "__main__":
     data = generate_sample_data()
-    visualize_event_occurrences(
-        data, show_vertical_gridlines=False, show_horizontal_gridlines=True
-    )
+
+    # Adjust the script to plot only the last N days' activity
+    days_to_plot = 14  # Adjustable variable for the number of days to plot
+
+    # Filter events to include only those within the last N days
+    end_date = max(event.start_time for event in data["x"] + data["y"]).date()
+    start_date = end_date - timedelta(days=days_to_plot)
+
+    data["x"] = [event for event in data["x"] if start_date <= event.start_time.date() <= end_date]
+    data["y"] = [event for event in data["y"] if start_date <= event.start_time.date() <= end_date]
+
+    # Visualize the filtered events
+    visualize_event_occurrences(data, show_vertical_gridlines=False, show_horizontal_gridlines=True)
