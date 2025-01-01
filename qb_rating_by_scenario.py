@@ -549,7 +549,7 @@ for position, rating in field_position_passer_ratings.items():
     print(f"Passer Rating for field position {position}: {rating:.1f}")
 print()
 
-scenarios = ["ahead", "behind", "tied"]
+scenarios = ["ahead", "tied", "behind"]
 scenario_events = {
     scenario: filter_by_game_scenario(qb_passing_events, scenario)
     for scenario in scenarios
@@ -558,7 +558,8 @@ scenario_passer_ratings = {
     scenario: calculate_passer_rating(events)
     for scenario, events in scenario_events.items()
 }
-for scenario, rating in scenario_passer_ratings.items():
+for scenario in scenarios:
+    rating = scenario_passer_ratings[scenario]
     print(f"Passer Rating when {scenario}: {rating:.1f}")
 print()
 
