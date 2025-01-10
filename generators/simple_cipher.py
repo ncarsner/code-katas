@@ -24,7 +24,13 @@ def cipher_string(input_string, cipher_dict):
 
 
 if __name__ == "__main__":
-    user_input = input("ENTER USER INITIALS: ").lower()
+    while True:
+        user_input = input("ENTER USER INITIALS: ").lower()
+        if any(user_input.count(char) >= 3 for char in set(user_input)):
+            print("Invalid input. Please try again.")
+        else:
+            break
+
     cipher_dict = create_cipher_dict()
     ciphered_value = cipher_string(user_input, cipher_dict)
 
