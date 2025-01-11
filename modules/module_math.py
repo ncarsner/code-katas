@@ -103,7 +103,7 @@ random_exponent = random.uniform(1, max_num)
 random_a = random.randint(1, max_num)
 random_b = random.randint(1, max_num)
 
-# Dictionary of functions
+
 functions_dict = {
     1: ("\nArea of Circle", area_of_circle, [random_radius]),
     2: ("Factorial of Number", factorial_of_number, [random_number]),
@@ -130,5 +130,8 @@ if __name__ == "__main__":
         result = func(*args)
         if isinstance(result, float):
             result = round(result, precision_digits)
-        args_str = ", ".join(f"{arg:.{precision_digits}f}" if isinstance(arg, float) else str(arg) for arg in args)
+        args_str = ", ".join(
+            f"{arg:.{precision_digits}f}" if isinstance(arg, float) else str(arg)
+            for arg in args
+        )
         print(f"{description} (args: {args_str}): {result}")
