@@ -1,6 +1,7 @@
 config.ini
 settings.json
 treatment_dates.py
+*.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
