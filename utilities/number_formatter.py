@@ -30,7 +30,19 @@ def format_number(num, decimal_places=1):
 
 
 if __name__ == "__main__":
-    print(format_number(random.randint(100, 999)))
+    # for i in range(2,12,3):
+        # print(format_number(random.randint(10**i, 10**(i+1)-1)))
+        # print(format_number(random.randint(10**i, 10**(i+1)-1), 2))
+
+        # print(format_number(random.randint(10**3, 10**4-1)))
+        # print(format_number(random.randint(1_000_000, 9_999_999)))
+        # print(format_number(random.randint(1_000_000_000, 9_999_999_999)))
+        # print(format_number(random.randint(1_000_000_000, 9_999_999_999), 2))
+        # print(format_number(random.randint(1_000_000, 9_999_999), 2))
+        # print(format_number(random.randint(1_000, 9_999), 2))
+        # print(format_number(random.randint(100, 999), 2))
+
+    print(format_number(random.randint(10**2, 10**3-1)))
     print(format_number(random.randint(1_000, 9_999)))
     print(format_number(random.randint(1_000_000, 9_999_999)))
     print(format_number(random.randint(1_000_000_000, 9_999_999_999)))
