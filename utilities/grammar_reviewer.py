@@ -5,18 +5,25 @@ from collections import defaultdict
 class GrammarReviewer:
     def __init__(self):
         self.replacements = {
+            "allocate": ["assign", "allot", "distribute", "apportion"],
+            "allotment": ["allocation", "portion", "quota", "share", "stake", "interest", "percentage", "part"],
             "improve": ["better", "eclipse", "surpass", "top", "outdo"],
-            "effort": ["attempt", "endeavor", "struggle", "undertaking", "work"],
+            "cadence": ["rhythm", "beat", "pulse", "tempo", "time", "measure", "meter", "pace"],
             "conduit": ["channel", "medium", "vehicle", "pipeline", "path", "line"],
+            "desire": ["drive", "hunger", "aspiration", "resolve", "will"],
+            "effort": ["attempt", "endeavor", "struggle", "undertaking", "work"],
+            "general": ["universal", "common", "collective", "global", "overall", "broad", "inclusive"],
+            "generic": ["common", "collective", "universal", "standard", "typical", "conventional", "umbrella", "catchall", "blanket"],
+            "intend": ["plan", "mean", "aim", "propose", "design", "purport", "expect", "anticipate"],
+            "label": ["brand", "identify", "name", "denote", "characterize", "call", "dub"],
             "means": ["method", "way", "mode", "manner", "system", "mechanism", "vehicle", "instrument", "tool", "medium"],
+            "regard": ["respect", "heed", "follow", "mind", "observe"],
+            "sequence": ["order", "succession", "series", "chain", "line", "string", "concatenation", "train"],
+            "skilled": ["proficient", "experienced", "qualified", "trained", "capable", "competent", "adept", "accomplished"],
+            "specific": ["particular", "detailed", "precise", "explicit", "definite", "clear-cut", "distinct", "individual"],
             "use": ["utilize", "employ", "apply", "operate", "work with", "handle", "manipulate"],
             "useful": ["helpful", "beneficial", "valuable", "advantageous", "effective", "practical"],
             "useless": ["worthless", "futile", "pointless", "futile", "ineffective", "unproductive"],
-            "sequence": ["order", "succession", "series", "chain", "line", "string", "concatenation", "train"],
-            "cadence": ["rhythm", "beat", "pulse", "tempo", "time", "measure", "meter", "pace"],
-            "general": ["universal", "common", "collective", "global", "overall", "broad", "inclusive"],
-            "generic": ["common", "collective", "universal", "standard", "typical", "conventional", "umbrella", "catchall", "blanket"],
-            # Add more words and their replacements here
         }
 
     def review_text(self, text):
