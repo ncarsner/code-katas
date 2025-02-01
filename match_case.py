@@ -9,6 +9,16 @@ def http_status_code_handler(status_code):
             return "OK"
         case 201:
             return "Created"
+        case 202:
+            return "Accepted"
+        case 204:
+            return "No Content"
+        case 301:
+            return "Moved Permanently"
+        case 302:
+            return "Found"
+        case 304:
+            return "Not Modified"
         case 400:
             return "Bad Request"
         case 401:
@@ -19,6 +29,10 @@ def http_status_code_handler(status_code):
             return "Not Found"
         case 500:
             return "Internal Server Error"
+        case 502:
+            return "Bad Gateway"
+        case 503:
+            return "Service Unavailable"
         case _:
             return "Unknown Status Code"
 
@@ -27,11 +41,18 @@ def http_status_code_handler_v2(status_code):
     status_codes = {
         200: "OK",
         201: "Created",
+        202: "Accepted",
+        204: "No Content",
+        301: "Moved Permanently",
+        302: "Found",
+        304: "Not Modified",
         400: "Bad Request",
         401: "Unauthorized",
         403: "Forbidden",
         404: "Not Found",
         500: "Internal Server Error",
+        502: "Bad Gateway",
+        503: "Service Unavailable",
     }
     return status_codes.get(status_code, "Unknown Status Code")
 
@@ -55,7 +76,9 @@ def measure_memory_usage(func, *args):
 
 # Example usage
 if __name__ == "__main__":
-    status_code = random.choice([200, 201, 400, 401, 403, 404, 500, 999])
+    status_code = random.choice(
+        [200, 201, 202, 204, 301, 302, 304, 400, 401, 403, 404, 500, 502, 503, 999]
+    )
 
     # Measure execution time
     result_match, time_match = measure_execution_time(
@@ -65,8 +88,8 @@ if __name__ == "__main__":
         http_status_code_handler_v2, status_code
     )
 
-    print(f"Match-case result: {result_match}, Execution time: {time_match:.10f} seconds")
-    print(f"Dictionary result: {result_dict}, Execution time: {time_dict:.10f} seconds")
+    print(f"Match-case result: {result_match}, Execution time: {time_match:.7f} seconds")
+    print(f"Dictionary result: {result_dict}, Execution time: {time_dict:.7f} seconds")
 
     # Measure memory usage
     result_match, current_match, peak_match = measure_memory_usage(
@@ -112,9 +135,10 @@ def file_extension_handler(extension):
 
 # Example usage
 if __name__ == "__main__":
-    print(http_status_code_handler(200))  # Output: OK
-    print(http_status_code_handler(404))  # Output: Not Found
-    print(user_role_handler("admin"))  # Output: Access to all resources
-    print(user_role_handler("guest"))  # Output: No access
-    print(file_extension_handler("txt"))  # Output: Text File
-    print(file_extension_handler("mp3"))  # Output: Unknown File Type
+    """Formatted as self-documenting expression / debug f-string"""
+    print(f"{http_status_code_handler(200) = }")  # Output: OK
+    print(f"{http_status_code_handler(404) = }")  # Output: Not Found
+    print(f"{user_role_handler('admin') = }")  # Output: Access to all resources
+    print(f"{user_role_handler('guest') = }")  # Output: No access
+    print(f"{file_extension_handler('txt') = }")  # Output: Text File
+    print(f"{file_extension_handler('mp3') = }")  # Output: Unknown File Type

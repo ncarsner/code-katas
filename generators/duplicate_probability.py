@@ -1,13 +1,13 @@
 from math import factorial
 from prettytable import PrettyTable
 
-pool = 69
+pool = 38
 drawn = 5
-bonus = 26
+bonus = 1
 
 # for factoring duplicates in randomly generated Powerball tickets
 combos = factorial(pool) // (factorial(drawn) * factorial(pool - drawn)) * bonus
-factors = [100, 5_000, 10_000, 25_000, 50_000]
+factors = [100, 500, 1_000, 2_500, 5_000]
 
 # for factoring a shared birthday among a group of people
 # combos = 365.25
