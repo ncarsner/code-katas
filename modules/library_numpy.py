@@ -141,6 +141,19 @@ def numpy_transpose(array: np.ndarray) -> np.ndarray:
     return np.transpose(array)
 
 
+def numpy_square(array: np.ndarray) -> np.ndarray:
+    """
+    Compute the element-wise square of a numpy array.
+
+    Args:
+        array (np.ndarray): Input array.
+
+    Returns:
+        np.ndarray: Array with each element squared.
+    """
+    return np.square(array)
+
+
 if __name__ == "__main__":
     print(f"\n{numpy_random()=}")
     print(f"\n{numpy_linspace(0, 10, 5)=}")
@@ -152,3 +165,4 @@ if __name__ == "__main__":
     print(f"\n{numpy_mean(np.random.rand(5))=}")
     print(f"\n{numpy_std(np.random.rand(5))=}")
     print(f"\n{numpy_transpose(np.random.rand(2, 3))=}")
+    print(f"\n{numpy_square(numpy_random())=}")
