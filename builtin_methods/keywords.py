@@ -86,6 +86,18 @@ def sorted_operations():
     print(f"{sorted(random_numbers)=}")
 
 
+def key_keyword_usage():
+    words = ["banana", "pie", "id", "book", "mushroom", "pineapple", "moth", "Godzilla"]
+    numbers = [random.randint(1, 100) for _ in range(5)]
+    y = random.randint(2, 10)
+
+    print(f"\n{numbers=}, {y=}")
+    print(f"{sorted(words, key=len, reverse=True)=}")
+    print(f"{sorted(numbers, key=lambda x: x % y)=}")
+    print(f"{max(words, key=len)=}")
+    print(f"{min(numbers, key=lambda x: x % y)=}")
+
+
 if __name__ == "__main__":
     logical_operations()
     type_checking()
@@ -96,3 +108,4 @@ if __name__ == "__main__":
     zip_lists()
     reverse_sequences()
     sorted_operations()
+    key_keyword_usage()
