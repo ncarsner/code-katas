@@ -3,8 +3,7 @@ import time
 
 
 def list_files_in_directory(directory):
-    """
-    List all files in the given directory.
+    """List all files in the given directory.
 
     Args:
         directory (str): The directory path.
@@ -20,8 +19,7 @@ def list_files_in_directory(directory):
 
 
 def create_directory(directory):
-    """
-    Create a new directory if it does not exist.
+    """Create a new directory if it does not exist.
 
     Args:
         directory (str): The directory path to create.
@@ -33,25 +31,22 @@ def create_directory(directory):
         print(f"Directory {directory} already exists.")
 
 
-def move_file(src, dst):
-    """
-    Move a file from source to destination.
+def move_file(source, destination):
+    """Move a file from source to destination.
 
     Args:
-        src (str): Source file path.
-        dst (str): Destination file path.
+        source (str): Source file path.
+        destination (str): Destination file path.
     """
-    if os.path.exists(src):
-        os.rename(src, dst)
-        print(f"Moved file from {src} to {dst}.")
+    if os.path.exists(source):
+        os.rename(source, destination)
+        print(f"Moved file from {source} to {destination}.")
     else:
-        print(f"Source file {src} does not exist.")
+        print(f"Source file {source} does not exist.")
 
 
 def delete_file(file_path):
     """
-    Delete a file.
-
     Args:
         file_path (str): The file path to delete.
     """
@@ -63,8 +58,7 @@ def delete_file(file_path):
 
 
 def find_new_or_modified_files(directory, last_checked_time):
-    """
-    Find new or modified files in a directory since the last checked time.
+    """Find new or modified files in a directory since the last checked time.
 
     Args:
         directory (str): The directory path to check.
@@ -84,22 +78,17 @@ def find_new_or_modified_files(directory, last_checked_time):
 
 
 if __name__ == "__main__":
-    # Example usage
     directory = "./test_directory"
     create_directory(directory)
 
-    # List files in directory
     files = list_files_in_directory(directory)
     print("Files in directory:", files)
 
-    # Move a file
     move_file("./test.txt", f"{directory}/test.txt")
 
-    # Delete a file
     delete_file(f"{directory}/test.txt")
 
-    # Find new or modified files
     hours_ago = 1
-    last_checked_time = time.time() - 3600  * hours_ago
+    last_checked_time = time.time() - 3600 * hours_ago
     new_files = find_new_or_modified_files(directory, last_checked_time)
     print("New or modified files:", new_files)
