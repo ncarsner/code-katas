@@ -1,8 +1,13 @@
 import random
+import string
+
+words = ["banana", "pie", "id", "book", "mushroom", "pineapple", "moth", "Godzilla"]
+numbers = [random.randint(1, 20) for _ in range(5)]
+letters = random.choices(string.ascii_lowercase, k=5)
 
 
 def logical_operations():
-    numbers = [1, 2, 3, 4, 5]
+    global numbers
     print(f"\n{any([0, 0, 1, 0])=}")
     print(f"{any([0, 0, 0, 0])=}")
     print(f"{any({'a': 0, 'b': 0, 'c': 1}.values())=}")
@@ -42,7 +47,7 @@ def object_attributes():
 
 
 def sequence_operations():
-    numbers = [1, 2, 3, 4, 5]
+    global numbers
     print(f"\n{len(numbers)=}")
     print(f"{sorted(numbers, reverse=True)=}")
 
@@ -68,13 +73,15 @@ def enumerate_operations():
 
 
 def zip_lists():
-    list1 = [1, 2, 3]
-    list2 = ["a", "b", "c"]
+    global letters
+    list1 = sorted(list(set(letters)))
+    list2 = [i for i in range(len(letters))]
     print(f"\n{list(zip(list1, list2))=}")
 
 
 def reverse_sequences():
-    number_sequence = [1, 2, 3, 4]
+    global numbers
+    number_sequence = numbers
     string_sequence = "hello"
     print(f"\n{list(reversed(number_sequence))=}")
     print(f"{list(reversed(string_sequence))=}")
@@ -87,7 +94,7 @@ def sorted_operations():
 
 
 def key_keyword_usage():
-    words = ["banana", "pie", "id", "book", "mushroom", "pineapple", "moth", "Godzilla"]
+    global words
     numbers = [random.randint(1, 100) for _ in range(5)]
     y = random.randint(2, 10)
 
@@ -96,6 +103,22 @@ def key_keyword_usage():
     print(f"{sorted(numbers, key=lambda x: x % y)=}")
     print(f"{max(words, key=len)=}")
     print(f"{min(numbers, key=lambda x: x % y)=}")
+
+
+def map_function_examples():
+    global numbers
+    squared_numbers = list(map(lambda x: f"{x**2:,}", numbers))
+    print(f"\n{numbers=}")
+    print(f"{squared_numbers=}")
+
+    global words
+    words = random.sample(words, 4)
+    uppercased_words = list(map(str.upper, words))
+    print(f"\n{words=}")
+    print(f"{uppercased_words=}")
+
+    lengths = list(map(len, words))
+    print(f"{lengths=}")
 
 
 if __name__ == "__main__":
@@ -109,3 +132,4 @@ if __name__ == "__main__":
     reverse_sequences()
     sorted_operations()
     key_keyword_usage()
+    map_function_examples()
