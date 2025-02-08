@@ -30,6 +30,7 @@ class GrammarReviewer:
             "required": ["necessary", "needed", "requisite", "essential", "compulsory", "mandatory", "obligatory", "prerequisite"],
             "sequence": ["order", "succession", "series", "chain", "line", "string", "concatenation", "train"],
             "skilled": ["proficient", "experienced", "qualified", "trained", "capable", "competent", "adept", "accomplished"],
+            "soon": ["shortly", "quickly", "promptly", "swiftly", "rapidly", "immediately", "presently", "before long"],
             "specific": ["particular", "detailed", "precise", "explicit", "definite", "clear-cut", "distinct", "individual"],
             "use": ["utilize", "employ", "apply", "operate", "work with", "handle", "manipulate"],
             "useful": ["helpful", "beneficial", "valuable", "advantageous", "effective", "practical"],
