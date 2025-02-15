@@ -14,6 +14,8 @@ class GrammarReviewer:
             "conserve": ["preserve", "protect", "safeguard", "save", "maintain", "store", "sustain", "reserve"],
             "delicate": ["fragile", "frail", "faint", "breakable", "brittle", "vulnerable", "sensitive", "tender", "dainty", "mild", "soft"],
             "desire": ["drive", "hunger", "aspiration", "resolve", "will"],
+            "demonstration": ["display", "exhibition", "presentation", "show", "manifestation", "expression", "indication", "proof", "evidence", "confirmation", "token"],
+            "divulge": ["reveal", "disclose", "expose", "uncover", "unveil", "declare", "acknowledge", "make known"],
             "effort": ["attempt", "endeavor", "struggle", "undertaking", "work"],
             "enhance": ["develop", "improve", "upgrade", "augment", "elevate", "enrich", "further", "refine"],
             "evaluate": ["assess", "appraise", "rate", "review", "analyze", "examine", "inspect", "scrutinize"],
@@ -34,9 +36,10 @@ class GrammarReviewer:
             "skilled": ["proficient", "experienced", "qualified", "trained", "capable", "competent", "adept", "accomplished"],
             "soon": ["shortly", "quickly", "promptly", "swiftly", "rapidly", "immediately", "presently", "before long"],
             "specific": ["particular", "detailed", "precise", "explicit", "definite", "clear-cut", "distinct", "exact", "concrete", "unambiguous"],
+            "template": ["pattern", "model", "guide", "blueprint", "prototype", "example", "standard", "format", "framework"],
             "use": ["utilize", "employ", "apply", "operate", "work with", "handle", "manipulate"],
             "useful": ["helpful", "beneficial", "valuable", "advantageous", "effective", "practical"],
-            "useless": ["worthless", "futile", "pointless", "futile", "ineffective", "unproductive"],
+            "useless": ["worthless", "pointless", "futile", "ineffective", "unproductive"],
         }
 
     def review_text(self, text):
