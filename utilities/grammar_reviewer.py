@@ -5,10 +5,11 @@ from collections import defaultdict
 class GrammarReviewer:
     def __init__(self):
         self.replacements = {
+            "accessible": ["available", "reachable", "obtainable", "attainable", "open", "admissible"],
             "allocate": ["assign", "allot", "distribute", "apportion"],
             "allotment": ["allocation", "portion", "quota", "share", "stake", "interest", "percentage", "part"],
             "area": ["domain", "field", "realm", "territory", "sphere", "scope", "zone", "region", "section", "division"],
-            "big": ["large", "huge", "giant", "massive", "immense", "enormous", "tremendous", "vast", "great", "substantial", "significant", "considerable", "sizeable", "colossal", "gigantic", "astronomical", "mammoth", "oversized"],
+            "big": ["large", "huge", "giant", "massive", "immense", "enormous", "tremendous", "vast", "great", "sizeable", "colossal", "gigantic", "astronomical", "mammoth", "oversized"],
             "cadence": ["rhythm", "beat", "pulse", "tempo", "time", "meter", "pace"],
             "conduit": ["channel", "medium", "vehicle", "pipeline", "path", "line"],
             "conserve": ["preserve", "protect", "safeguard", "save", "maintain", "store", "sustain", "reserve"],
@@ -36,6 +37,7 @@ class GrammarReviewer:
             "skilled": ["proficient", "experienced", "qualified", "trained", "capable", "competent", "adept", "accomplished"],
             "soon": ["shortly", "quickly", "promptly", "swiftly", "rapidly", "immediately", "presently", "before long"],
             "specific": ["particular", "detailed", "precise", "explicit", "definite", "clear-cut", "distinct", "exact", "concrete", "unambiguous"],
+            "substantial": ["significant", "considerable", "sizeable", "material", "meaningful", "important", "valuable", "worthwhile", "weighty", "noteworthy"],
             "template": ["pattern", "model", "guide", "blueprint", "prototype", "example", "standard", "format", "framework"],
             "use": ["utilize", "employ", "apply", "operate", "work with", "handle", "manipulate"],
             "useful": ["helpful", "beneficial", "valuable", "advantageous", "effective", "practical"],
