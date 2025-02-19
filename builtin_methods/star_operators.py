@@ -1,4 +1,5 @@
 from typing import Any
+import random
 
 
 def sum_all(*args: int) -> int:
@@ -46,7 +47,7 @@ combined_example(1, 2, 3, name="John", age=30)
 
 # Using *args in a lambda function
 sum_lambda = lambda *args: sum(args)
-print(sum_lambda(1, 2, 3, 4, 5))
+print(f"{sum_lambda(1, 2, 3, 4, 5)=}")
 
 # Using **kwargs in a lambda function
 greet_lambda = lambda **kwargs: f"Hello, {kwargs.get('name', 'Guest')}!"
@@ -68,18 +69,18 @@ print(display_info(**info_dict))  # ** unpacks dictionary into a function call
 
 
 # Merging objects using * operator
-tuple1 = (1, 2, 3)
-tuple2 = (4, 5, 6)
+tuple1 = tuple([random.randint(1, 10) for _ in range(3)])
+tuple2 = tuple([random.randint(1, 10) for _ in range(3)])
 merged_tuple = (*tuple1, *tuple2)
 print(f"{merged_tuple=}")
 
-list1 = [1, 2, 3]
-list2 = [4, 5, 6]
+list1 = [random.randint(1, 10) for _ in range(3)]
+list2 = [random.randint(1, 10) for _ in range(3)]
 merged_list = [*list1, *list2]
 print(f"{merged_list=}")
 
-set1 = {1, 2, 3}
-set2 = {4, 5, 6}
+set1 = set(random.randint(1, 10) for _ in range(3))
+set2 = set(random.randint(1, 10) for _ in range(3))
 merged_set = {*set1, *set2}
 print(f"{merged_set=}")
 
@@ -91,3 +92,23 @@ print(f"{merged_dict=}")
 matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 flattened = [num for row in matrix for num in row]
 print(f"{flattened=}")
+
+# Unpacking a list into individual variables
+numbers = [1, 2, 3]
+a, b, c = numbers
+print(f"{a=}, {b=}, {c=}")
+
+
+# Unpacking a list into individual variables with a star operator
+first, *rest = [1, 2, 3, 4, 5]
+print(f"{first=}, {rest=}")
+
+*start, last = [1, 2, 3, 4, 5]
+print(f"{start=}, {last=}")
+
+
+employees = ["Alex", "Blake", "Chris", "Dylan", "Elliott"]
+nums = [random.randint(1, 20) for _ in range(5)]
+
+print(*employees)
+print(*sorted(nums))

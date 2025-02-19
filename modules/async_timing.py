@@ -1,8 +1,13 @@
 import time
+import urllib3
+
 import requests
 from bs4 import BeautifulSoup
 import asyncio
 import httpx
+
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def sync_get_first_paragraph(page):
@@ -48,10 +53,10 @@ async def main():
     sync_end_time = time.time()
     sync_elapsed_time = sync_end_time - sync_start_time
 
-    # # Optionally print out paragraph content
-    # print("Results from synchronous version:")
-    # for page, result in zip(pages_to_fetch, sync_results):
-    #     print(f"First paragraph of '{page}':\n{result}\n")
+    # Optionally print out paragraph content
+    print("Results from synchronous version:")
+    for page, result in zip(pages_to_fetch, sync_results):
+        print(f"First paragraph of '{page}':\n{result}\n")
 
     print(f"Sync total time: {sync_elapsed_time:.2f} seconds\n")
 
@@ -63,10 +68,10 @@ async def main():
     async_end_time = time.time()
     async_elapsed_time = async_end_time - async_start_time
 
-    # # Optionally print out paragraph content
-    # print("Results from asynchronous version:")
-    # for page, result in zip(pages_to_fetch, async_results):
-    # print(f"First paragraph of '{page}':\n{result}\n")
+    # Optionally print out paragraph content
+    print("Results from asynchronous version:")
+    for page, result in zip(pages_to_fetch, async_results):
+        print(f"First paragraph of '{page}':\n{result}\n")
 
     print(f"Async total time: {async_elapsed_time:.2f} seconds")
 
