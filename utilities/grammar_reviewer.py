@@ -37,6 +37,7 @@ class GrammarReviewer:
             "skilled": ["proficient", "experienced", "qualified", "trained", "capable", "competent", "adept", "accomplished"],
             "soon": ["shortly", "quickly", "promptly", "swiftly", "rapidly", "immediately", "presently", "before long"],
             "specific": ["particular", "detailed", "precise", "explicit", "definite", "clear-cut", "distinct", "exact", "concrete", "unambiguous"],
+            "structure": ["framework", "organization", "system", "composition", "construction", "format", "layout", "design", "pattern"],
             "substantial": ["significant", "considerable", "sizeable", "material", "meaningful", "important", "valuable", "worthwhile", "weighty", "noteworthy"],
             "template": ["pattern", "model", "guide", "blueprint", "prototype", "example", "standard", "format", "framework"],
             "use": ["utilize", "employ", "apply", "operate", "work with", "handle", "manipulate"],
