@@ -15,6 +15,8 @@ class GrammarReviewer:
             "conduit": ["channel", "medium", "vehicle", "pipeline", "path", "line"],
             "conserve": ["preserve", "protect", "safeguard", "save", "maintain", "store", "sustain", "reserve"],
             "consume": ["expend", "spend", "deplete", "exhaust", "absorb", "devour", "ingest"],
+            "cost": ["price", "charge", "fee", "rate", "expense", "expenditure"],
+            "create": ["generate", "produce", "develop", "design", "invent", "originate", "construct", "build", "form", "establish", "forge", "fabricate", "manufacture", "compose"],
             "delicate": ["fragile", "frail", "faint", "breakable", "brittle", "vulnerable", "sensitive", "tender", "dainty", "mild", "soft"],
             "desire": ["drive", "hunger", "aspiration", "resolve", "will"],
             "demonstration": ["display", "exhibition", "presentation", "show", "manifestation", "expression", "indication", "proof", "evidence", "confirmation", "token"],
