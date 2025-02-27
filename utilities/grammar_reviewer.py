@@ -5,6 +5,7 @@ from collections import defaultdict
 class GrammarReviewer:
     def __init__(self):
         self.replacements = {
+            "access": ["entry", "admittance"],
             "accessible": ["available", "reachable", "obtainable", "attainable", "open", "admissible"],
             "allocate": ["assign", "allot", "distribute", "apportion"],
             "allotment": ["allocation", "portion", "quota", "share", "stake", "interest", "percentage", "part"],
@@ -13,6 +14,7 @@ class GrammarReviewer:
             "big": ["large", "huge", "giant", "massive", "immense", "enormous", "tremendous", "vast", "great", "sizeable", "colossal", "gigantic", "astronomical", "mammoth", "oversized"],
             "cadence": ["rhythm", "beat", "pulse", "tempo", "time", "meter", "pace"],
             "conduit": ["channel", "medium", "vehicle", "pipeline", "path", "line"],
+            "connection": ["link", "association", "relationship"],
             "conserve": ["preserve", "protect", "safeguard", "save", "maintain", "store", "sustain", "reserve"],
             "consume": ["expend", "spend", "deplete", "exhaust", "absorb", "devour", "ingest"],
             "cost": ["price", "charge", "fee", "rate", "expense", "expenditure"],
@@ -37,6 +39,7 @@ class GrammarReviewer:
             "isolate": ["separate", "insulate", "sequester", "cloister", "seclude", "silo"],
             "label": ["brand", "identify", "name", "denote", "characterize", "call", "dub"],
             "means": ["method", "way", "mode", "manner", "system", "mechanism", "vehicle", "instrument", "tool", "medium"],
+            "organization": ["association", "institution", "agency", "group", "body"],
             "regard": ["respect", "heed", "follow", "mind", "observe"],
             "require": ["demand", "necessitate", "compel", "obligate", "enforce", "dictate", "constrain", "press", "impose"],
             "required": ["necessary", "needed", "requisite", "essential", "compulsory", "mandatory", "obligatory", "prerequisite"],
