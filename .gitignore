@@ -3,6 +3,7 @@ settings.json
 treatment_dates.py
 *.pkl
 example.txt
+prompt.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
