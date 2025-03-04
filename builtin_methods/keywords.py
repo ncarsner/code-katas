@@ -79,6 +79,16 @@ def zip_lists():
     print(f"\n{list(zip(list1, list2))=}")
 
 
+def zip_strict_example():
+    list1 = list(set(random.randint(1, 9) for _ in range(10)))
+    list2 = list(set(random.choices(string.ascii_lowercase, k=10)))
+    try:
+        result = list(zip(list1, list2, strict=True))
+        print(f"\nZip strict: {result=}")
+    except ValueError as e:
+        print(f"\nException: {e}")
+
+
 def reverse_sequences():
     global numbers
     number_sequence = numbers
@@ -129,6 +139,7 @@ if __name__ == "__main__":
     disjointed_sets()
     enumerate_operations()
     zip_lists()
+    zip_strict_example()
     reverse_sequences()
     sorted_operations()
     key_keyword_usage()
