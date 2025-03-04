@@ -3,11 +3,14 @@ Faker
 httpx
 matplotlib
 numpy
+onnxruntime
 openpyxl
 ortools
+pillow
 prettytable
 pytest
 pywin32
+rembg
 requests
 scipy
 shapely
