@@ -4,7 +4,7 @@ GOAL: Adding prep time limits and day exclusions to a previous script to randomi
 
 from random import shuffle
 from datetime import datetime, timedelta
-from meals import meals_and_prep_times
+from use_cases.meals import meals_and_prep_times
 
 max_prep_time = 45
 skip_days = ["Wed", "Sun"]

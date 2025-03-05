@@ -35,7 +35,6 @@ for num in nums:
 #         return f"{milliseconds:.3f} milliseconds"
 
 
-
 def fibonacci(n):
     """Recursive function to calculate Fibonacci numbers."""
     if n <= 1:
@@ -64,7 +63,7 @@ def format_time(milliseconds):
         return f"{milliseconds:.4f} milliseconds"
 
 
-for i in range(15,45,5):
+for i in range(15, 45, 5):
     # result, execution_time = exponential_time_calculation(i)
     # print(f"Fibonacci({i}) = {result:,} | Execution Time: {format_time(execution_time * 1000)}")
     ...
@@ -89,6 +88,7 @@ def get_current_time() -> str:
     %A Day of week"""
     now: datetime = datetime.now()
     return f"{now:%F %T %p}"
+
 
 print(get_current_time())
 # print(f"{type(get_current_time())=}")

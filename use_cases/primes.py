@@ -1,5 +1,7 @@
 import decorators
 
+"""modules > modules_pickle.py uses the pickle module to serialize and deserialize primes data."""
+
 num = 100_000
 
 @decorators.timer
