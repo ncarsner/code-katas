@@ -51,6 +51,7 @@ class GrammarReviewer:
             "specific": ["particular", "detailed", "precise", "explicit", "definite", "distinct", "exact", "concrete", "unambiguous"],
             "structure": ["framework", "system", "composition", "construction", "format", "layout", "design"],
             "substantial": ["worthwhile", "weighty", "noteworthy"],
+            "symbol": ["emblem", "token", "representation", "badge", "insignia", "crest"],
             "template": ["pattern", "model", "guide", "blueprint", "prototype", "example"],
             "use": ["utilize", "employ", "apply", "operate"],
             "useful": ["helpful", "beneficial", "valuable", "advantageous", "effective", "practical"],
