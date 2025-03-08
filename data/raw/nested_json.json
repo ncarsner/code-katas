@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "address": {
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "contacts": [
+      {
+        "type": "email",
+        "value": "john.doe@example.com"
+      },
+      {
+        "type": "phone",
+        "value": "555-1234"
+      }
+    ],
+    "preferences": {
+      "newsletter": true,
+      "notifications": {
+        "email": true,
+        "sms": false
+      }
+    }
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "address": {
+      "street": "456 Elm St",
+      "city": "Othertown",
+      "state": "NY",
+      "postalCode": "67890"
+    },
+    "contacts": [
+      {
+        "type": "email",
+        "value": "jane.smith@example.com"
+      },
+      {
+        "type": "phone",
+        "value": "555-5678"
+      }
+    ],
+    "preferences": {
+      "newsletter": false,
+      "notifications": {
+        "email": false,
+        "sms": true
+      }
+    }
+  },
+  {
+    "id": 3,
+    "name": "Alice Johnson",
+    "address": {
+      "street": "789 Oak St",
+      "city": "Sometown",
+      "state": "TX",
+      "postalCode": "11223"
+    },
+    "contacts": [
+      {
+        "type": "email",
+        "value": "alice.johnson@example.com"
+      },
+      {
+        "type": "phone",
+        "value": "555-7890"
+      }
+    ],
+    "preferences": {
+      "newsletter": true,
+      "notifications": {
+        "email": true,
+        "sms": true
+      }
+    }
+  }
+]

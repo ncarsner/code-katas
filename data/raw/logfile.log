@@ -1,0 +1,17 @@
+2023-10-01 12:00:00 INFO: Starting the application
+2023-10-01 12:01:00 ERROR: Failed to connect to the database
+2023-10-01 12:02:00 INFO: Retrying connection
+2023-10-01 12:03:00 ERROR: Connection timeout
+2023-10-01 12:04:00 INFO: Shutting down the application
+2023-10-01 12:05:00 INFO: Application restarted
+2023-10-01 12:10:00 INFO: User login successful
+2023-10-01 12:15:00 WARN: High memory usage detected
+2023-10-01 12:20:00 INFO: User logout successful
+2023-10-01 12:25:00 INFO: User login successful
+2023-10-01 12:30:00 ERROR: Failed to load user profile
+2023-10-01 12:35:00 INFO: User profile loaded successfully
+2023-10-01 12:40:00 INFO: User logout successful
+2023-10-01 12:45:00 INFO: Scheduled maintenance started
+2023-10-01 12:50:00 INFO: Scheduled maintenance completed
+2023-10-01 12:55:00 INFO: User login successful
+2023-10-01 13:00:00 INFO: User logout successful
