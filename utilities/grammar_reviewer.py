@@ -24,6 +24,7 @@ class GrammarReviewer:
             "delicate": ["fragile", "frail", "faint", "breakable", "brittle", "vulnerable", "sensitive", "tender", "dainty", "mild", "soft"],
             "desire": ["drive", "hunger", "aspiration", "resolve", "will"],
             "demonstration": ["display", "exhibition", "presentation", "expression"],
+            "disagree": ["differ", "conflict", "contradict", "oppose", "dispute"],
             "divulge": ["reveal", "disclose", "expose", "uncover", "unveil", "declare", "acknowledge", "make known"],
             "effort": ["attempt", "endeavor", "struggle", "undertaking", "work"],
             "enhance": ["develop", "upgrade", "augment", "elevate", "enrich", "further", "refine"],
@@ -56,6 +57,7 @@ class GrammarReviewer:
             "use": ["utilize", "employ", "apply", "operate"],
             "useful": ["helpful", "beneficial", "valuable", "advantageous", "effective", "practical"],
             "useless": ["worthless", "pointless", "futile", "ineffective", "unproductive"],
+            "variation": ["deviation", "fluctuation", "alteration", "modification"],
         }
 
 
