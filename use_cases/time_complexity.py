@@ -1,9 +1,12 @@
 import collections
 import time
 from functools import wraps
+import pandas as pd
 
 
 def time_complexity(func):
+    """Measures execution time, not time complexity in Big O time."""
+
     @wraps(func)
     def wrapper(*args, **kwargs):
         start_time = time.time()
@@ -15,20 +18,42 @@ def time_complexity(func):
     return wrapper
 
 
-@time_complexity
-def calculate_living(person: tuple[int, int], living_per_year: collections.Counter) -> None:
-    birth, death = person
-    for year in range(birth, death):
-        living_per_year[year] += 1
+def calculate_word_frequency_pure_python(text: str) -> dict[str, int]:
+    word_freq = {}
+    words = text.split()
+    for word in words:
+        word = word.lower()
+        if word in word_freq:
+            word_freq[word] += 1
+        else:
+            word_freq[word] = 1
+    return word_freq
 
 
 @time_complexity
-def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
-    living_per_year = collections.Counter()
-    list(map(lambda person: calculate_living(person, living_per_year), population))
-    return living_per_year
+def count_word_frequency_pure_python(text: str) -> dict[str, int]:
+    word_freq = calculate_word_frequency_pure_python(text)
+    return dict(sorted(word_freq.items(), key=lambda item: item[1], reverse=True)[:10])
+
+
+@time_complexity
+def count_word_frequency_builtin(text: str) -> dict[str, int]:
+    words = text.lower().split()
+    return dict(collections.Counter(words).most_common(10))
+
+
+@time_complexity
+def count_word_frequency_pandas(text: str) -> dict[str, int]:
+    words = pd.Series(text.lower().split())
+    word_freq = words.value_counts()
+    return word_freq.head(10).to_dict()
 
 
 if __name__ == "__main__":
-    population = [(1900, 1950), (1910, 1955), (1920, 1960), (1930, 1970), (1940, 1980)]
-    print(count_living_per_year(population))
+    with open("example_lorem.txt", "r") as file:
+        text = file.read()
+    if text is None:
+        text = "This is a sample text with several words. This text is just a sample."
+    print(count_word_frequency_pure_python(text))
+    print(count_word_frequency_builtin(text))
+    print(count_word_frequency_pandas(text))
