@@ -1,4 +1,6 @@
 import collections
+import random
+from datetime import datetime, timedelta
 
 # namedtuple
 Point = collections.namedtuple("Point", ["x", "y"])
@@ -21,7 +23,17 @@ counter = collections.Counter(["apple", "banana", "apple", "orange", "banana", "
 print("Counter:", counter)
 print("Most common:", counter.most_common(2))
 
-fruits = ["apple", "banana", "apple", "orange", "banana", "apple", "grapefruit", "cherries", "apple"]
+fruits = [
+    "apple",
+    "banana",
+    "apple",
+    "orange",
+    "banana",
+    "apple",
+    "grapefruit",
+    "cherries",
+    "apple",
+]
 counted_fruits = collections.Counter(fruits)
 print(counted_fruits)
 
@@ -83,3 +95,68 @@ class MyString(collections.UserString):
 my_string = MyString("Hello")
 my_string.append(" World")
 print("UserString:", my_string)
+
+
+"""Inheritance:
+
+dict Inheritance: Inheriting from dict directly extends the built-in dictionary type, resulting in a class that behaves like a dictionary with any additional methods or overrides provided.
+
+UserDict Inheritance: collections.UserDict is a wrapper around a standard dictionary that allows for easier subclassing. It is designed to be easier to extend and customize. It provides a dictionary-like interface but stores the actual data in a separate internal dictionary (self.data).
+
+Both classes override the __setitem__ method to print a message when adding a new item to the dictionary.
+The output will be the same for both classes, but the UserDict implementation is more flexible and easier to extend.
+
+Courtesy of Bob Belderbos, a la Trey Hunner's article:
+    https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/
+"""
+
+
+class BirthdayDict(dict):
+    def __setitem__(self, name, birthday):
+        print(f"Adding {name}")
+        super().__setitem__(name, birthday)
+
+
+def random_birthday(min_age=18, max_age=55):
+    """
+    Generate a random birthday within a specified age range.
+
+    This function calculates a random date between the current date minus the maximum age
+    and the current date minus the minimum age. The resulting date is formatted as a string
+    in the "YYYY-MM-DD" format.
+
+    Args:
+        min_age (int): The minimum age for the random birthday. Default is 18.
+        max_age (int): The maximum age for the random birthday. Default is 55.
+
+    Returns:
+        str: A string representing the random birthday in "YYYY-MM-DD" format.
+    """
+    start_date = datetime.now() - timedelta(days=max_age * 365)
+    end_date = datetime.now() - timedelta(days=min_age * 365)
+    random_date = start_date + (end_date - start_date) * random.random()
+    return random_date.strftime("%Y-%m-%d")
+
+
+students = ["Alex", "Blake", "Chris", "Dylan", "Elliot"]
+
+bd = BirthdayDict()
+bd["Alex"] = random_birthday()
+
+for student in students[1:]:
+    bd.update({student: random_birthday()})  # dict method does not call __setitem__
+    print(bd)
+
+
+class BirthdayDict(collections.UserDict):
+    def __setitem__(self, name, birthday):
+        print(f"Adding {name}")
+        super().__setitem__(name, birthday)
+
+
+bd = BirthdayDict()
+bd["Alex"] = random_birthday()
+
+for student in students[1:]:
+    bd.update({student: random_birthday()})  # UserDict method calls __setitem__
+    print(bd)
