@@ -1,4 +1,7 @@
 import functools
+import operator
+import random
+import json
 
 # functools.reduce(function, iterable[, initializer])
 # Applies function of two arguments cumulatively to the items of iterable,
@@ -6,19 +9,17 @@ import functools
 """ Usage: Imagine you want to find the product of all numbers in a list.
     Instead of writing a loop, you can use reduce with a multiplication function."""
 
-import operator
-
 
 def multiply_numbers(*numbers):
     nums = [i for i in numbers]
     return functools.reduce(lambda x, y: x * y, nums)
 
 
-numbers = [2, 3, 4, 5]
+numbers = [random.randint(1, 10) for _ in range(5)]
 result = functools.reduce(operator.mul, numbers)
-print(result)  # Output: 120
+print(result)
 
-print(multiply_numbers(1, 2, 3, 4))  # Output: 24
+print(multiply_numbers(random.randint(1, 10) for _ in range(4)))
 
 
 # functools.partial(func, /, *args, **keywords)
@@ -93,9 +94,10 @@ class Report:
     @functools.cached_property
     def processed_data(self):
         # Expensive processing goes here
-        return processed_data(self.data_source)
+        return self.data_source
 
 
+my_data = "sample data"
 report = Report(my_data)
 # The first time this is accessed, it's computed and then cached.
 data = report.processed_data
@@ -116,7 +118,7 @@ def compare_items(x, y):
 
 data = ["5", "100", "15", "2"]
 sorted_data = sorted(data, key=functools.cmp_to_key(compare_items))
-print(sorted_data)  # Output: ['2', '5', '15', '100']
+print(sorted_data)
 
 # functools.total_ordering
 # Class decorator that fills in missing ordering methods.
@@ -152,8 +154,6 @@ print(v1 == v2)  # Output: False
     (e.g., rendering data to JSON in a web application), singledispatch allows you to
     create a generic function that dispatches to type-specific implementations. """
 
-import json
-
 
 @functools.singledispatch
 def to_json(val):
@@ -175,15 +175,13 @@ def _(val: int):
     return str(val)
 
 
-print(to_json({"name": "John", "age": 30}))  # Output: {"name": "John", "age": 30}
-print(to_json([1, 2, 3]))  # Output: [1, 2, 3]
-print(to_json(42))  # Output: "42"
-
-
+print(to_json({"name": "John", "age": 30}))
+print(to_json([random.randint(1, 10) for _ in range(4)]))
+print(to_json(random.randint(1, 50)))
 
 
 def add_up_numbers(*numbers):
     return sum(numbers)
 
 
-print(add_up_numbers(1, 2, 3, 4, 5))
+print(add_up_numbers(*[random.randint(1, 10) for _ in range(4)]))
