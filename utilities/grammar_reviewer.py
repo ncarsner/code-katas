@@ -14,6 +14,8 @@ class GrammarReviewer:
             "basic": ["fundamental", "elementary", "primary", "rudimentary", "core", "central"],
             "big": ["large", "huge", "giant", "massive", "immense", "enormous", "tremendous", "mammoth", "oversized"],
             "cadence": ["rhythm", "beat", "pulse", "tempo", "time", "meter", "pace"],
+            "cluster": ["bunch", "collection", "set", "array", "assortment"],
+            "coincide": ["coexist", "overlap"],
             "conduit": ["channel", "medium", "pipeline", "path"],
             "connection": ["link", "association", "relationship"],
             "conserve": ["preserve", "protect", "safeguard", "save", "maintain", "store", "sustain", "reserve"],
