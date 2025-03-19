@@ -1,3 +1,5 @@
+import string
+
 title_str = " This Is A Title "
 """
 Encoding and Decoding Methods:
@@ -12,9 +14,18 @@ Translation Methods:
 encoded_str = title_str.encode("utf-16")
 print(encoded_str)
 print(title_str.encode())  # b'This Is A Title' -- default is UTF-8
-print(title_str.decode(encoded_str))  # This Is A Title
+print(encoded_str.decode("utf-16"))  # This Is A Title
 
 ### Translation
 trans_table = str.maketrans("Title", "12345")
 print(trans_table)
-print(title_str.translate(trans_table))  # Th3s 3s A 5123
+print(title_str.translate(trans_table))
+trans_table = str.maketrans("title", "12345")
+print(title_str.translate(trans_table))
+
+
+# Removing punctuation from a string
+sample_str = "Hello, World! This is an example."
+remove_punct_table = str.maketrans("", "", string.punctuation)
+clean_str = sample_str.translate(remove_punct_table)
+print(clean_str)  # Hello World This is an example
