@@ -112,3 +112,17 @@ nums = [random.randint(1, 20) for _ in range(5)]
 
 print(*employees)
 print(*sorted(nums))
+
+
+def first_and_last(items: list) -> tuple:
+    first, *_, last = items
+    return first, last
+
+
+items = [1, 2, 3, 4, 5]
+print(first_and_last(items))
+
+items = random.sample(range(1, 100), 10)
+print(f"{items=}")
+print(first_and_last(items))
+print(first_and_last(sorted(items)))
