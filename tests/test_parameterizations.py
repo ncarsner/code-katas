@@ -66,6 +66,8 @@ def test_string_utils_reverse_string(string_input, expected):
         ("apple", "pale", False),
         ("", "", True),
         ("a", "a", True),
+        ("shelf", "flesh", True),
+        ("flesh", "feels", False)
     ],
 )
 def test_is_anagram(string_a, string_b, expected):
