@@ -32,10 +32,12 @@ class ReverseRange:
             self.current -= self.step
 
 
-MAX_RANGE = random.randint(0,20)
+MAX_RANGE = ri(3, 10)
 
-for num in ReverseRange(MAX_RANGE):
-    print(num)
+# Collect numbers in a list and join with commas for forward iteration
+forward_numbers = [str(num) for num in ReverseRange(MAX_RANGE)]
+print(", ".join(forward_numbers))
 
-for num in reversed(ReverseRange(MAX_RANGE)):
-    print(num)
+# Collect numbers in a list and join with commas for backward iteration
+backward_numbers = [str(num) for num in reversed(ReverseRange(MAX_RANGE))]
+print(", ".join(backward_numbers))
