@@ -4,6 +4,7 @@ treatment_dates.py
 *.pkl
 example*.txt
 prompt.txt
+*.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
