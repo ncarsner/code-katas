@@ -1,7 +1,10 @@
-from typing import List
+from typing import List, Dict
 from itertools import cycle
 import random
 import string
+import sqlite3
+import subprocess
+import os
 
 
 def manual_iteration(data: List[int]) -> List[int]:
@@ -65,7 +68,82 @@ def cycle_through_elements(data: List[str], n: int) -> List[str]:
     return result
 
 
-# Example usage
+def read_log_file(file_name):
+    """Automate process with iter and sentinel value"""
+    with open(file_name, "r") as file:
+        while True:
+            line = file.readline()
+            if not line:
+                break
+            yield line.strip()
+
+
+def get_random_number():
+    """using iter with a callable and sentinel"""
+    return random.randint(1, 10)
+
+
+def get_git_log():
+    """Simulate running a git log command and iterating through the results"""
+    result = subprocess.run(["git", "log", "--oneline"], stdout=subprocess.PIPE)
+    return result.stdout.decode("utf-8").split("\n")
+
+
+def process_etl_data(etl_data: List[Dict[str, int | str]]) -> None:
+    """
+    Process ETL data iteratively.
+
+    Args:
+        etl_data (List[Dict[str, int | str]]): A list of dictionaries containing ETL data.
+
+    Returns:
+        None
+    """
+    # Get a (lazy evaluation) iterator from the data
+    etl_iter = iter(etl_data)
+
+    for record in etl_iter:
+        print(f"Processing: {record['id']=}, {record['name']=}, {record['price']=}")
+
+
+def iterate_database_results(db_path: str) -> None:
+    """
+    Iterate through database query results and print them.
+
+    Args:
+        db_path (str): Path to the SQLite database file.
+
+    Returns:
+        None
+    """
+    # Connect to a database
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Create a table
+    cursor.execute(
+        """CREATE TABLE IF NOT EXISTS sales_data (date text, sales integer)"""
+    )
+
+    # Insert data
+    cursor.execute("INSERT INTO sales_data VALUES ('2025-04-01', 1000)")
+    cursor.execute("INSERT INTO sales_data VALUES ('2025-04-02', 1500)")
+    conn.commit()
+
+    # Query the database
+    cursor.execute("SELECT * FROM sales_data")
+    rows = cursor.fetchall()
+
+    # Get an iterator from the query results
+    rows_iter = iter(rows)
+
+    # Iterate through the results
+    for row in rows_iter:
+        print(f"Date: {row[0]}, Sales: {row[1]}")
+
+    conn.close()
+
+
 if __name__ == "__main__":
     # Manual iteration
     data = [random.randint(1, 10) for _ in range(5)]
@@ -79,100 +157,40 @@ if __name__ == "__main__":
     data = [random.choices(string.ascii_lowercase, k=random.randint(3, 6))]
     print(cycle_through_elements(data, random.choice([2, 3])))
 
+    # Automate reading a log file until a specific end-of-file marker is found
+    log_iter = iter(read_log_file("process.log"))
 
+    for log_entry in log_iter:
+        if log_entry == "EOF":
+            break
+        print(f"Log Entry: {log_entry}")
 
-# Iterating through database query results
+    # Using iter() with a callable and sentinel
+    random_iter = iter(get_random_number, 5)
 
-import sqlite3
+    # Process random numbers until the sentinel value (5) is encountered
+    for number in random_iter:
+        print(f"Random Number: {number}")
 
-# Connect to a database
-conn = sqlite3.connect('example.db')
-cursor = conn.cursor()
+    # Get an iterator from the git log output
+    git_log_iter = iter(get_git_log())
 
-# Create a table
-cursor.execute('''CREATE TABLE IF NOT EXISTS sales_data (date text, sales integer)''')
+    # Process the git log entries
+    for log_entry in git_log_iter:
+        if log_entry:
+            print(f"Git Log Entry: {log_entry}")
 
-# Insert some data
-cursor.execute("INSERT INTO sales_data VALUES ('2025-04-01', 1000)")
-cursor.execute("INSERT INTO sales_data VALUES ('2025-04-02', 1500)")
-conn.commit()
+    # Traverse the list lazily with iter instead of loading all items into memory at once.
+    etl_data = [
+        {"id": 1, "name": "Shoes", "price": 100},
+        {"id": 2, "name": "Jacket", "price": 150},
+        {"id": 3, "name": "Shirt", "price": 200},
+    ]
+    process_etl_data(etl_data)
 
-# Query the database
-cursor.execute("SELECT * FROM sales_data")
-rows = cursor.fetchall()
-
-# Get an iterator from the query results
-rows_iter = iter(rows)
-
-# Iterate through the results
-for row in rows_iter:
-    print(f"Date: {row[0]}, Sales: {row[1]}")
-
-conn.close()
-
-
-# Iterating through ETL process data
-
-# Sample data from an ETL process
-etl_data = [
-    {"id": 1, "name": "Product A", "price": 100},
-    {"id": 2, "name": "Product B", "price": 150},
-    {"id": 3, "name": "Product C", "price": 200},
-]
-
-# Get an iterator from the ETL data
-etl_iter = iter(etl_data)
-
-# Process the ETL data
-for record in etl_iter:
-    print(f"Processing record: ID={record['id']}, Name={record['name']}, Price={record['price']}")
-
-
-# Automate process with iter and sentinel value
-
-def read_log_file(file_name):
-    with open(file_name, 'r') as file:
-        while True:
-            line = file.readline()
-            if not line:
-                break
-            yield line.strip()
-
-# Automate reading a log file until a specific end-of-file marker is found
-log_iter = iter(read_log_file('process.log'))
-
-for log_entry in log_iter:
-    if log_entry == 'EOF':
-        break
-    print(f"Log Entry: {log_entry}")
-
-# using iter with a callable and sentinel
-
-import random
-
-def get_random_number():
-    return random.randint(1, 10)
-
-# Using iter() with a callable and sentinel
-random_iter = iter(get_random_number, 5)
-
-# Process random numbers until the sentinel value (5) is encountered
-for number in random_iter:
-    print(f"Random Number: {number}")
-
-# Version control log processing
-
-import subprocess
-
-# Simulate running a git log command and iterating through the results
-def get_git_log():
-    result = subprocess.run(['git', 'log', '--oneline'], stdout=subprocess.PIPE)
-    return result.stdout.decode('utf-8').split('\n')
-
-# Get an iterator from the git log output
-git_log_iter = iter(get_git_log())
-
-# Process the git log entries
-for log_entry in git_log_iter:
-    if log_entry:
-        print(f"Git Log Entry: {log_entry}")
+    # Iterate through database results
+    db_path = "example.db"
+    if os.path.exists(db_path):
+        iterate_database_results(db_path)
+    else:
+        print(f"Error: Database file '{db_path}' does not exist.")
