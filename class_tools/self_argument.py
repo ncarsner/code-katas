@@ -1,6 +1,8 @@
 import random
 
-RAND_INTS = [random.randint(50,500) for _ in range(5)]
+RAND_INTS = [random.randint(10, 100) for _ in range(5)]
+print(f"{RAND_INTS=}")
+
 
 class SalesReport:
     """
@@ -56,14 +58,14 @@ class SalesReport:
 # How the `self` keyword works
 
 # Create an instance of the SalesReport class
-sales_data = {'Product A': RAND_INTS[0], 'Product B': RAND_INTS[1]}
+sales_data = {"Product A": RAND_INTS[0], "Product B": RAND_INTS[1]}
 report = SalesReport(sales_data)  # `self` in __init__ refers to this instance
 
 # Add sales for an existing product
-report.add_sales('Product A', RAND_INTS[0])  # `self` in add_sales refers to the same instance
+report.add_sales("Product A", RAND_INTS[0])  # `self` in add_sales refers to the same instance
 
 # Add sales for a new product
-report.add_sales('Product C', RAND_INTS[2])
+report.add_sales("Product C", RAND_INTS[2])
 
 # Calculate the total sales
 total = report.total_sales()  # `self` in total_sales refers to the instance
