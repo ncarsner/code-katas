@@ -1,12 +1,6 @@
 import random
 
 
-# One-liner
-round_to_nearest = lambda x, n=5: (  # noqa: E731
-    [round(i / n) * n for i in x] if hasattr(x, "__iter__") else round(x / n) * n
-)
-
-
 # Function
 def round_to_nearest_func(value, n=5):
     if hasattr(value, "__iter__"):
@@ -27,6 +21,13 @@ if __name__ == "__main__":
     print(f"\n{nums=}")
     print(f"{nearest=}")
 
-    print(f"\nOne-liner: {round_to_nearest(nums, nearest)}")
+    # One-liner
+    round_to_nearest = (
+        [round(i / nearest) * nearest for i in nums]
+        if hasattr(nums, "__iter__")
+        else round(nums / nearest) * nearest
+    )
+
+    print(f"\nOne-liner: {round_to_nearest}")
     print(f"Function: {round_to_nearest_func(nums, nearest)}")
     print(f"Lambda: {round_to_nearest_lambda(nums, nearest)}")
