@@ -2,6 +2,7 @@ import functools
 import operator
 import random
 import json
+from itertools import filterfalse
 
 # functools.reduce(function, iterable[, initializer])
 # Applies function of two arguments cumulatively to the items of iterable,
@@ -35,6 +36,37 @@ def commission(percentage, amount):
 
 standard_commission = functools.partial(commission, 10)
 print(standard_commission(500))  # Output: 50.0
+
+
+# Using partial to create a custom filter function for sales data
+def is_below_threshold(threshold, value):
+    return value < threshold
+
+
+def filter_below_median(data):
+    median = sorted(data)[len(data) // 2]
+    return filterfalse(lambda x: x < median, data)
+
+
+# Create a partial function with the median as the fixed value
+filter_out_below_median = functools.partial(
+    filterfalse, lambda x: x < sorted(sales_data)[len(sales_data) // 2]
+)
+
+# Create a partial function with a fixed threshold
+filter_below_50 = functools.partial(
+    filterfalse, functools.partial(is_below_threshold, 50)
+)
+
+
+sales_data = [random.randint(10, 100) // 5 * 5 for _ in range(10)]
+filtered_sales = list(filter_below_50(sales_data))
+filtered_sales_median_a = list(filter_below_median(sales_data))
+filtered_sales_median_b = list(filter_out_below_median(sales_data))
+print(f"{sales_data=}")
+print(f"{filtered_sales=}")
+print(f"{filtered_sales_median_a=}")
+print(f"{filtered_sales_median_b=}")
 
 
 # functools.wraps(wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
