@@ -6,6 +6,7 @@ numpy
 onnxruntime
 openpyxl
 ortools
+pandas
 pillow
 prettytable
 pytest
