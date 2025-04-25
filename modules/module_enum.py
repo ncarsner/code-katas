@@ -1,4 +1,5 @@
 from enum import Enum, IntEnum, Flag, auto, unique
+import random
 
 
 class Color(Enum):
@@ -30,20 +31,25 @@ class Permission(Flag):
 
 
 print("\nFlag:")
-user_permission = Permission.READ | Permission.WRITE
+permissions = list(Permission)
+user_permission = random.choice(permissions)
+for _ in range(random.randint(1, len(permissions) - 1)):
+    user_permission |= random.choice(permissions)
 print(f"User Permission: {user_permission}")
 
 
 @unique
-class Animal(Enum):
-    DOG = 1
-    CAT = 2
-    BIRD = 3
+class BusinessEntity(Enum):
+    CUSTOMER = 1
+    PRODUCT = 2
+    SALES = 3
+    REGION = 4
+    EMPLOYEE = 5
 
 
 print("\nUnique Enum:")
-for animal in Animal:
-    print(f"{animal.name} = {animal.value}")
+for entity in BusinessEntity:
+    print(f"{entity.name} = {entity.value}")
 
 
 def check_status(status_code):
