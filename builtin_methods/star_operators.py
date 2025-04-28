@@ -1,12 +1,19 @@
 from typing import Any
 import random
 
+RANDOM_NAME = ["Alex", "Blake", "Chris", "Dylan", "Elliott"]
+RANDOM_AGE = [random.randint(21, 65) for _ in range(5)]
+RANDOM_SALARY = [random.choice(range(50000, 125001, 5000)) for _ in range(5)]
+RANDOM_CITY = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Nashville"]
+
 
 def sum_all(*args: int) -> int:
     return sum(args)
 
 
-print(sum_all(1, 2, 3, 4, 5))
+random_numbers = [random.randint(1, 10) for _ in range(5)]
+print(f"{random_numbers=}")
+print(f"{sum_all(*random_numbers)=}\n")
 
 
 def print_person_details(**kwargs: Any) -> None:
@@ -14,9 +21,17 @@ def print_person_details(**kwargs: Any) -> None:
         print(f"{key}: {value}")
 
 
-print_person_details(name="John", age=30, city="New York")
+print_person_details(
+    name=RANDOM_NAME[random.randint(1, len(RANDOM_NAME) - 1)],
+    age=RANDOM_AGE,
+    city=RANDOM_CITY[random.randint(1, len(RANDOM_CITY) - 1)],
+)
 
-person_details = {"name": "John", "age": 30, "city": "New York"}
+person_details = {
+    "name": RANDOM_NAME[random.randint(1, len(RANDOM_NAME) - 1)],
+    "age": RANDOM_AGE,
+    "city": RANDOM_CITY[random.randint(1, len(RANDOM_CITY) - 1)],
+}
 print_person_details(**person_details)
 
 
@@ -27,14 +42,18 @@ def multiply(*args: int) -> int:
     return result
 
 
-print(multiply(1, 2, 3, 4))
+random_tuple = tuple(random.randint(1, 10) for _ in range(3))
+print(f"\n{random_tuple=}")
+print(f"{multiply(*random_tuple):,=}")
 
 
 def create_greeting(greeting: str, **kwargs: Any) -> str:
     return f"{greeting}, {kwargs.get('name', 'Guest')}!"
 
 
-print(create_greeting("Hello", name="Alex"))
+print(
+    f"\n{create_greeting('Hello', name=RANDOM_NAME[random.randint(1, len(RANDOM_NAME)-1)])=}"
+)
 print(create_greeting("Welcome"))
 
 
@@ -47,15 +66,15 @@ combined_example(1, 2, 3, name="John", age=30)
 
 # Using *args in a lambda function
 sum_lambda = lambda *args: sum(args)
-print(f"{sum_lambda(1, 2, 3, 4, 5)=}")
+print(f"\n{sum_lambda(1, 2, 3, 4, 5)=}")
 
 # Using **kwargs in a lambda function
 greet_lambda = lambda **kwargs: f"Hello, {kwargs.get('name', 'Guest')}!"
-print(greet_lambda(name="Alex"))
+print(greet_lambda(name=RANDOM_NAME[random.randint(1, len(RANDOM_NAME) - 1)]))
 print(greet_lambda())
 
 # Packing and unpacking in one-liners
-numbers = [1, 2, 3, 4, 5]
+numbers = [random.randint(1, 10) for _ in range(5)]
 print(sum([*(numbers)]))
 print(sum([*(range(101))]))  # * unpacks range into a list
 
@@ -64,7 +83,11 @@ def display_info(name: str, age: int, city: str) -> str:
     return f"{name} is {age} years old and lives in {city}."
 
 
-info_dict = {"name": "Alex", "age": 28, "city": "Wonderland"}
+info_dict = {
+    "name": RANDOM_NAME[random.randint(1, len(RANDOM_NAME) - 1)],
+    "age": RANDOM_AGE,
+    "city": RANDOM_CITY[random.randint(1, len(RANDOM_CITY) - 1)],
+}
 print(display_info(**info_dict))  # ** unpacks dictionary into a function call
 
 
