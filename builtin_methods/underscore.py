@@ -1,10 +1,6 @@
 from typing import List, Tuple
 import random
 
-"""
-Underscores in Python can be used in various ways, such as for variable naming, ignoring values, improving readability, and accessing special methods.
-"""
-
 
 def calculate_total_sales(sales_data: List[Tuple[str, float]]) -> float:
     """
@@ -97,6 +93,4 @@ if __name__ == "__main__":
     ]
     salaries = ignore_unused_values(data)
     print(f"Salaries: {salaries}")
-    print(
-        f"Salaries (Formatted): {[format_large_number(salary) for salary in salaries]}"
-    )
+    print(f"Formatted: {[format_large_number(salary) for salary in salaries]}")
