@@ -27,12 +27,14 @@ class ReverseRange:
 
     def __reversed__(self):
         self.current = self.stop - self.step
-        while (self.step > 0 and self.current >= self.start) or (self.step < 0 and self.current <= self.start):
+        while (self.step > 0 and self.current >= self.start) or (
+            self.step < 0 and self.current <= self.start
+        ):
             yield self.current
             self.current -= self.step
 
 
-MAX_RANGE = ri(3, 10)
+MAX_RANGE = random.randint(3, 10)
 
 # Collect numbers in a list and join with commas for forward iteration
 forward_numbers = [str(num) for num in ReverseRange(MAX_RANGE)]
