@@ -1,4 +1,4 @@
-from enum import Enum, IntEnum, Flag, auto, unique
+from enum import Enum, IntEnum, Flag, auto, unique, CONTINUOUS
 import random
 
 
@@ -66,3 +66,27 @@ def check_status(status_code):
 print(f"\n{check_status(StatusCode.SUCCESS)=}")
 print(f"{check_status(StatusCode.NOT_FOUND)=}")
 print(f"{check_status(StatusCode.SERVER_ERROR)=}")
+
+
+class SalesCategory(Enum):
+    CONTINUOUS = CONTINUOUS
+
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+
+
+def categorize_sales(sales_amount):
+    if sales_amount < 1000:
+        return SalesCategory.LOW
+    elif 1000 <= sales_amount < 5000:
+        return SalesCategory.MEDIUM
+    else:
+        return SalesCategory.HIGH
+
+
+print("\nSales Categorization:")
+sales_data = [random.randint(1, 20) * 500 for _ in range(5)]
+for sales in sales_data:
+    category = categorize_sales(sales)
+    print(f"Sales Amount: {sales}, Category: {category.name}")

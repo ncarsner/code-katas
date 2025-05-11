@@ -98,9 +98,7 @@ print(say_hello.__doc__)  # Output: Says hello to a given name.
 
 # functools.lru_cache(maxsize=128, typed=False)
 # Decorator to wrap a function with a memoizing callable that saves up to the maxsize most recent calls.
-""" Usage: When you have functions that are expensive to compute and are called multiple times with the same
-    arguments (e.g., recursive functions, database queries), using lru_cache can significantly speed up code
-    by caching the results. """
+""" Usage: When you have functions that are expensive to compute and are called multiple times with the same arguments (e.g., recursive functions, database queries), using lru_cache can significantly speed up code by caching the results. """
 
 
 @functools.lru_cache
@@ -115,7 +113,7 @@ print(fibonacci(10))  # Output: 55
 
 # functools.cached_property(func)
 # Transform an attribute of an instance into a property whose value is computed the first time it is accessed and then cached as a regular attribute for the subsequent calls.
-""" Usage: Useful for expensive computations in classes that should only be computed once.
+""" Useful for expensive computations in classes that should only be computed once.
     For instance, when fetching data for a report in a BI tool. """
 
 
