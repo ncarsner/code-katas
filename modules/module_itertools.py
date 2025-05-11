@@ -1,5 +1,6 @@
 import itertools
 
+
 # itertools.count
 for i in itertools.count(10, 2):
     if i > 20:
@@ -204,3 +205,27 @@ colors = ["White", "Black"]
 configurations = list(itertools.product(sizes, colors))
 print(configurations)
 # Use-case: All possible product configurations for a customizable product.
+
+
+# Function: Returns the shortest input iterable.
+data1 = [1, 2, 3]
+data2 = [4, 5]
+data3 = [6, 7, 8, 9]
+shortest = itertools.zip_longest(data1, data2, data3)
+print(list(shortest))
+# Use-case: Merging data from different sources with potential missing entries.
+# Function: Returns the longest input iterable.
+
+
+# Function: Groups data into fixed-length chunks (batches).
+def batched(iterable, n):
+    it = iter(iterable)
+    while batch := list(itertools.islice(it, n)):
+        yield batch
+
+
+# Example usage of batched function
+data = range(1, 11)  # Data from 1 to 10
+batches = list(batched(data, 3))
+print(batches)
+# Use-case: Processing data in fixed-size chunks.
