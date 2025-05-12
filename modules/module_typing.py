@@ -1,6 +1,7 @@
 from typing import List, Dict, Tuple, Union, Optional, Callable, Any, TypeVar, Generic
 import random
 import string
+from typing import Protocol
 
 T = TypeVar("T")
 K = TypeVar("K")
@@ -97,6 +98,43 @@ def get_any_value(data: Dict[K, V], key: K) -> Optional[V]:
     return data.get(key)
 
 
+def print_any_value(value: Any) -> None:
+    """
+    Prints any value passed to it.
+
+    :param value: Any value
+    """
+    print(f"The value is: {value}")
+
+
+class SupportsReportGeneration(Protocol):
+    def generate_report(self) -> str:
+        """
+        A protocol that requires a 'generate_report' method returning a string.
+        """
+        ...
+
+
+class SalesReport:
+    def generate_report(self) -> str:
+        return "Sales Report: Total Sales = $100,000"
+
+
+class InventoryReport:
+    def generate_report(self) -> str:
+        return "Inventory Report: Items in Stock = 500"
+
+
+def generate_business_report(report: SupportsReportGeneration) -> str:
+    """
+    Accepts any object that conforms to the SupportsReportGeneration protocol.
+
+    :param report: An object that implements the 'generate_report' method
+    :return: The generated report
+    """
+    return report.generate_report()
+
+
 if __name__ == "__main__":
     a = random.choice(numbers)
     b = random.choice(numbers)
@@ -119,3 +157,9 @@ if __name__ == "__main__":
     letter = random.choice(letters)
     print(f"\nget_any_value({data=}, {letter}={get_any_value(data, letter)}")
     print(f"{get_any_value(data, 'ab') = }")
+
+    sales_report = SalesReport()
+    inventory_report = InventoryReport()
+
+    print(f"\nGenerated Sales Report: {generate_business_report(sales_report)}")
+    print(f"Generated Inventory Report: {generate_business_report(inventory_report)}")
