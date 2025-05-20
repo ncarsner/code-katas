@@ -6,6 +6,7 @@ example*.txt
 prompt.txt
 *.db
 test_files/
+*.dat
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
