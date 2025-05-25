@@ -17,10 +17,12 @@ Common examples of syntactic sugar in Python include:
 11. Chained Conditions
 12. The yield from Construct
 13. Ternary Operators
+14. Assignment Operators (e.g., @=, ^=, //=, /=, **=)
 """
 
 import random
 import string
+import numpy as np
 
 chars = string.ascii_letters + string.digits
 random_string = "".join(random.choices(chars, k=random.randint(5, 15)))
@@ -95,6 +97,7 @@ value_sugar = obj2.get_value()
 def test_sum():
     assert sum([1, 2, 3]) == 6, "Should be 6"
 
+
 test_sum()
 
 
@@ -127,3 +130,33 @@ for value in another_generator():
 is_even = random.choice([True, False])
 result_sugar = "Even" if is_even else "Odd"
 print(f"{result_sugar=}")
+
+
+# 14. Assignment Operators
+
+# @= (Matrix multiplication assignment)
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[2, 0], [1, 2]])
+A_copy = A.copy()
+A_copy @= B
+print(f"Matrix multiplication assignment (@=):\n{A_copy}")
+
+# ^= (Bitwise XOR assignment)
+x = 10  # 0b1010
+x ^= 3  # 0b0011
+print(f"Bitwise XOR assignment (^=): {x}")
+
+# //= (Floor division assignment)
+y = 17
+y //= 3
+print(f"Floor division assignment (//=): {y}")
+
+# /= (True division assignment)
+z = 10
+z /= 4
+print(f"True division assignment (/=): {z}")
+
+# **= (Exponentiation assignment)
+w = 2
+w **= 5
+print(f"Exponentiation assignment (**=): {w}")
