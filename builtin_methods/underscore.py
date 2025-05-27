@@ -61,6 +61,16 @@ def ignore_unused_values(data: List[Tuple[str, int, float]]) -> List[float]:
     return [value for _, _, value in data]
 
 
+def last_result_placeholder():
+    """
+    Using underscore as a placeholder for the last result in the interactive interpreter.
+    In scripts, '_' is not automatically set to the last result, but in the Python REPL it is.
+    """
+    result = sum([1, 2, 3])
+    _ = result  # Manually assign last result to '_'
+    return _
+
+
 if __name__ == "__main__":
     # Ignoring values in tuples
     product_list = ["Shirts", "Pants", "Shoes", "Hats", "Accessories", "Jackets"]
@@ -94,3 +104,6 @@ if __name__ == "__main__":
     salaries = ignore_unused_values(data)
     print(f"Salaries: {salaries}")
     print(f"Formatted: {[format_large_number(salary) for salary in salaries]}")
+
+    last_result = last_result_placeholder()
+    print(f"Last result using '_': {last_result}")

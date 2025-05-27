@@ -5,6 +5,22 @@ import random
 """Additional examples in /modules/module_argparse.py"""
 
 
+def demo_positional_only(a, b, /, c, d, *, e, f):
+    """
+    Demonstrates positional-only and keyword-only arguments.
+
+    Args:
+        a, b: Must be passed positionally.
+        c, d: Can be passed positionally or as keywords.
+        e, f: Must be passed as keywords.
+
+    Example:
+        demo_positional_only(1, 2, 3, 4, e=5, f=6)
+        demo_positional_only(1, 2, c=3, d=4, e=5, f=6)
+    """
+    print(f"a={a}, b={b}, c={c}, d={d}, e={e}, f={f}")
+
+
 def process_data(*args: str, **kwargs: Any) -> None:
     """
     Processes data based on positional and keyword arguments.
@@ -108,6 +124,11 @@ def main():
     # Usage of example_with_list
     example_list = ["sales_data.csv", "customer_data.csv", "inventory_data.csv"]
     example_with_list(example_list)
+
+    # Usage of demo_positional_only
+    print("\nDemo of positional-only and keyword-only arguments:")
+    demo_positional_only(10, 20, 30, 40, e=50, f=60)
+    demo_positional_only(1, 2, c=3, d=4, e=5, f=6)
 
 
 if __name__ == "__main__":
