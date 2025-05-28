@@ -1,13 +1,9 @@
 import threading
-import time
-from queue import Queue, LifoQueue, PriorityQueue, Empty, Full
+from queue import Queue, PriorityQueue, Empty, Full
 from typing import Any, Callable, Tuple
 
 """
-Illustrates practical use of Python's built-in `queue` module for business intelligence (BI) developers/analysts.
-Includes examples for task management, producer-consumer patterns, and thread-safe data processing.
-
-Author: GitHub Copilot
+Practical use of Python's built-in `queue` module includes task management, producer-consumer patterns, and thread-safe data processing, using FIFO queues, LIFO stacks, and priority queues to manage tasks and data processing in a BI context.
 """
 
 
@@ -120,18 +116,18 @@ def troubleshooting_queue():
 
 
 if __name__ == "__main__":
-    # Example: FIFO task queue
+    # FIFO task queue
     task_queue_example(["extract", "transform", "load"])
 
-    # Example: Producer-consumer with threads
+    # Producer-consumer with threads
     producer_consumer_example(
         data=[f"record_{i}" for i in range(5)],
         worker=lambda x: print(f"Processed {x}"),
         num_workers=2,
     )
 
-    # Example: Priority queue for task scheduling
+    # Priority queue for task scheduling
     priority_queue_example([(2, "load"), (1, "extract"), (3, "transform")])
 
-    # Example: Troubleshooting queue exceptions
+    # Troubleshooting queue exceptions
     troubleshooting_queue()
