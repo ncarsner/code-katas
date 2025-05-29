@@ -121,6 +121,47 @@ def strip_non_printable(text: str) -> str:
     return "".join(c for c in text if unicodedata.category(c)[0] != "C")
 
 
+def strip_non_printable_and_whitespace(text: str) -> str:
+    """
+    Remove non-printable characters and whitespace from a string.
+
+    Args:
+        text (str): The input string.
+
+    Returns:
+        str: The string with non-printable characters and whitespace removed.
+
+    Example:
+        >>> strip_non_printable_and_whitespace("Hello \u200bWorld")
+        'HelloWorld'
+    """
+    return "".join(c for c in text if unicodedata.category(c)[0] != "C" and not c.isspace())
+
+
+def display_unicode_categories(text: str) -> None:
+    """
+    Display the unicode categories of characters in a string.
+
+    Args:
+        text (str): The input string.
+    """
+    for char in text:
+        print(f"Character: {char!r}, Category: {unicodedata.category(char)}")
+
+
+def display_hex_and_name(text: str) -> None:
+    """
+    Display the hexadecimal code and unicode name for each character in a string.
+
+    Args:
+        text (str): The input string.
+    """
+    for char in text:
+        hex_code = f"U+{ord(char):04X}"
+        name = get_char_name(char)
+        print(f"{char}, {ord(char)}, {hex_code}, {name}")
+
+
 if __name__ == "__main__":
     sample = "Café, résumé, coöperate, naïve, 𝟘𝟙𝟚, Hello\u200bWorld, \u200e, Benny & the Jets"
     print("\nOriginal:", sample)
@@ -146,3 +187,28 @@ if __name__ == "__main__":
     print(f"\nUnicode name for '{random_vowel}': {get_char_name(random_vowel)}")
     print(f"Character for {random_name}: {lookup_char_by_name(random_name)}")
     print("Without non-printable:", strip_non_printable(sample))
+    print("Without non-printable and whitespace:", strip_non_printable_and_whitespace(sample))
+
+    print("\nUnicode categories:")
+    display_unicode_categories(sample)
+
+    print("\nHexadecimal codes and names:")
+    display_hex_and_name(sample)
+
+    # List of emojis comprised of multiple ordinal characters (grapheme clusters)
+    multi_char_emojis = [
+        "👨‍👩‍👧‍👦",  # family: man, woman, girl, boy
+        "🧑‍🎓", # student (person + graduation cap)
+        "👩‍🚀",   # woman astronaut
+        "👨‍🦽",   # man in manual wheelchair
+        "👩‍🦳",   # woman: white hair
+        "👨‍🦲",   # man: bald
+        "🏳️‍🌈",    # rainbow flag
+        "😶‍🌫️", # face in clouds
+        "💩",   # pile of poo
+    ]
+    emoji = random.choice(multi_char_emojis)
+    print(f"\nSelected emoji: {emoji} (length: {len(emoji)})")
+    for char in emoji:
+        # print(f"{char!r}: {[ord(c) for c in char]} (length: {len(char)})")
+        print(f"{char!r:<8} {ord(char):<8} {hex(ord(char)):<10} U+{ord(char):04X}   {get_char_name(char):<40}")
