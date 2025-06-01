@@ -189,11 +189,16 @@ if __name__ == "__main__":
     print("Without non-printable:", strip_non_printable(sample))
     print("Without non-printable and whitespace:", strip_non_printable_and_whitespace(sample))
 
-    print("\nUnicode categories:")
-    display_unicode_categories(sample)
+    # print("\nUnicode categories:")
+    # display_unicode_categories(sample)
 
-    print("\nHexadecimal codes and names:")
-    display_hex_and_name(sample)
+    # print("\nHexadecimal codes and names:")
+    # display_hex_and_name(sample)
+
+    greeting_text = "¡Hola, ¿cómo estás? München"
+    print("\nCombined greeting:", greeting_text)
+    print("Normalized (NFKC):", normalize_text(greeting_text))
+    print("Without accents:", remove_accents(greeting_text))
 
     # List of emojis comprised of multiple ordinal characters (grapheme clusters)
     multi_char_emojis = [
@@ -207,8 +212,9 @@ if __name__ == "__main__":
         "😶‍🌫️", # face in clouds
         "💩",   # pile of poo
     ]
+
     emoji = random.choice(multi_char_emojis)
-    print(f"\nSelected emoji: {emoji} (length: {len(emoji)})")
+    print(f"\nSelected emoji: {emoji}  (length: {len(emoji)})")
     for char in emoji:
         # print(f"{char!r}: {[ord(c) for c in char]} (length: {len(char)})")
         print(f"{char!r:<8} {ord(char):<8} {hex(ord(char)):<10} U+{ord(char):04X}   {get_char_name(char):<40}")
