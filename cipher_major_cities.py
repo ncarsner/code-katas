@@ -20,7 +20,7 @@ def calculate_product_and_check_prime(a, b, c):
     return product_values, is_prime(product_values)
 
 
-cities = {
+cities = { # Latitude, Longitude, UTC Offset
     "Brisbane": [-27, 153, 10],
     "New Delhi": [28, 77, 5.5],
     "Detroit": [42, -83, -5],
