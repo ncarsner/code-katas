@@ -1,6 +1,7 @@
 import collections
 import random
 from datetime import datetime, timedelta
+from pprint import pp
 
 # namedtuple
 Point = collections.namedtuple("Point", ["x", "y"])
@@ -160,3 +161,40 @@ bd["Alex"] = random_birthday()
 for student in students[1:]:
     bd.update({student: random_birthday()})  # UserDict method calls __setitem__
     print(bd)
+
+
+# Grouping cities by state using defaultdict
+city_state_list = [
+    ("New York", "NY"),
+    ("Los Angeles", "CA"),
+    ("San Francisco", "CA"),
+    ("Houston", "TX"),
+    ("Dallas", "TX"),
+    ("Buffalo", "NY"),
+    ("Nashville", "TN"),
+]
+
+results = collections.defaultdict(list)
+for city, state in city_state_list:
+    results[state].append(city)
+
+print("Cities grouped by state (from list):")
+pp(results)
+
+# Grouping cities by state using a dictionary
+city_state_dict = {
+    "New York": "NY",
+    "Los Angeles": "CA",
+    "San Francisco": "CA",
+    "Houston": "TX",
+    "Dallas": "TX",
+    "Buffalo": "NY",
+    "Nashville": "TN",
+}
+
+results = collections.defaultdict(list)
+for city, state in city_state_dict.items():
+    results[state].append(city)
+
+print("Cities grouped by state (from dict):")
+pp(results)
