@@ -3,7 +3,7 @@ from queue import Queue, PriorityQueue, Empty, Full
 from typing import Any, Callable, Tuple
 
 """
-Practical use of Python's built-in `queue` module includes task management, producer-consumer patterns, and thread-safe data processing, using FIFO queues, LIFO stacks, and priority queues to manage tasks and data processing in a BI context.
+Practical uses of the `queue` module include task management, producer-consumer patterns, and thread-safe data processing, using FIFO queues, LIFO stacks, and priority queues to manage tasks and data processing in a BI context.
 """
 
 

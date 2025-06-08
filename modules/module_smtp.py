@@ -4,12 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from typing import List
 
 """
-This module demonstrates the use of Python's built-in `smtplib` module to send emails.
-It includes practical examples for business intelligence developers/analysts to automate
-email notifications, such as sending reports or alerts.
-
-Before running this script, ensure you have access to an SMTP server (e.g., Gmail, Outlook).
-For Gmail, you may need to enable "Allow less secure apps" or use an app password.
+Practical use of the built-in `smtplib` module includes methods to automate email notifications. Ensure you have access to an SMTP server (e.g., Gmail, Outlook) before running this code. You may need to adjust security settings on your email account to allow SMTP access, such as "Allow less secure apps" with Gmail or use an app password.
 """
 
 

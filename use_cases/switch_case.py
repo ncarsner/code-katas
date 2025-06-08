@@ -1,11 +1,7 @@
 from typing import Any, Dict, List
 
 """
-This script demonstrates the use of Python's `match-case` statement (introduced in Python 3.10)
-to handle business intelligence use cases. The example focuses on processing different types
-of data transformation tasks based on user input or system configuration.
-
-The `match-case` construct is Python's built-in way to implement switch-case functionality.
+Demonstrates use of the `match-case` statement (introduced in Python 3.10). This script focuses on processing different types of data transformation tasks based on user input or system configuration. `match-case` construct is Python's native method to implement switch-case functionality.
 """
 
 
