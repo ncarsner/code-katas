@@ -1,8 +1,8 @@
 from typing import List, Dict, Any, Optional
 from faker import Faker
+from faker.providers import BaseProvider, DynamicProvider
 import random
 import json
-
 
 # Initialize a Faker generator (can set locale for region-specific data)
 fake = Faker(locale="en_US")
@@ -154,7 +154,92 @@ def generate_fake_employees(
     return employees
 
 
+# Custom provider using BaseProvider (see Faker docs)
+class BusinessUnitProvider(BaseProvider):
+    def business_unit(self):
+        units = [
+            "Sales", "Marketing", "Finance", "Operations", "IT", "DevOps",
+            "Engineering", "Research", "Analytics", "Supply Chain", "Logistics",
+            "Human Resources", "Customer Support", "Product", "Legal", "R&D"
+        ]
+        return self.random_element(units)
+
+# Add the custom provider to the Faker instance
+fake.add_provider(BusinessUnitProvider)
+
+def generate_fake_business_data(num_records: int = 10, min_date='-2y', max_date='today') -> List[Dict[str, Any]]:
+    """
+    Generate a list of fake business records.
+
+    Args:
+        num_records (int): Number of business records to generate.
+
+    Returns:
+        List[Dict[str, Any]]: List of business data dictionaries.
+    """
+    records = []
+    for _ in range(num_records):
+        record = {
+            "record_id": fake.uuid4(),
+            "business_unit": fake.business_unit(),
+            "region": fake.state(),
+            "manager": fake.name(),
+            "revenue": round(random.uniform(10000, 500000), 2),
+            "expenses": round(random.uniform(5000, 300000), 2),
+            "profit": 0,  # calculated below
+            "report_date": fake.date_between(start_date=min_date, end_date=max_date).isoformat(),
+        }
+        record["profit"] = round(record["revenue"] - record["expenses"], 2)
+        records.append(record)
+    return records
+
+
+# Custom Lorem Provider for BI/Analytics
+class BILoremProvider(BaseProvider):
+    # Custom BI/Analytics vocabulary
+    bi_lorem_word_list = [
+        "dashboard", "KPI", "pipeline", "ETL", "data lake", "warehouse", "insight",
+        "metric", "visualization", "aggregation", "dimension", "drilldown", "forecast",
+        "trend", "anomaly", "segmentation", "normalization", "schema", "query", "model",
+        "predictive", "cluster", "regression", "outlier", "transformation", "integration",
+        "snapshot", "cube", "fact", "measure", "report", "scorecard", "benchmark",
+        "automation", "stream", "real-time", "batch", "API", "dataset", "mapping"
+    ]
+
+    def bi_lorem_words(self, nb=3, ext_word_list=None):
+        word_list = ext_word_list or self.bi_lorem_word_list
+        return [self.generator.random_element(word_list) for _ in range(nb)]
+
+    def bi_lorem_sentence(self, nb_words=6, variable_nb_words=True, ext_word_list=None):
+        word_list = ext_word_list or self.bi_lorem_word_list
+        if variable_nb_words:
+            nb_words = self.generator.random.randint(max(1, nb_words - 2), nb_words + 2)
+        words = self.bi_lorem_words(nb=nb_words, ext_word_list=word_list)
+        sentence = " ".join(words).capitalize() + "."
+        return sentence
+    
+    def bi_lorem_paragraph(self, nb_sentences=3, variable_nb_sentences=True, ext_word_list=None):
+        if variable_nb_sentences:
+            nb_sentences = self.generator.random.randint(max(1, nb_sentences - 1), nb_sentences + 2)
+        return " ".join(self.bi_lorem_sentence(ext_word_list=ext_word_list) for _ in range(nb_sentences))
+
+# Add the custom BI Lorem provider to the Faker instance
+fake.add_provider(BILoremProvider)
+
+# Add the custom DynamicProvider for city names
+fake.city = DynamicProvider(
+    provider_name="city",
+    elements=[
+        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Nashville",
+        "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"
+    ],
+    generator=fake
+)
+
+
 if __name__ == "__main__":
+    print(fake.sentence())
+
     # Generate 5 customers with German locale
     customers = generate_fake_customers(5, locale="de_DE")
     print("Sample Customers:", json.dumps(customers[:2], indent=2))
@@ -170,6 +255,15 @@ if __name__ == "__main__":
     # Generate 5 employees with US locale
     employees = generate_fake_employees(5, locale="en_US")
     print("Sample Employees:", json.dumps(employees[:2], indent=4))
+
+    # Example: Generate 5 business data records
+    business_data = generate_fake_business_data(5)
+    print("Sample Business Data:", json.dumps(business_data[:2], indent=2))
+
+    # Example: Use the custom BI Lorem provider
+    print("\nSample Standard Lorem Sentence:", fake.sentence())
+    print("Sample BI Lorem Sentence:", fake.bi_lorem_sentence())
+    print("Sample BI Lorem Paragraph:", fake.bi_lorem_paragraph())
 
 """
 TROUBLESHOOTING TIPS:
