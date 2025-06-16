@@ -1,8 +1,11 @@
+import random
+
 from ortools.sat.python import cp_model
 
 def main():
     # Staff names
-    staff = ['Alex', 'Blake', 'Chris', 'Dylan', 'Elliott',]
+    staff = ['Alex', 'Blake', 'Chris', 'Cameron', 'Dylan', 'Elliott', 'Hunter']
+    random.shuffle(staff)  # Shuffle staff names for randomness
     num_staff = len(staff)
     num_days = 5
 
@@ -31,21 +34,23 @@ def main():
     solver = cp_model.CpSolver()
     status = solver.Solve(model)
 
-    # Display the results
-    print(f'Solver status: {status}')  # Add this line to print the solver status
+    # Display the results in an easy-to-read table
+    print(f'Solver status: {status}')
     if status == cp_model.FEASIBLE or status == cp_model.OPTIMAL:
-        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-        print('Schedule:')
-        print('         ' + '  '.join(days))
-        print('         ' + '  '.join(['---'] * num_days))
+        days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+        col_width = len(days[0])  # width for each day column (" R " or " O ")
+        staff_col_width = 7
+        staff_col_width = max(staff_col_width, max(len(name) for name in staff)) + 1
+        header = f'{"Staff":<{staff_col_width}}| ' + ' | '.join(f'{d:^{col_width}}' for d in days) + ' |'
+        print('\n' + header)
+        print('-' * len(header))
         for s in range(num_staff):
-            print(f'{staff[s]}: ', end='')
+            row = f'{staff[s]:<{staff_col_width}}| '
             for d in range(num_days):
-                if solver.Value(schedule[(s, d)]) == 1:
-                    print('R', end=' ')
-                else:
-                    print('O', end=' ')
-            print()
+                cell = ' R ' if solver.Value(schedule[(s, d)]) == 1 else ' O '
+                row += cell + ' | '
+            print(row)
+        print("\nLegend: R = Remote, O = Onsite")
     else:
         print('No solution found.')
         print(f'Solver status: {status}')
