@@ -227,14 +227,14 @@ class BILoremProvider(BaseProvider):
 fake.add_provider(BILoremProvider)
 
 # Add the custom DynamicProvider for city names
-fake.city = DynamicProvider(
-    provider_name="city",
+city_provider = DynamicProvider(
+    provider_name="city", # overrides the default city provider
     elements=[
         "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Nashville",
         "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"
-    ],
-    generator=fake
+    ]
 )
+fake.add_provider(city_provider)
 
 
 if __name__ == "__main__":
