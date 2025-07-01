@@ -8,6 +8,7 @@ prompt.txt
 test_files/
 *.dat
 .*
+profile_output.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
