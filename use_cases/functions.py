@@ -3,6 +3,18 @@ import time
 from datetime import datetime
 
 
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Execution time for {func.__name__}: {execution_time:.3f} seconds")
+        return result
+
+    return wrapper
+
+
 def next_nearest(n, r):
     if n == n + (r - n) % r:
         return n + (r - n) % r + r
@@ -90,6 +102,6 @@ def get_current_time() -> str:
     return f"{now:%F %T %p}"
 
 
-print(get_current_time())
+# print(get_current_time())
 # print(f"{type(get_current_time())=}")
-print(get_current_time.__doc__)
+# print(get_current_time.__doc__)
