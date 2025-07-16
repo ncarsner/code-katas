@@ -1,4 +1,5 @@
 from enum import Enum, IntEnum, Flag, auto, unique, CONTINUOUS
+from enum import StrEnum  # type: ignore
 import random
 
 
@@ -8,34 +9,16 @@ class Color(Enum):
     BLUE = 3
 
 
-print("Enum:")
-for color in Color:
-    print(f"{color.name} = {color.value}")
-
-
 class StatusCode(IntEnum):
     SUCCESS = 200
     NOT_FOUND = 404
     SERVER_ERROR = 500
 
 
-print("\nIntEnum:")
-for status in StatusCode:
-    print(f"{status.name} = {status.value}")
-
-
 class Permission(Flag):
     READ = auto()
     WRITE = auto()
     EXECUTE = auto()
-
-
-print("\nFlag:")
-permissions = list(Permission)
-user_permission = random.choice(permissions)
-for _ in range(random.randint(1, len(permissions) - 1)):
-    user_permission |= random.choice(permissions)
-print(f"User Permission: {user_permission}")
 
 
 @unique
@@ -47,25 +30,16 @@ class BusinessEntity(Enum):
     EMPLOYEE = 5
 
 
-print("\nUnique Enum:")
-for entity in BusinessEntity:
-    print(f"{entity.name} = {entity.value}")
-
-
 def check_status(status_code):
-    if status_code == StatusCode.SUCCESS:
-        return "Request was successful."
-    elif status_code == StatusCode.NOT_FOUND:
-        return "Resource not found."
-    elif status_code == StatusCode.SERVER_ERROR:
-        return "Server encountered an error."
-    else:
-        return "Unknown status code."
-
-
-print(f"\n{check_status(StatusCode.SUCCESS)=}")
-print(f"{check_status(StatusCode.NOT_FOUND)=}")
-print(f"{check_status(StatusCode.SERVER_ERROR)=}")
+    match status_code:
+        case StatusCode.SUCCESS:
+            return "Request was successful."
+        case StatusCode.NOT_FOUND:
+            return "Resource not found."
+        case StatusCode.SERVER_ERROR:
+            return "Server encountered an error."
+        case _:
+            return "Unknown status code."
 
 
 class SalesCategory(Enum):
@@ -85,8 +59,66 @@ def categorize_sales(sales_amount):
         return SalesCategory.HIGH
 
 
-print("\nSales Categorization:")
-sales_data = [random.randint(1, 20) * 500 for _ in range(5)]
-for sales in sales_data:
-    category = categorize_sales(sales)
-    print(f"Sales Amount: {sales}, Category: {category.name}")
+class Direction_Enum(Enum):
+    NORTH = "north"
+    SOUTH = "south"
+    EAST = "east"
+    WEST = "west"
+
+
+class Direction_StrEnum(StrEnum):
+    NORTH = "north"
+    SOUTH = "south"
+    EAST = "east"
+    WEST = "west"
+
+
+if __name__ == "__main__":
+
+    print("Enum:")
+    for color in Color:
+        print(f"{color.name} = {color.value}")
+
+    print("\nIntEnum:")
+    for status in StatusCode:
+        print(f"{status.name} = {status.value}")
+
+    print("\nFlag:")
+    permissions = list(Permission)
+    user_permission = random.choice(permissions)
+    for _ in range(random.randint(1, len(permissions) - 1)):
+        user_permission |= random.choice(permissions)
+    print(f"User Permission: {user_permission}")
+
+    print("\nUnique Enum:")
+    for entity in BusinessEntity:
+        print(f"{entity.name} = {entity.value}")
+
+    print(f"\n{check_status(StatusCode.SUCCESS)=}")
+    print(f"{check_status(StatusCode.NOT_FOUND)=}")
+    print(f"{check_status(StatusCode.SERVER_ERROR)=}")
+
+    print("\nSales Categorization:")
+    sales_data = [random.randint(1, 20) * 500 for _ in range(5)]
+    for sales in sales_data:
+        category = categorize_sales(sales)
+        print(f"Sales Amount: {sales}, Category: {category.name}")
+
+    try:
+        print("\nStrEnum:")
+        for direction in Direction_StrEnum:
+            print(f"{direction.name} = {direction.value}")
+    except TypeError:
+        # Fallback for Python < 3.11 where StrEnum may not be available
+        class StrEnum(str, Enum):
+            pass
+
+        print("\nStrEnum (fallback):")
+        for direction in Direction_StrEnum:
+            print(f"{direction.name} = {direction.value}")
+
+    assert Direction_Enum.NORTH != "north", "Enum should not behave like a string"
+    print("\nEnum Assertion passed: Direction.NORTH is not equal to 'north'")
+
+    assert Direction_StrEnum.NORTH == "north", "StrEnum should behave like a string"
+    print("StrEnum Assertion passed: Direction.NORTH is equal to 'north'")
