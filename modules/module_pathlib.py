@@ -113,3 +113,15 @@ print(f"File renamed to {new_file}")
 log_file = pathlib.Path("C:/app/logs/session.log")
 log_file.touch(exist_ok=True)
 print("Log file is ready.")
+
+# Path.suffix gets the file extension.
+# Use case: When processing files, you may want to filter or handle files based on their extension.
+
+
+def get_file_extension(file_path: str) -> str:
+    return pathlib.Path(file_path).suffix
+
+
+file_path = "C:/data/images/photo.jpeg"
+extension = get_file_extension(file_path)
+print(f"The file extension is: {extension}")
