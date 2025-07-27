@@ -61,7 +61,12 @@ def exit_with_status(status: int = 0) -> None:
 
 if __name__ == "__main__":
     print_python_version()
-    add_custom_module_path("C:/Users/MyUser/Documents/shared_bi_code")
+
+    ints = [-10, -7, -6, -5, -3, -2, -1, 0, 1, 5, 10, 255, 256, 257, 1000, 1001]
+    for int in ints:
+        print(f"Reference count for {int}: {sys.getrefcount(int)}")
+
+    # add_custom_module_path("C:/Users/MyUser/Documents/shared_bi_code")
     args = get_command_line_args()
     print(f"Command-line arguments: {args}")
 
