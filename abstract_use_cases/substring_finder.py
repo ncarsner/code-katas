@@ -34,18 +34,28 @@ def contains_substring_lower(data, substring):
 
 
 @timer
+def contains_substring_generator(data, substring):
+    for line in data.splitlines():
+        if substring in line:
+            yield True
+
+
+@timer
 def substring_intersection(data, substring):
     return [line for line in data.splitlines() if substring in line]
 
 
 if __name__ == "__main__":
     chars = ascii_letters + digits
-    substring = "".join(random.choices(chars, k=random.randint(3, 5)))
+    substring = "".join(random.choices(chars, k=random.randint(4, 6)))
     result = contains_substring(data, substring)
     print(f"Does the data contain '{substring}'? {result}")
 
     result_lower = contains_substring_lower(data, substring)
     print(f"Does the data contain '{substring}' (case-insensitive)? {result_lower}")
+
+    result_gen = contains_substring_generator(data, substring)
+    print(f"Does the data contain '{substring}' using generator? {any(result_gen)}")
 
     results = substring_intersection(data, substring)
     print(f"Lines containing '{substring}': {len(results)} found")
