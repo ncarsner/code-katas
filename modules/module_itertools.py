@@ -229,3 +229,11 @@ data = range(1, 11)  # Data from 1 to 10
 batches = list(batched(data, 3))
 print(batches)
 # Use-case: Processing data in fixed-size chunks.
+
+
+# Function: Returns consecutive pairs from an iterable.
+numbers = [*range(1, 6)]
+pairs = list(itertools.pairwise(numbers))
+for pair in pairs:
+    print(pair)
+
