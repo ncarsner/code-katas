@@ -60,9 +60,10 @@ def print_results(config: dict, threshold_results: Optional[dict[float, int | No
     pprint(config)
 
     mode = "Lottery" if config["USE_LOTTERY"] else "Classic Birthday"
+    pool = pool_size if config["USE_LOTTERY"] else classic_p
 
     if config["USE_THRESHOLDS"]:
-        print(f"\nDuplicate Probability [{mode}]")
+        print(f"\nDuplicate Probability [{mode}: {pool}]")
         table = PrettyTable()
         table.field_names = ["Threshold", "Sample Size"]
 
@@ -74,7 +75,7 @@ def print_results(config: dict, threshold_results: Optional[dict[float, int | No
                     n_str = "Not found"
                 table.add_row([f"{threshold:.0%}", n_str])
     else:
-        print(f"\nDuplicate Probability [{mode}]")
+        print(f"\nDuplicate Probability [{mode}: {pool}]")
         table = PrettyTable()
         table.field_names = ["Elements", "Probability"]
 
