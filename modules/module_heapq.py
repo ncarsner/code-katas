@@ -1,5 +1,6 @@
 import heapq
 from typing import List, Tuple, Iterable
+import random
 
 
 def get_top_n_sales(sales: List[Tuple[str, float]], n: int) -> List[Tuple[str, float]]:
@@ -83,12 +84,13 @@ def merge_sorted_sales(*sales_lists: List[Tuple[str, float]]) -> List[Tuple[str,
 
 
 if __name__ == "__main__":
+    sales = [*(range(400, 2100, 50))]
     sales_data = [
-        ("Alex", 1200.0),
-        ("Blake", 950.0),
-        ("Chris", 1800.0),
-        ("Dillon", 700.0),
-        ("Elliott", 400.0),
+        ("Alex", random.choice(sales)),
+        ("Blake", random.choice(sales)),
+        ("Chris", random.choice(sales)),
+        ("Dillon", random.choice(sales)),
+        ("Elliott", random.choice(sales)),
     ]
 
     print("Top 3 sales:")
@@ -98,7 +100,8 @@ if __name__ == "__main__":
     print(get_bottom_n_sales(sales_data, 2))
 
     print("\nMaintaining top 2 sales in a stream:")
-    stream = [("Ira", 1300.0), ("Jaime", 2000.0), ("Lee", 1100.0)]
+    stream = random.sample(sales_data, 3)
+
     heap = maintain_top_n_heap(stream, 2)
     print(heapq.nlargest(2, heap))  # Sorted output
 
@@ -107,8 +110,8 @@ if __name__ == "__main__":
     print(heap_sort(amounts.copy()))
 
     print("\nMerging two sorted sales lists:")
-    sales1 = [("Alex", 1200.0), ("Chris", 1800.0)]
-    sales2 = [("Blake", 950.0), ("Dillon", 700.0)]
+    sales1 = [("Alex", random.choice(sales)), ("Chris", random.choice(sales))]
+    sales2 = [("Blake", random.choice(sales)), ("Dillon", random.choice(sales))]
     print(merge_sorted_sales(sales1, sales2))
 
 """
