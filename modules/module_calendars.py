@@ -135,3 +135,8 @@ if __name__ == "__main__":
 
     # Print the number of weeks in the month
     print(f"Weeks in {calendar.month_name[RAND_MONTH]} {RAND_YEAR}: {get_month_weeks(RAND_YEAR, RAND_MONTH)}")
+
+    months = calendar.month_abbr[1:]
+    print(f"\nAbbreviated month names: {months}")
+
+    print(list(enumerate(months, start=1)))

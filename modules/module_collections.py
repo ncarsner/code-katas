@@ -149,13 +149,13 @@ for student in students[1:]:
     print(bd)
 
 
-class BirthdayDict(collections.UserDict):
+class BirthdayUserDict(collections.UserDict):
     def __setitem__(self, name, birthday):
         print(f"Adding {name}")
         super().__setitem__(name, birthday)
 
 
-bd = BirthdayDict()
+bd = BirthdayUserDict()
 bd["Alex"] = random_birthday()
 
 for student in students[1:]:
@@ -172,6 +172,8 @@ city_state_list = [
     ("Dallas", "TX"),
     ("Buffalo", "NY"),
     ("Nashville", "TN"),
+    ("Memphis", "TN"),
+    ("Austin", "TX"),
 ]
 
 results = collections.defaultdict(list)
