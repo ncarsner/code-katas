@@ -1,12 +1,9 @@
-from collections import Counter
-import string
-import re
-
+# Initial list of tasks
 first_tasks = [
     "Report System Time",
     "Report Billable Time",
     "Finish Task Manager",
-    "Test Task Mananger",
+    "Test Task Manager",
 ]
 
 # Decorator function to validate input
@@ -86,33 +83,34 @@ if __name__ == "__main__":
         
         choice = input("Choose an option: ")
         
-        if choice == "1":
-            show_tasks()
-        elif choice == "2":
-            task = input("Enter task to add: ")
-            try:
-                print(add_task(task))
-            except ValueError as e:
-                print(e)
-        elif choice == "3":
-            show_tasks()
-            num = int(input("Enter task number to delete: "))
-            print(delete_task(num))
-        elif choice == "4":
-            show_tasks()
-            num = int(input("Enter task number to update: "))
-            new_task = input("Enter new task description: ")
-            try:
-                print(update_task(num, new_task))
-            except ValueError as e:
-                print(e)
-        elif choice == "5":
-            show_tasks()
-            current_num = int(input("Enter current task number to move: "))
-            new_position = int(input("Enter new position for the task: "))
-            print(reprioritize_task(current_num, new_position))
-        elif choice == "6":
-            print("Exiting Task Manager.")
-            break
-        else:
-            print("Invalid option, please try again.")
+        match choice:
+            case "1":
+                show_tasks()
+            case "2":
+                task = input("Enter task to add: ")
+                try:
+                    print(add_task(task))
+                except ValueError as e:
+                    print(e)
+            case "3":
+                show_tasks()
+                num = int(input("Enter task number to delete: "))
+                print(delete_task(num))
+            case "4":
+                show_tasks()
+                num = int(input("Enter task number to update: "))
+                new_task = input("Enter new task description: ")
+                try:
+                    print(update_task(num, new_task))
+                except ValueError as e:
+                    print(e)
+            case "5":
+                show_tasks()
+                current_num = int(input("Enter current task number to move: "))
+                new_position = int(input("Enter new position for the task: "))
+                print(reprioritize_task(current_num, new_position))
+            case "6":
+                print("Exiting Task Manager.")
+                break
+            case _:
+                print("Invalid option, please try again.")
