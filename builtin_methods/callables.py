@@ -1,8 +1,9 @@
 from typing import Any, Callable, List
 import random
+import string
 
 
-names = ["Alex", "Blake", "Chris", "Dylan", "Elliott"]
+names = ["Alex", "Blake", "Chris", "Dillon", "Elliott"]
 nums = [random.randint(1, 20) for _ in range(random.randint(5, 10))]
 
 
@@ -38,24 +39,24 @@ def filter_list(numbers: List[int], condition: Callable[[int], bool]) -> List[in
     return [number for number in numbers if condition(number)]
 
 
-# OOPS! Attempting to call a non-callable object
+# Attempting to call a non-callable object raises a TypeError
 try:
     non_callable = 42
-    print(non_callable())  # raises a TypeError
+    print(non_callable()) # type: ignore
 except TypeError as e:
     print(f"Error: {e}")
 
-# OOPS! Misinterpreting a list as a callable
+# Misinterpreting a list as a callable raises a TypeError
 try:
     my_list = [1, 2, 3]
-    print(my_list(1))  # raises a TypeError
+    print(my_list(1))  # type: ignore
 except TypeError as e:
     print(f"Error: {e}")
 
-# OOPS! Using a string as a callable
+# Using a string as a callable raises a TypeError
 try:
     my_string = "hello"
-    print(my_string())  # raises a TypeError
+    print(my_string())  # type: ignore
 except TypeError as e:
     print(f"Error: {e}")
 
@@ -98,7 +99,7 @@ if __name__ == "__main__":
     try:
         add_num = random.randint(2, 10)
         adder = Adder(add_num)
-        print(adder(add_num))  # raises a TypeError
+        print(adder(add_num))  # type: ignore - raises a TypeError (no __call__ method)
     except TypeError as e:
         print(f"Error: {e}")
 
@@ -108,3 +109,7 @@ if __name__ == "__main__":
         print(f"{add_num=}, adder_corrected={adder_corrected(add_num)}")
     except TypeError as e:
         print(f"Error: {e}")
+
+    attrs = [attr for attr in dir(string) if not attr.startswith("_")]
+    for attr in attrs:
+        print(attr, callable(getattr(string, attr)))
