@@ -1,5 +1,5 @@
 import bisect
-from typing import List, Any
+from typing import List, Any, Sequence
 import random
 
 
@@ -44,7 +44,7 @@ def insert_sorted(sorted_list: List[Any], value: Any) -> None:
     bisect.insort_right(sorted_list, value)
 
 
-def categorize_value(buckets: List[float], value: float) -> int:
+def categorize_value(buckets: Sequence[float], value: float) -> int:
     """
     Categorize a value into a bucket using bisect.
     For example, segmenting sales amounts into predefined ranges.

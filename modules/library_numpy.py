@@ -112,7 +112,7 @@ def numpy_mean(array: np.ndarray) -> float:
     Returns:
         float: Mean of all elements in the array.
     """
-    return np.mean(array)
+    return float(np.mean(array))
 
 
 def numpy_std(array: np.ndarray) -> float:
@@ -125,7 +125,7 @@ def numpy_std(array: np.ndarray) -> float:
     Returns:
         float: Standard deviation of all elements in the array.
     """
-    return np.std(array)
+    return float(np.std(array))
 
 
 def numpy_transpose(array: np.ndarray) -> np.ndarray:

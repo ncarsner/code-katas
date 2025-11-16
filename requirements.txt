@@ -10,10 +10,11 @@ pandas
 pillow
 prettytable
 pytest
-pywin32
+# pywin32
 rembg
 requests
 schedule
 scipy
 shapely
 tqdm
+typing-extensions
