@@ -1,5 +1,6 @@
 import os
 import time
+from pathlib import Path
 
 
 def list_files_in_directory(directory):
@@ -75,6 +76,47 @@ def find_new_or_modified_files(directory, last_checked_time):
             if file_mod_time > last_checked_time:
                 new_or_modified_files.append(file_name)
     return new_or_modified_files
+
+
+def normalize_path(path):
+    """Normalize a path-like object to a string using os.fspath().
+
+    This demonstrates os.fspath() which accepts path-like objects
+    (str, bytes, or objects implementing __fspath__) and returns
+    a string representation of the file system path.
+
+    Args:
+        path: A path-like object (str, bytes, or pathlib.Path).
+
+    Returns:
+        str: The normalized string path.
+    """
+    try:
+        normalized = os.fspath(path)
+        print(f"Normalized path: {normalized}")
+        return normalized
+    except TypeError as e:
+        print(f"Error: {e}. The object is not a valid path-like object.")
+        return None
+
+
+def demonstrate_fspath():
+    """Demonstrate various uses of os.fspath()."""
+
+    # String path
+    str_path = "/home/user/documents/file.txt"
+    print(f"String path: {os.fspath(str_path)}")
+
+    # pathlib.Path object
+    pathlib_path = Path("/home/user/documents/file.txt")
+    print(f"Pathlib path: {os.fspath(pathlib_path)}")
+
+    # Bytes path
+    bytes_path = b"/home/user/documents/file.txt"
+    print(f"Bytes path: {os.fspath(bytes_path)}")
+
+    # Using normalize_path helper
+    normalize_path(Path("./relative/path/file.txt"))
 
 
 if __name__ == "__main__":
