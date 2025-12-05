@@ -232,8 +232,29 @@ print(batches)
 
 
 # Function: Returns consecutive pairs from an iterable.
-numbers = [*range(1, 6)]
+numbers = [*range(5)]
 pairs = list(itertools.pairwise(numbers))
 for pair in pairs:
     print(pair)
+
+# Function: Validates password has no sequential repeated characters.
+def validate_password_no_repeats(password):
+    """Check if password has no consecutive repeated characters."""
+    for char1, char2 in itertools.pairwise(password):
+        if char1 == char2:
+            return False
+    return True
+
+def no_repeat_checker(password):
+    return all(char1 != char2 for char1, char2 in itertools.pairwise(password))
+
+
+print(f"\n{validate_password_no_repeats("abc123")}")  # True
+print(validate_password_no_repeats("abbc123"))  # False
+print(validate_password_no_repeats("password"))  # False (has 's' repeated)
+# Use-case: Password validation to prevent consecutive duplicate characters.
+
+print(f"\n{no_repeat_checker("unique")}")  # True
+print(no_repeat_checker("letter"))  # False
+# Use-case: Password validation to prevent consecutive duplicate characters.
 
