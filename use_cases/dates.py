@@ -1,13 +1,22 @@
-from datetime import datetime
+from datetime import datetime as dt, date, timedelta
+import platform
+import random
+    
+CURRENT_YEAR = dt.today().year
+OS = "Windows" if platform.system() == "Windows" else None
 
-dates = ['2024-04-12', '2024-03-03', '2024-01-03', '2024-01-04', '2024-01-05',
-         '2024-11-16', '2024-1-7', '2024-07-04', '2024-12-25', '2024-01-10']
+start_date = date(CURRENT_YEAR, 1, 1)
+end_date = date(CURRENT_YEAR, 12, 31)
+date_range = (end_date - start_date).days
 
-# Convert date strings to date objects
-dates = [datetime.strptime(date_str, "%Y-%m-%d").date() for date_str in dates]
+# Generate random, sorted dates within the range
+dates = sorted(
+    [start_date + timedelta(days=random.randint(0, date_range)) for _ in range(10)]
+)
 
-# Format the date objects in "m/d/yyyy" format with single-digit months and days
-formatted_dates = [date.strftime("%#m/%#d/%Y") for date in dates]
+# Format dates based on OS (single-digit format for non-Windows)
+format_string = "%m/%d/%Y" if OS == "Windows" else "%-m/%-d/%Y"
+formatted_dates = [d.strftime(format_string) for d in dates]
 
-for date in formatted_dates:
-    print(date)
+for item in formatted_dates:
+    print(item)

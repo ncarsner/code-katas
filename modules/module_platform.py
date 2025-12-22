@@ -1,5 +1,5 @@
 import platform
-from typing import Dict
+from typing import Dict, Any
 
 """
 The built-in `platform` module includes functions to retrieve system information; useful for logging, troubleshooting, and ensuring compatibility.
@@ -73,6 +73,51 @@ def get_platform_summary() -> str:
     return platform.platform()
 
 
+def identify_operating_system() -> Dict[str, Any]:
+    """
+    Identifies the operating system and provides detailed platform information.
+    
+    Returns:
+        dict: A dictionary containing OS type, is_windows, is_macos, is_linux flags,
+              and additional platform details.
+    
+    Example:
+        >>> os_info = identify_operating_system()
+        >>> print(os_info['os_type'])
+        'macOS'
+        >>> print(os_info['is_macos'])
+        True
+    """
+    system = platform.system()
+    
+    result = {
+        "os_type": system,
+        "is_windows": system == "Windows",
+        "is_macos": system == "Darwin",
+        "is_linux": system == "Linux",
+        "is_unix": system in ("Darwin", "Linux", "Unix"),
+        "platform_name": platform.platform(),
+        "release": platform.release(),
+    }
+    
+    # Add OS-specific details
+    if result["is_macos"]:
+        result["macos_version"] = platform.mac_ver()[0]
+    elif result["is_windows"]:
+        result["windows_version"] = platform.win32_ver()[0]
+        result["windows_edition"] = platform.win32_edition()
+    elif result["is_linux"]:
+        # Get Linux distribution info if available
+        try:
+            import distro
+            result["linux_distro"] = distro.name()
+            result["linux_version"] = distro.version()
+        except ImportError:
+            result["linux_distro"] = "Unknown (install 'distro' package for details)"
+    
+    return result
+
+
 def print_detailed_info() -> None:
     """
     Prints detailed platform information for troubleshooting.
@@ -103,4 +148,26 @@ if __name__ == "__main__":
     # - Troubleshoot environment-specific issues
     # - Ensure compatibility for deployment scripts
 
+    print("=" * 60)
+    print("OPERATING SYSTEM IDENTIFICATION")
+    print("=" * 60)
+    os_info = identify_operating_system()
+    print(f"OS Type: {os_info['os_type']}")
+    print(f"Is Windows: {os_info['is_windows']}")
+    print(f"Is macOS: {os_info['is_macos']}")
+    print(f"Is Linux: {os_info['is_linux']}")
+    print(f"Platform Name: {os_info['platform_name']}")
+    
+    # Print OS-specific info
+    if os_info['is_macos']:
+        print(f"macOS Version: {os_info.get('macos_version', 'N/A')}")
+    elif os_info['is_windows']:
+        print(f"Windows Version: {os_info.get('windows_version', 'N/A')}")
+        print(f"Windows Edition: {os_info.get('windows_edition', 'N/A')}")
+    elif os_info['is_linux']:
+        print(f"Linux Distro: {os_info.get('linux_distro', 'N/A')}")
+    
+    print("\n" + "=" * 60)
+    print("DETAILED PLATFORM INFORMATION")
+    print("=" * 60)
     print_detailed_info()
