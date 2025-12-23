@@ -1,9 +1,9 @@
 from pathlib import Path
 
 
-DIRECTORY = Path(r'C:\Users\myUser\myDirectory')
-SUBFOLDER = 'SUBDIRECTORY'
-REMOVE_SUFFIX = '_SUFFIX'
+DIRECTORY = Path(r'C:\Users\Directory')
+SUBFOLDER = 'REMEDIATED'
+REMOVE_SUFFIX = '-UA'
 
 # ANSI color helpers
 class Color:
