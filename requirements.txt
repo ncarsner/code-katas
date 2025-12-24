@@ -16,6 +16,8 @@ rembg
 requests
 schedule
 scipy
+seaborn
+setproctitle
 shapely
 tqdm
 typing-extensions

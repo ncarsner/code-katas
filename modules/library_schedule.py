@@ -8,16 +8,10 @@ import random
 To use this script:
 1. Install the `schedule` library: `pip install schedule`
 2. Run the script and observe the scheduled tasks being executed.
-
-The script uses type hints and docstrings for clarity.
 """
 
 
 def extract_data() -> None:
-    """
-    Simulates a data extraction task.
-    This function could be replaced with actual code to extract data from a database or API.
-    """
     print(f"[{datetime.now()}] Data extraction started...")
     # Simulate data extraction logic here
     time.sleep(2)  # Simulate processing time
@@ -25,10 +19,6 @@ def extract_data() -> None:
 
 
 def transform_data() -> None:
-    """
-    Simulates a data transformation task.
-    This function could be replaced with actual code to clean and transform data.
-    """
     print(f"[{datetime.now()}] Data transformation started...")
     # Simulate data transformation logic here
     time.sleep(random.randint(2, 5))  # Simulate processing time
@@ -36,10 +26,6 @@ def transform_data() -> None:
 
 
 def generate_report() -> None:
-    """
-    Simulates a report generation task.
-    This function could be replaced with actual code to generate and send reports.
-    """
     print(f"[{datetime.now()}] Report generation started...")
     # Simulate report generation logic here
     time.sleep(random.randint(2, 5))  # Simulate processing time
@@ -47,10 +33,6 @@ def generate_report() -> None:
 
 
 def schedule_tasks() -> None:
-    """
-    Schedules tasks using the `schedule` library.
-    Tasks are scheduled at specific times or intervals.
-    """
     # Schedule data extraction every day at 8:00 AM
     schedule.every().day.at("08:00").do(extract_data)
 
