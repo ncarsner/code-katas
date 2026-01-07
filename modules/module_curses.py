@@ -4,7 +4,7 @@ from datetime import datetime
 from dataclasses import dataclass
 
 """
-Practical uses of Python's curses library for:
+Practical uses of Python's curses library:
 - Interactive data monitoring dashboards
 - Log file viewers
 - ETL pipeline status monitors
