@@ -23,7 +23,7 @@ def sort_by_key(data: List[dict], key: str) -> List[dict]:
     sorted_data = sorted(data, key=operator.itemgetter(key))
     for item in sorted_data:
         print(item)
-    # return sorted_data
+    return sorted_data
 
 
 # Dynamic attribute access
@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
     # Attribute access
     emp = Employee(
-        random.choice(employees),
+        random.choice(employees)["name"],
         random.randint(21, 65),
         random.choice(range(50000, 125001, 5000)),
     )
