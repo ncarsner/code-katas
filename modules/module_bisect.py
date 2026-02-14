@@ -4,13 +4,7 @@ import random
 
 
 """
-The `bisect` module is useful for maintaining sorted lists, searching, and categorizing data efficiently.
-
-Functions demonstrated:
-- bisect.bisect_left
-- bisect.bisect_right
-- bisect.insort_left
-- bisect.insort_right
+Useful for maintaining sorted lists, searching, and categorizing data efficiently.
 """
 
 
@@ -59,8 +53,42 @@ def categorize_value(buckets: Sequence[float], value: float) -> int:
     return bisect.bisect_right(buckets, value)
 
 
+def get_grade(score: float) -> str:
+    """
+    Example of categorizing a score into letter grades using bisect.
+    Uses standard US academic grading scale.
+
+    Args:
+        score: A numeric score (0-100).
+
+    Returns:
+        Letter grade (A+, A, A-, B+, B, B-, C+, C, C-, D+, D, D-, F).
+    """
+    thresholds = [60, 63, 67, 70, 73, 77, 80, 83, 87, 90, 93, 97]  # Grade thresholds (minimum scores)
+    grades = ['F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+']  # Corresponding grades
+    return grades[bisect.bisect(thresholds, score)]
+
+
+def find_percentile_rank(scores: List[float], new_score: float) -> float:
+    """
+    Determine what percentile a new score falls into based on existing scores.
+    Useful for test score analysis or performance tracking.
+
+    Args:
+        scores: Sorted list of existing scores.
+        new_score: The score to rank.
+
+    Returns:
+        Percentile rank (0-100).
+    """
+    if not scores:
+        return 0.0
+    position = bisect.bisect_right(scores, new_score)
+    return (position / len(scores)) * 100
+
+
 if __name__ == "__main__":
-    # Maintaining a sorted list of sales figures
+    # Maintain a sorted list of sales figures
     sales_figures = [random.randrange(1000, 5000, 250) for _ in range(5)]
     sales_figures.sort()
     print(f"Original sales: {sales_figures}")
@@ -68,7 +96,7 @@ if __name__ == "__main__":
     insert_sorted(sales_figures, new_sale)
     print(f"After inserting {new_sale}: {sales_figures}")
 
-    # Finding where to insert a new KPI score
+    # Find insert position for a new KPI score
     kpi_scores = [round(random.uniform(0, 1), 2) for _ in range(5)]
     kpi_scores.sort()
     print(f"\nOriginal KPI scores: {kpi_scores}")
@@ -76,7 +104,7 @@ if __name__ == "__main__":
     pos = find_insert_position(kpi_scores, score)
     print(f"Insert position for KPI score {score}: {pos}")
 
-    # Categorizing a value into buckets (e.g., sales tiers)
+    # Categorize a value into buckets (e.g., sales tiers)
     sales_buckets = [random.randrange(500, 2000, 250) for _ in range(5)]
     sale_amount = random.randrange(1000, 5000, 250)
     bucket_index = categorize_value(sales_buckets, sale_amount)
@@ -86,6 +114,17 @@ if __name__ == "__main__":
     print("\nInserting value 1700 into sales_figures.")
     insert_sorted(sales_figures, 1700)
     print(f"After inserting duplicate: {sales_figures}")
+
+    # Categorize a score into letter grades
+    score = random.randint(0, 100)
+    grade = get_grade(score)
+    print(f"\nScore {score} receives grade: {grade}")
+
+    # Find percentile rank
+    existing_scores = sorted([random.uniform(0, 100) for _ in range(20)])
+    new_score = random.uniform(0, 100)
+    percentile = find_percentile_rank(existing_scores, new_score)
+    print(f"\nNew score {new_score:.2f} is in the {percentile:.0f}th percentile among existing scores.")
 
     # Note: bisect_left vs bisect_right
     # bisect_left returns the first suitable position (for stable sorting)
