@@ -1,7 +1,7 @@
 import sched
 import time
 from datetime import datetime
-from typing import Callable
+from typing import Callable, Optional
 
 """Lightweight task scheduler used for time-based automation."""
 
@@ -25,7 +25,7 @@ def schedule_task(
     priority: int,
     action: Callable,
     argument: tuple = (),
-    kwargs: dict = None,
+    kwargs: Optional[dict] = None,
 ) -> None:
     """
     Schedules a task using the sched module.
