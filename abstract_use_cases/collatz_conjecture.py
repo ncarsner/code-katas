@@ -55,12 +55,11 @@ class CollatzChecker:
         last_print = start_time
         for start in range(1, n + 1):
             if start in self.resolved:
-                # already known; by definition steps until reaching a known resolved
-                # number is 0 for this start
-                self.steps_for[start] = 0
-                # record histogram for this starting number (0 steps)
-                self.steps_histogram.setdefault(0, 0)
-                self.steps_histogram[0] += 1
+                # already known; retrieve the precomputed step count
+                steps = self.steps_for.get(start, 0)
+                # record histogram for this starting number
+                self.steps_histogram.setdefault(steps, 0)
+                self.steps_histogram[steps] += 1
                 if start == self.max_valid + 1:
                     # can possibly advance max_valid
                     self._update_max_valid()
@@ -80,15 +79,15 @@ class CollatzChecker:
             # (we can add the entire path to resolved to speed up future starts)
             self.resolved.update(path)
 
-            # Steps until reaching a known resolved number is simply the number of hops
-            # from the start until we hit the resolved target `x` (we do NOT include
-            # the resolved target's own step count here).
-            path_len = len(path)
+            # Total steps = steps in path + remaining steps from the termination point.
+            # x is the first resolved number encountered; its step count is already known.
+            termination_steps = self.steps_for.get(x, 0)
+            total_steps = len(path) + termination_steps
 
-            # Assign steps for each visited node: path[0] is start and takes path_len,
-            # path[i] takes path_len - i
+            # Assign steps for each visited node: path[0] is start and takes total_steps,
+            # path[i] takes total_steps - i
             for i, val in enumerate(path):
-                steps_val = path_len - i
+                steps_val = total_steps - i
                 prev = self.steps_for.get(val)
                 if prev is None or steps_val < prev:
                     self.steps_for[val] = steps_val
