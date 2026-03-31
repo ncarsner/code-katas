@@ -1,5 +1,6 @@
 from itertools import product
 from typing import Dict, List, Tuple, Optional
+import re
 
 from prettytable import PrettyTable
 
@@ -364,7 +365,7 @@ def forecast_full_bracket(
                 earned = calculate_points_for_outcome(
                     ff_picks, finals_champ_picks, ff_teams,
                     finalists, champion,
-                    include_final_four=True,
+                    include_final_four=False,
                     include_finals=True,
                     include_championship=True
                 )
@@ -482,14 +483,14 @@ def print_scenario(scenario: Dict, scenario_num: int):
         t1, t2 = sf1['matchup']
         # print(f"Semifinal 1 (East vs South): {t1} vs {t2} → Winner: {sf1['winner']}")
         # print(f"Semifinal 1: {t1} vs {t2} → Winner: {sf1['winner']}")
-        print(f"Semifinal 1: {t1} vs {t2}")
+        # print(f"Semifinal 1: {t1} vs {t2}")
     
     if scenario.get('semifinal_2'):
         sf2 = scenario['semifinal_2']
         t1, t2 = sf2['matchup']
         # print(f"Semifinal 2 (West vs Midwest): {t1} vs {t2} → Winner: {sf2['winner']}")
         # print(f"Semifinal 2: {t1} vs {t2} → Winner: {sf2['winner']}")
-        print(f"Semifinal 2: {t1} vs {t2}")
+        # print(f"Semifinal 2: {t1} vs {t2}")
     
     if scenario.get('championship_game'):
         f1, f2 = scenario['championship_game']
@@ -540,30 +541,55 @@ def print_summary(scenarios: List[Dict]):
     print(f"Total possible scenarios: {len(scenarios)}")
     
     # Track which scenarios each participant finishes in each place (1st, 2nd, 3rd)
+    # based ONLY on Finals (16 pts) and Championship (32 pts) picks
     place_scenarios = {1: {}, 2: {}, 3: {}}
-    
+
+    def _extract_final_four_teams(scn):
+        ff = scn.get('final_four_teams') or scn.get('final_four')
+        # If ff is a dict mapping region->team, convert to list
+        if isinstance(ff, dict):
+            return list(ff.values())
+        return ff
+
     for idx, scenario in enumerate(scenarios):
-        top_participants = scenario['top_participants']
-        
+        # Determine finalists and champion for this scenario (may be None)
+        finalists = scenario.get('championship_game') or scenario.get('finalists')
+        champion = scenario.get('champion')
+        final_four_teams = _extract_final_four_teams(scenario) or []
+
+        # Recompute scores using only Finals + Championship points
+        scenario_scores_finals = {}
+        for participant, ff_picks in participant_pool.items():
+            current = participant_scores.get(participant, 0)
+            finals_champ_picks = participant_finals_and_championship_picks.get(participant)
+            earned = calculate_points_for_outcome(
+                ff_picks, finals_champ_picks, final_four_teams,
+                finalists, champion,
+                include_final_four=False,
+                include_finals=True,
+                include_championship=True
+            )
+            scenario_scores_finals[participant] = current + earned
+
+        # Rank by these recomputed totals
+        ranked = sorted(scenario_scores_finals.items(), key=lambda x: x[1], reverse=True)
+        top_participants = get_top_n_with_ties(ranked, 3)
+
         # Track participants by their finishing position (accounting for ties)
         current_place = 1
         i = 0
-        
         while i < len(top_participants) and current_place <= 3:
             current_score = top_participants[i][1]
             tied_participants = []
-            
-            # Collect all participants with the same score
             while i < len(top_participants) and top_participants[i][1] == current_score:
                 tied_participants.append(top_participants[i][0])
                 i += 1
-            
-            # Record this finish for all tied participants at this place
+
             for participant in tied_participants:
                 if participant not in place_scenarios[current_place]:
                     place_scenarios[current_place][participant] = set()
                 place_scenarios[current_place][participant].add(idx)
-            
+
             current_place += len(tied_participants)
     
     # Create tables for each place
@@ -643,6 +669,21 @@ def print_summary(scenarios: List[Dict]):
     bar_width = 40  # Fixed width for all bars representing 100%
     
     print()
+
+    # Precompute per-segment texts for each candidate so columns align vertically
+    ansi_re = re.compile(r"\x1b\[[0-9;]*m")
+    segment_texts = {}
+    for candidate, counts in sorted_candidates:
+        seg1 = f"{GOLD}1st:{RESET}{counts[1]}" if counts[1] > 0 else ""
+        seg2 = f"{SILVER}2nd:{RESET}{counts[2]}" if counts[2] > 0 else ""
+        seg3 = f"{BRONZE}3rd:{RESET}{counts[3]}" if counts[3] > 0 else ""
+        segment_texts[candidate] = (seg1, seg2, seg3)
+
+    # Visible (ANSI-stripped) max widths for each segment
+    max_seg1 = max((len(ansi_re.sub('', t[0])) for t in segment_texts.values()), default=0)
+    max_seg2 = max((len(ansi_re.sub('', t[1])) for t in segment_texts.values()), default=0)
+    max_seg3 = max((len(ansi_re.sub('', t[2])) for t in segment_texts.values()), default=0)
+
     for candidate, counts in sorted_candidates:
         # Calculate total top-3 finishes for this candidate
         total_finishes = counts[1] + counts[2] + counts[3]
@@ -693,17 +734,18 @@ def print_summary(scenarios: List[Dict]):
         else:
             bar_visual += ' ' * zone_3rd_width
         
-        # Format counts
-        parts = []
-        if counts[1] > 0:
-            parts.append(f"{GOLD}1st:{RESET}{counts[1]}")
-        if counts[2] > 0:
-            parts.append(f"{SILVER}2nd:{RESET}{counts[2]}")
-        if counts[3] > 0:
-            parts.append(f"{BRONZE}3rd:{RESET}{counts[3]}")
-        
-        stats_str = " ".join(parts)
-        
+        # Build aligned stats columns (keep ANSI escapes, pad by visible length)
+        seg1, seg2, seg3 = segment_texts.get(candidate, ("", "", ""))
+        vis1 = ansi_re.sub('', seg1)
+        vis2 = ansi_re.sub('', seg2)
+        vis3 = ansi_re.sub('', seg3)
+
+        seg1_p = seg1 + ' ' * (max_seg1 - len(vis1))
+        seg2_p = seg2 + ' ' * (max_seg2 - len(vis2))
+        seg3_p = seg3 + ' ' * (max_seg3 - len(vis3))
+
+        stats_str = f"{seg1_p} {seg2_p} {seg3_p}".rstrip()
+
         # Format output
         name_padded = candidate.ljust(max_name_len)
         print(f"{name_padded} │ {bar_visual} │ {stats_str}")
@@ -792,7 +834,7 @@ def main():
     
     # Example 2: Forecast full bracket (Final Four + Championship)
     print("\n\n" + "="*SP)
-    print("FORECASTING: FULL BRACKET (RESPECTING SEMIFINAL STRUCTURE)")
+    print("FULL BRACKET OUTCOMES (Final Four + Championship)")
     print("="*SP)
     full_scenarios = forecast_full_bracket(
         final_four, participant_pool,
