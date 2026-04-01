@@ -52,9 +52,16 @@ def test_steps_for_6():
     assert checker.steps_for[6] == 1
 
 
+def test_steps_for_5():
+    # 5 is an intermediate path member of start=3 (not the last member before termination),
+    # so it is stored as 0 (already validated; no further hops needed)
+    checker = _checker(5)
+    assert checker.steps_for[5] == 0
+
+
 def test_steps_for_7():
-    # 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 (precomputed)
-    # 10 was precomputed as a path member of start=3; walk terminates there (10 steps)
+    # 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 (precomputed as 0)
+    # 10 was an intermediate path member of start=3; walk terminates there (10 steps)
     checker = _checker(7)
     assert checker.steps_for[7] == 10
 
@@ -84,9 +91,9 @@ def test_precomputed_steps_reused():
     """Numbers resolved as side-effects of earlier starts must have correct step counts."""
     checker = _checker(20)
     expected = {
-        1: 0, 2: 1, 3: 6, 4: 1, 5: 4, 6: 1, 7: 10,
-        8: 2, 9: 3, 10: 5, 11: 8, 12: 1, 13: 3,
-        14: 1, 15: 9, 16: 3, 17: 6, 18: 1, 19: 5, 20: 1,
+        1: 0, 2: 1, 3: 6, 4: 1, 5: 0, 6: 1, 7: 10,
+        8: 0, 9: 3, 10: 0, 11: 0, 12: 1, 13: 0,
+        14: 1, 15: 9, 16: 0, 17: 0, 18: 1, 19: 5, 20: 0,
     }
     for k, expected_steps in expected.items():
         assert checker.steps_for[k] == expected_steps, (
@@ -96,7 +103,8 @@ def test_precomputed_steps_reused():
 
 # --- histogram reflects correct step counts ---
 
-def test_histogram_step_zero_only_for_1():
-    """Only integer 1 should have 0 steps."""
+def test_histogram_step_zero_for_validated_members():
+    """Integers precomputed as validated path members record 0 steps in the histogram."""
     checker = _checker(10)
-    assert checker.steps_histogram.get(0, 0) == 1
+    # In 1..10: starts 1, 5, 8, 10 are precomputed path members → 0 steps each
+    assert checker.steps_histogram.get(0, 0) == 4

@@ -81,11 +81,21 @@ class CollatzChecker:
             # Any number in steps_for (direct start or precomputed path member) terminates the walk.
             total_steps = len(path)
 
-            # Assign steps for each visited node; first-computed value is kept so that
-            # start integers processed later reuse the count from their first traversal
+            # Assign steps for each visited node (first-write-wins):
+            # - The start itself (i==0) gets its full hop count.
+            # - The last path member (i==len-1, i>0) gets 1 if its immediate Collatz
+            #   successor is a directly-evaluated start (in self.resolved), else 0.
+            # - All other intermediate members get 0: they are "validated" (known to
+            #   reach 1 via a previously-traversed path) so no further hops are needed.
+            last_idx = len(path) - 1
             for i, val in enumerate(path):
                 if val not in self.steps_for:
-                    self.steps_for[val] = total_steps - i
+                    if i == 0:
+                        self.steps_for[val] = total_steps
+                    elif i == last_idx:
+                        self.steps_for[val] = 1 if collatz_next(val) in self.resolved else 0
+                    else:
+                        self.steps_for[val] = 0
 
             # Record histogram entry for this starting number
             self.steps_histogram.setdefault(self.steps_for[start], 0)
