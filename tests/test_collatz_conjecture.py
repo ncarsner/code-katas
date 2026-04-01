@@ -53,10 +53,10 @@ def test_steps_for_6():
 
 
 def test_steps_for_7():
-    # 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 -> 5 (resolved)
-    # 5 was directly evaluated; 10 is only a path member, not a resolved start (11 steps)
+    # 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 (precomputed)
+    # 10 was precomputed as a path member of start=3; walk terminates there (10 steps)
     checker = _checker(7)
-    assert checker.steps_for[7] == 11
+    assert checker.steps_for[7] == 10
 
 
 def test_steps_for_9():
@@ -84,9 +84,9 @@ def test_precomputed_steps_reused():
     """Numbers resolved as side-effects of earlier starts must have correct step counts."""
     checker = _checker(20)
     expected = {
-        1: 0, 2: 1, 3: 6, 4: 1, 5: 4, 6: 1, 7: 11,
-        8: 2, 9: 3, 10: 5, 11: 9, 12: 1, 13: 4,
-        14: 1, 15: 11, 16: 3, 17: 7, 18: 1, 19: 6, 20: 2,
+        1: 0, 2: 1, 3: 6, 4: 1, 5: 4, 6: 1, 7: 10,
+        8: 2, 9: 3, 10: 5, 11: 8, 12: 1, 13: 3,
+        14: 1, 15: 9, 16: 3, 17: 6, 18: 1, 19: 5, 20: 1,
     }
     for k, expected_steps in expected.items():
         assert checker.steps_for[k] == expected_steps, (

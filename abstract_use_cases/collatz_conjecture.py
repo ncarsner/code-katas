@@ -68,17 +68,17 @@ class CollatzChecker:
 
             x = start
             path: List[int] = []
-            # Walk until we hit a directly-evaluated resolved start (not just any path member)
-            while x not in self.resolved:
+            # Walk until we hit any number whose step count is already known
+            # (either a directly-evaluated start or a precomputed path member)
+            while x not in self.steps_for:
                 path.append(x)
                 x = collatz_next(x)
                 # Safety: avoid infinite loops (should not happen with Collatz sequences)
                 if x < 1:
                     raise ValueError(f"Unexpected value in Collatz sequence: {x}")
 
-            # Steps = number of hops until the path reaches a previously-resolved start.
-            # Intermediate path members are precomputed so they can be skipped when they
-            # later appear as starts, but they do NOT extend the resolved termination set.
+            # Steps = number of hops until the path reaches a number with a known step count.
+            # Any number in steps_for (direct start or precomputed path member) terminates the walk.
             total_steps = len(path)
 
             # Assign steps for each visited node; first-computed value is kept so that
