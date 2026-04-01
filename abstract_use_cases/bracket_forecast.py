@@ -533,19 +533,78 @@ def print_scenario(scenario: Dict, scenario_num: int):
     print(table)
 
 
-def print_summary(scenarios: List[Dict]):
-    """Print summary statistics across all scenarios using PrettyTable."""
+def _ordinal(n: int) -> str:
+    """Return the ordinal string for a positive integer (e.g. 1 -> '1st', 4 -> '4th')."""
+    if 11 <= (n % 100) <= 13:
+        suffix = "th"
+    else:
+        suffix = ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][n % 10]
+    return f"{n}{suffix}"
+
+
+# ANSI color codes for up to 10 finishing positions
+_PLACE_COLORS = [
+    "\033[93m",  # 1st: Gold/Yellow
+    "\033[97m",  # 2nd: Bright White/Silver
+    "\033[91m",  # 3rd: Red/Bronze
+    "\033[94m",  # 4th: Blue
+    "\033[95m",  # 5th: Magenta
+    "\033[96m",  # 6th: Cyan
+    "\033[92m",  # 7th: Green
+    "\033[33m",  # 8th: Dark Yellow
+    "\033[35m",  # 9th: Dark Magenta
+    "\033[36m",  # 10th: Dark Cyan
+]
+_RESET = "\033[0m"
+
+
+def print_summary(
+    scenarios: List[Dict],
+    top_n: int = 3,
+    participant_pool_data: Optional[Dict[str, List[str]]] = None,
+    current_scores_data: Optional[Dict[str, int]] = None,
+    finals_champ_picks_data: Optional[Dict[str, List[str]]] = None,
+):
+    """Print summary statistics across all scenarios using PrettyTable.
+
+    Args:
+        scenarios: List of scenario dicts from a forecast function.
+        top_n: Number of top finishing positions to track and display.
+            Must be between 1 and 10 (inclusive); values outside this range
+            are clamped automatically. Defaults to 3.
+        participant_pool_data: Mapping of participant name to their Final Four
+            picks. Defaults to the module-level ``participant_pool`` when not
+            provided, enabling dynamic updates by passing fresh data.
+        current_scores_data: Mapping of participant name to current point
+            total. Defaults to the module-level ``participant_scores`` when
+            not provided.
+        finals_champ_picks_data: Mapping of participant name to their finals
+            and championship picks. Defaults to the module-level
+            ``participant_finals_and_championship_picks`` when not provided.
+    """
+    # Clamp top_n to the supported range [1, 10]
+    top_n = max(1, min(10, top_n))
+
+    # Allow callers to supply fresh data for dynamic updates; fall back to globals
+    pool = participant_pool_data if participant_pool_data is not None else participant_pool
+    scores = current_scores_data if current_scores_data is not None else participant_scores
+    picks = (
+        finals_champ_picks_data
+        if finals_champ_picks_data is not None
+        else participant_finals_and_championship_picks
+    )
+
     print(f"\n{'='*SP}")
     print("SUMMARY STATISTICS")
     print(f"{'='*SP}")
     print(f"Total possible scenarios: {len(scenarios)}")
-    
-    # Track which scenarios each participant finishes in each place (1st, 2nd, 3rd)
+
+    # Track which scenarios each participant finishes in each place
     # based ONLY on Finals (16 pts) and Championship (32 pts) picks
-    place_scenarios = {1: {}, 2: {}, 3: {}}
+    place_scenarios: Dict[int, Dict[str, set]] = {place: {} for place in range(1, top_n + 1)}
 
     def _extract_final_four_teams(scn):
-        ff = scn.get('final_four_teams') or scn.get('final_four')
+        ff = scn.get("final_four_teams") or scn.get("final_four")
         # If ff is a dict mapping region->team, convert to list
         if isinstance(ff, dict):
             return list(ff.values())
@@ -553,212 +612,182 @@ def print_summary(scenarios: List[Dict]):
 
     for idx, scenario in enumerate(scenarios):
         # Determine finalists and champion for this scenario (may be None)
-        finalists = scenario.get('championship_game') or scenario.get('finalists')
-        champion = scenario.get('champion')
+        finalists = scenario.get("championship_game") or scenario.get("finalists")
+        champion = scenario.get("champion")
         final_four_teams = _extract_final_four_teams(scenario) or []
 
         # Recompute scores using only Finals + Championship points
         scenario_scores_finals = {}
-        for participant, ff_picks in participant_pool.items():
-            current = participant_scores.get(participant, 0)
-            finals_champ_picks = participant_finals_and_championship_picks.get(participant)
+        for participant, ff_picks in pool.items():
+            current = scores.get(participant, 0)
+            finals_champ_picks = picks.get(participant)
             earned = calculate_points_for_outcome(
                 ff_picks, finals_champ_picks, final_four_teams,
                 finalists, champion,
                 include_final_four=False,
                 include_finals=True,
-                include_championship=True
+                include_championship=True,
             )
             scenario_scores_finals[participant] = current + earned
 
         # Rank by these recomputed totals
         ranked = sorted(scenario_scores_finals.items(), key=lambda x: x[1], reverse=True)
-        top_participants = get_top_n_with_ties(ranked, 3)
+        top_participants = get_top_n_with_ties(ranked, top_n)
 
         # Track participants by their finishing position (accounting for ties)
         current_place = 1
         i = 0
-        while i < len(top_participants) and current_place <= 3:
+        while i < len(top_participants) and current_place <= top_n:
             current_score = top_participants[i][1]
             tied_participants = []
             while i < len(top_participants) and top_participants[i][1] == current_score:
                 tied_participants.append(top_participants[i][0])
                 i += 1
 
-            for participant in tied_participants:
-                if participant not in place_scenarios[current_place]:
-                    place_scenarios[current_place][participant] = set()
-                place_scenarios[current_place][participant].add(idx)
+            if current_place in place_scenarios:
+                for participant in tied_participants:
+                    if participant not in place_scenarios[current_place]:
+                        place_scenarios[current_place][participant] = set()
+                    place_scenarios[current_place][participant].add(idx)
 
             current_place += len(tied_participants)
-    
-    # Create tables for each place
-    for place in [1, 2, 3]:
+
+    # Create summary tables for each tracked place
+    for place in range(1, top_n + 1):
         if not place_scenarios[place]:
             continue
-            
-        place_names = {1: "1st Place", 2: "2nd Place", 3: "3rd Place"}
-        
-        # Group participants who finish in the same scenarios at this place
-        scenario_sets = {}
+
+        place_label = f"{_ordinal(place)} Place"
+
+        # Group participants who finish in exactly the same set of scenarios
+        scenario_sets: Dict[frozenset, List[str]] = {}
         for participant, scenarios_finished in place_scenarios[place].items():
             frozen_set = frozenset(scenarios_finished)
             if frozen_set not in scenario_sets:
                 scenario_sets[frozen_set] = []
             scenario_sets[frozen_set].append(participant)
-        
-        # Create table
+
+        # Build table
         table = PrettyTable()
-        table.title = f"{place_names[place]} Finishes"
+        table.title = f"{place_label} Finishes"
         table.field_names = ["Participant(s)", "Scenarios", "Chance"]
         table.align["Participant(s)"] = "l"
         table.align["Scenarios"] = "r"
         table.align["Chance"] = "r"
-        
-        # Sort by number of scenarios (descending)
+
+        # Sort by number of winning scenarios (descending)
         sorted_groups = sorted(scenario_sets.items(), key=lambda x: len(x[0]), reverse=True)
-        
+
         for scenario_set, participants in sorted_groups:
             count = len(scenario_set)
             percentage = (count / len(scenarios)) * 100
-            
-            # Only group participants if there's more than one (truly tied)
-            if len(participants) > 1:
-                participants_str = ', '.join(sorted(participants))
-            else:
-                participants_str = participants[0]
-            
+
+            participants_str = (
+                ", ".join(sorted(participants)) if len(participants) > 1 else participants[0]
+            )
             table.add_row([participants_str, count, f"{percentage:.1f}%"])
-        
+
         print(f"\n{table}")
-    
-    # Add visual bar chart for top candidates
+
+    # Visual bar chart for top candidates across all tracked places
     print(f"\n{'='*SP}")
-    print("TOP CANDIDATES - FINISH DISTRIBUTION")
+    print(f"TOP CANDIDATES - FINISH DISTRIBUTION (top {top_n})")
     print(f"{'='*SP}")
-    
-    # ANSI color codes
-    GOLD = '\033[93m'      # Yellow/Gold for 1st
-    SILVER = '\033[97m'    # Bright White/Silver for 2nd
-    BRONZE = '\033[91m'    # Red/Bronze for 3rd
-    RESET = '\033[0m'
-    
-    # Get all participants who finish in top 3 at least once
-    all_candidates = set()
-    for place in [1, 2, 3]:
+
+    # Gather all participants who appear in any tracked place
+    all_candidates: set = set()
+    for place in range(1, top_n + 1):
         all_candidates.update(place_scenarios[place].keys())
-    
-    # Calculate counts for each candidate at each place
-    candidate_stats = {}
+
+    if not all_candidates:
+        print()
+        return
+
+    # Build per-candidate finish counts for each place
+    candidate_stats: Dict[str, Dict[int, int]] = {}
     for candidate in all_candidates:
-        counts = {}
-        for place in [1, 2, 3]:
-            if candidate in place_scenarios[place]:
-                counts[place] = len(place_scenarios[place][candidate])
-            else:
-                counts[place] = 0
-        candidate_stats[candidate] = counts
-    
-    # Sort candidates by 1st place count, then 2nd, then 3rd (descending)
-    sorted_candidates = sorted(candidate_stats.items(), 
-                              key=lambda x: (x[1][1], x[1][2], x[1][3]), 
-                              reverse=True)
-    
-    # Find longest name for alignment
-    max_name_len = max(len(name) for name in all_candidates) if all_candidates else 0
-    bar_width = 40  # Fixed width for all bars representing 100%
-    
+        candidate_stats[candidate] = {
+            place: len(place_scenarios[place].get(candidate, set()))
+            for place in range(1, top_n + 1)
+        }
+
+    # Sort: most 1st-place finishes first, then 2nd, then 3rd, etc.
+    sorted_candidates = sorted(
+        candidate_stats.items(),
+        key=lambda x: tuple(x[1][p] for p in range(1, top_n + 1)),
+        reverse=True,
+    )
+
+    max_name_len = max(len(name) for name in all_candidates)
+    bar_width = 40  # fixed total bar width representing 100% of tracked finishes
+
     print()
 
-    # Precompute per-segment texts for each candidate so columns align vertically
+    # Precompute per-segment label texts so stat columns align vertically
     ansi_re = re.compile(r"\x1b\[[0-9;]*m")
-    segment_texts = {}
+    segment_texts: Dict[str, List[str]] = {}
     for candidate, counts in sorted_candidates:
-        seg1 = f"{GOLD}1st:{RESET}{counts[1]}" if counts[1] > 0 else ""
-        seg2 = f"{SILVER}2nd:{RESET}{counts[2]}" if counts[2] > 0 else ""
-        seg3 = f"{BRONZE}3rd:{RESET}{counts[3]}" if counts[3] > 0 else ""
-        segment_texts[candidate] = (seg1, seg2, seg3)
+        segs = []
+        for place in range(1, top_n + 1):
+            color = _PLACE_COLORS[place - 1]
+            label = _ordinal(place)
+            segs.append(f"{color}{label}:{_RESET}{counts[place]}" if counts[place] > 0 else "")
+        segment_texts[candidate] = segs
 
-    # Visible (ANSI-stripped) max widths for each segment
-    max_seg1 = max((len(ansi_re.sub('', t[0])) for t in segment_texts.values()), default=0)
-    max_seg2 = max((len(ansi_re.sub('', t[1])) for t in segment_texts.values()), default=0)
-    max_seg3 = max((len(ansi_re.sub('', t[2])) for t in segment_texts.values()), default=0)
+    # Compute max visible width for each segment column for alignment.
+    # candidate_stats is guaranteed non-empty (all_candidates early-return guard above).
+    max_seg_widths = [
+        max(
+            len(ansi_re.sub("", segment_texts[c][p - 1])) for c in candidate_stats
+        )
+        for p in range(1, top_n + 1)
+    ]
 
     for candidate, counts in sorted_candidates:
-        # Calculate total top-3 finishes for this candidate
-        total_finishes = counts[1] + counts[2] + counts[3]
-        
+        total_finishes = sum(counts[p] for p in range(1, top_n + 1))
         if total_finishes == 0:
             continue
-        
-        # Calculate proportions based on their top-3 finishes (not total scenarios)
-        prop_1st = counts[1] / total_finishes if total_finishes > 0 else 0
-        prop_2nd = counts[2] / total_finishes if total_finishes > 0 else 0
-        prop_3rd = counts[3] / total_finishes if total_finishes > 0 else 0
-        
-        # Divide bar into 3 equal zones for 1st/2nd/3rd
-        zone_width = bar_width // 3
-        remainder = bar_width % 3
-        
-        # Allocate remainder to zones with actual finishes
-        zone_1st_width = zone_width + (1 if remainder > 0 and counts[1] > 0 else 0)
-        zone_2nd_width = zone_width + (1 if remainder > 1 and counts[2] > 0 else (1 if remainder > 0 and counts[1] == 0 and counts[2] > 0 else 0))
-        zone_3rd_width = bar_width - zone_1st_width - zone_2nd_width
-        
-        # Calculate filled portions within each zone
-        fill_1st = int(prop_1st * zone_1st_width) if counts[1] > 0 else 0
-        fill_2nd = int(prop_2nd * zone_2nd_width) if counts[2] > 0 else 0
-        fill_3rd = int(prop_3rd * zone_3rd_width) if counts[3] > 0 else 0
-        
-        # Build the bar with three zones
+
+        # Divide bar into equal zones — one per tracked place
+        zone_width = bar_width // top_n
+        remainder = bar_width % top_n
+        zone_widths = [zone_width + (1 if i < remainder else 0) for i in range(top_n)]
+
+        # Build the composite bar
         bar_visual = ""
-        
-        # Zone 1: 1st place
-        if fill_1st > 0:
-            bar_visual += f"{GOLD}{'█' * fill_1st}{RESET}"
-            bar_visual += ' ' * (zone_1st_width - fill_1st)
-        else:
-            bar_visual += ' ' * zone_1st_width
-        
-        # Zone 2: 2nd place  
-        if fill_2nd > 0:
-            bar_visual += f"{SILVER}{'█' * fill_2nd}{RESET}"
-            bar_visual += ' ' * (zone_2nd_width - fill_2nd)
-        else:
-            bar_visual += ' ' * zone_2nd_width
-        
-        # Zone 3: 3rd place
-        if fill_3rd > 0:
-            bar_visual += f"{BRONZE}{'█' * fill_3rd}{RESET}"
-            bar_visual += ' ' * (zone_3rd_width - fill_3rd)
-        else:
-            bar_visual += ' ' * zone_3rd_width
-        
-        # Build aligned stats columns (keep ANSI escapes, pad by visible length)
-        seg1, seg2, seg3 = segment_texts.get(candidate, ("", "", ""))
-        vis1 = ansi_re.sub('', seg1)
-        vis2 = ansi_re.sub('', seg2)
-        vis3 = ansi_re.sub('', seg3)
+        for idx_p, place in enumerate(range(1, top_n + 1)):
+            color = _PLACE_COLORS[place - 1]
+            z_width = zone_widths[idx_p]
+            # Fill proportion is 0 when counts[place]==0, so fill is always 0 then
+            proportion = counts[place] / total_finishes
+            fill = int(proportion * z_width)
+            if fill > 0:
+                bar_visual += f"{color}{'█' * fill}{_RESET}"
+                bar_visual += " " * (z_width - fill)
+            else:
+                bar_visual += " " * z_width
 
-        seg1_p = seg1 + ' ' * (max_seg1 - len(vis1))
-        seg2_p = seg2 + ' ' * (max_seg2 - len(vis2))
-        seg3_p = seg3 + ' ' * (max_seg3 - len(vis3))
+        # Build aligned stats string
+        segs = segment_texts.get(candidate, [""] * top_n)
+        padded_segs = []
+        for idx_p, seg in enumerate(segs):
+            vis_len = len(ansi_re.sub("", seg))
+            padded_segs.append(seg + " " * (max_seg_widths[idx_p] - vis_len))
+        stats_str = " ".join(padded_segs).rstrip()
 
-        stats_str = f"{seg1_p} {seg2_p} {seg3_p}".rstrip()
-
-        # Format output
         name_padded = candidate.ljust(max_name_len)
         print(f"{name_padded} │ {bar_visual} │ {stats_str}")
-    
+
     print()
 
 
 def main():
     """Main execution function demonstrating the forecaster."""
-    # print("BRACKET FORECASTER")
-    # print("=" * 80)
+    # Number of scenarios to display in the detailed output
     n = 8
-    
+    # Number of finishing positions to track in the summary (1-10)
+    top_n = 5
+
     # Current standings table
     print("\nCurrent Standings:")
     standings_table = PrettyTable()
@@ -819,9 +848,9 @@ def main():
     print("FORECASTING: FINAL FOUR OUTCOMES ONLY")
     print("="*SP)
     ff_scenarios = forecast_final_four_only(
-        final_four, participant_pool, 
+        final_four, participant_pool,
         participant_finals_and_championship_picks,
-        participant_scores, top_n=3
+        participant_scores, top_n=top_n
     )
     
     for i, scenario in enumerate(ff_scenarios[:n], 1):  # Show first n
@@ -830,7 +859,7 @@ def main():
     if len(ff_scenarios) > n:
         print(f"\n... and {len(ff_scenarios) - n} more scenarios")
     
-    print_summary(ff_scenarios)
+    print_summary(ff_scenarios, top_n=top_n)
     
     # Example 2: Forecast full bracket (Final Four + Championship)
     print("\n\n" + "="*SP)
@@ -840,7 +869,7 @@ def main():
         final_four, participant_pool,
         participant_finals_and_championship_picks,
         BRACKET_STRUCTURE,
-        participant_scores, top_n=3
+        participant_scores, top_n=top_n
     )
     
     print(f"\nTotal scenarios generated: {len(full_scenarios)}")
@@ -852,7 +881,7 @@ def main():
     if len(full_scenarios) > n:
         print(f"\n... and {len(full_scenarios) - n} more scenarios")
     
-    print_summary(full_scenarios)
+    print_summary(full_scenarios, top_n=top_n)
 
 
 if __name__ == "__main__":
