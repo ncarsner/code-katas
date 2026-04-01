@@ -54,20 +54,21 @@ class CollatzChecker:
         start_time = time.time()
         last_print = start_time
         for start in range(1, n + 1):
-            if start in self.resolved:
-                # already known; retrieve the precomputed step count
-                steps = self.steps_for.get(start, 0)
-                # record histogram for this starting number
+            if start in self.steps_for:
+                # already known (either pre-resolved or precomputed as a path member of an
+                # earlier traversal); use the cached step count directly
+                steps = self.steps_for[start]
                 self.steps_histogram.setdefault(steps, 0)
                 self.steps_histogram[steps] += 1
+                # Mark this integer as a directly-evaluated resolved start
+                self.resolved.add(start)
                 if start == self.max_valid + 1:
-                    # can possibly advance max_valid
                     self._update_max_valid()
                 continue
 
             x = start
             path: List[int] = []
-            # Walk until hit a known resolved number
+            # Walk until we hit a directly-evaluated resolved start (not just any path member)
             while x not in self.resolved:
                 path.append(x)
                 x = collatz_next(x)
@@ -75,29 +76,24 @@ class CollatzChecker:
                 if x < 1:
                     raise ValueError(f"Unexpected value in Collatz sequence: {x}")
 
-            # Mark all visited numbers as resolved
-            # (we can add the entire path to resolved to speed up future starts)
-            self.resolved.update(path)
+            # Steps = number of hops until the path reaches a previously-resolved start.
+            # Intermediate path members are precomputed so they can be skipped when they
+            # later appear as starts, but they do NOT extend the resolved termination set.
+            total_steps = len(path)
 
-            # Total steps = steps in path + remaining steps from the termination point.
-            # x is the first resolved number encountered; its step count is already known.
-            termination_steps = self.steps_for.get(x, 0)
-            total_steps = len(path) + termination_steps
-
-            # Assign steps for each visited node: path[0] is start and takes total_steps,
-            # path[i] takes total_steps - i
+            # Assign steps for each visited node; first-computed value is kept so that
+            # start integers processed later reuse the count from their first traversal
             for i, val in enumerate(path):
-                steps_val = total_steps - i
-                prev = self.steps_for.get(val)
-                if prev is None or steps_val < prev:
-                    self.steps_for[val] = steps_val
+                if val not in self.steps_for:
+                    self.steps_for[val] = total_steps - i
 
             # Record histogram entry for this starting number
             self.steps_histogram.setdefault(self.steps_for[start], 0)
             self.steps_histogram[self.steps_for[start]] += 1
 
-            # Try to advance max_valid if possible
-            if start == self.max_valid + 1 or any(v == self.max_valid + 1 for v in path):
+            # Mark this integer as a directly-evaluated resolved start
+            self.resolved.add(start)
+            if start == self.max_valid + 1:
                 self._update_max_valid()
 
             # Periodic progress

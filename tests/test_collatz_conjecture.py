@@ -35,34 +35,34 @@ def test_steps_for_2():
 
 
 def test_steps_for_3():
-    # 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1  (7 steps)
+    # 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 (resolved); 2 was directly evaluated before 3 (6 steps)
     checker = _checker(3)
-    assert checker.steps_for[3] == 7
+    assert checker.steps_for[3] == 6
 
 
 def test_steps_for_4():
-    # 4 -> 2 -> 1  (2 steps); 4 is resolved early during start=3 traversal
+    # 4 is precomputed (path member of start=3); 4 -> 2 (1 step to resolved 2)
     checker = _checker(4)
-    assert checker.steps_for[4] == 2
+    assert checker.steps_for[4] == 1
 
 
 def test_steps_for_6():
-    # 6 -> 3 -> … -> 1  (8 steps)
+    # 6 -> 3 (resolved); 3 was directly evaluated before 6 (1 step)
     checker = _checker(6)
-    assert checker.steps_for[6] == 8
+    assert checker.steps_for[6] == 1
 
 
 def test_steps_for_7():
-    # 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 ->
-    # 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1  (16 steps)
+    # 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 -> 5 (resolved)
+    # 5 was directly evaluated; 10 is only a path member, not a resolved start (11 steps)
     checker = _checker(7)
-    assert checker.steps_for[7] == 16
+    assert checker.steps_for[7] == 11
 
 
 def test_steps_for_9():
-    # 9 -> 28 -> 14 -> 7 -> … -> 1  (19 steps)
+    # 9 -> 28 -> 14 -> 7 (resolved); 7 was directly evaluated before 9 (3 steps)
     checker = _checker(9)
-    assert checker.steps_for[9] == 19
+    assert checker.steps_for[9] == 3
 
 
 # --- all integers 1..n are resolved ---
@@ -84,9 +84,9 @@ def test_precomputed_steps_reused():
     """Numbers resolved as side-effects of earlier starts must have correct step counts."""
     checker = _checker(20)
     expected = {
-        1: 0, 2: 1, 3: 7, 4: 2, 5: 5, 6: 8, 7: 16,
-        8: 3, 9: 19, 10: 6, 11: 14, 12: 9, 13: 9,
-        14: 17, 15: 17, 16: 4, 17: 12, 18: 20, 19: 20, 20: 7,
+        1: 0, 2: 1, 3: 6, 4: 1, 5: 4, 6: 1, 7: 11,
+        8: 2, 9: 3, 10: 5, 11: 9, 12: 1, 13: 4,
+        14: 1, 15: 11, 16: 3, 17: 7, 18: 1, 19: 6, 20: 2,
     }
     for k, expected_steps in expected.items():
         assert checker.steps_for[k] == expected_steps, (
