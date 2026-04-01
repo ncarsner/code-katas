@@ -54,51 +54,56 @@ class CollatzChecker:
         start_time = time.time()
         last_print = start_time
         for start in range(1, n + 1):
-            if start in self.resolved:
-                # already known; by definition steps until reaching a known resolved
-                # number is 0 for this start
-                self.steps_for[start] = 0
-                # record histogram for this starting number (0 steps)
-                self.steps_histogram.setdefault(0, 0)
-                self.steps_histogram[0] += 1
+            if start in self.steps_for:
+                # already known (either pre-resolved or precomputed as a path member of an
+                # earlier traversal); use the cached step count directly
+                steps = self.steps_for[start]
+                self.steps_histogram.setdefault(steps, 0)
+                self.steps_histogram[steps] += 1
+                # Mark this integer as a directly-evaluated resolved start
+                self.resolved.add(start)
                 if start == self.max_valid + 1:
-                    # can possibly advance max_valid
                     self._update_max_valid()
                 continue
 
             x = start
             path: List[int] = []
-            # Walk until hit a known resolved number
-            while x not in self.resolved:
+            # Walk until we hit any number whose step count is already known
+            # (either a directly-evaluated start or a precomputed path member)
+            while x not in self.steps_for:
                 path.append(x)
                 x = collatz_next(x)
                 # Safety: avoid infinite loops (should not happen with Collatz sequences)
                 if x < 1:
                     raise ValueError(f"Unexpected value in Collatz sequence: {x}")
 
-            # Mark all visited numbers as resolved
-            # (we can add the entire path to resolved to speed up future starts)
-            self.resolved.update(path)
+            # Steps = number of hops until the path reaches a number with a known step count.
+            # Any number in steps_for (direct start or precomputed path member) terminates the walk.
+            total_steps = len(path)
 
-            # Steps until reaching a known resolved number is simply the number of hops
-            # from the start until we hit the resolved target `x` (we do NOT include
-            # the resolved target's own step count here).
-            path_len = len(path)
-
-            # Assign steps for each visited node: path[0] is start and takes path_len,
-            # path[i] takes path_len - i
+            # Assign steps for each visited node (first-write-wins):
+            # - The start itself (i==0) gets its full hop count.
+            # - The last path member (i==len-1, i>0) gets 1 if its immediate Collatz
+            #   successor is a directly-evaluated start (in self.resolved), else 0.
+            # - All other intermediate members get 0: they are "validated" (known to
+            #   reach 1 via a previously-traversed path) so no further hops are needed.
+            last_idx = len(path) - 1
             for i, val in enumerate(path):
-                steps_val = path_len - i
-                prev = self.steps_for.get(val)
-                if prev is None or steps_val < prev:
-                    self.steps_for[val] = steps_val
+                if val not in self.steps_for:
+                    if i == 0:
+                        self.steps_for[val] = total_steps
+                    elif i == last_idx:
+                        self.steps_for[val] = 1 if collatz_next(val) in self.resolved else 0
+                    else:
+                        self.steps_for[val] = 0
 
             # Record histogram entry for this starting number
             self.steps_histogram.setdefault(self.steps_for[start], 0)
             self.steps_histogram[self.steps_for[start]] += 1
 
-            # Try to advance max_valid if possible
-            if start == self.max_valid + 1 or any(v == self.max_valid + 1 for v in path):
+            # Mark this integer as a directly-evaluated resolved start
+            self.resolved.add(start)
+            if start == self.max_valid + 1:
                 self._update_max_valid()
 
             # Periodic progress

@@ -1,0 +1,110 @@
+from abstract_use_cases.collatz_conjecture import CollatzChecker, collatz_next
+
+
+def _checker(n: int) -> CollatzChecker:
+    checker = CollatzChecker()
+    checker.ensure_up_to(n)
+    return checker
+
+
+# --- collatz_next ---
+
+def test_collatz_next_even():
+    assert collatz_next(8) == 4
+
+
+def test_collatz_next_odd():
+    assert collatz_next(3) == 10
+
+
+def test_collatz_next_one():
+    assert collatz_next(1) == 4   # 3*1+1; progression stops because 1 is pre-resolved
+
+
+# --- step counts for small integers ---
+
+def test_steps_for_1():
+    checker = _checker(1)
+    assert checker.steps_for[1] == 0
+
+
+def test_steps_for_2():
+    # 2 -> 1  (1 step)
+    checker = _checker(2)
+    assert checker.steps_for[2] == 1
+
+
+def test_steps_for_3():
+    # 3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 (resolved); 2 was directly evaluated before 3 (6 steps)
+    checker = _checker(3)
+    assert checker.steps_for[3] == 6
+
+
+def test_steps_for_4():
+    # 4 is precomputed (path member of start=3); 4 -> 2 (1 step to resolved 2)
+    checker = _checker(4)
+    assert checker.steps_for[4] == 1
+
+
+def test_steps_for_6():
+    # 6 -> 3 (resolved); 3 was directly evaluated before 6 (1 step)
+    checker = _checker(6)
+    assert checker.steps_for[6] == 1
+
+
+def test_steps_for_5():
+    # 5 is an intermediate path member of start=3 (not the last member before termination),
+    # so it is stored as 0 (already validated; no further hops needed)
+    checker = _checker(5)
+    assert checker.steps_for[5] == 0
+
+
+def test_steps_for_7():
+    # 7 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 (precomputed as 0)
+    # 10 was an intermediate path member of start=3; walk terminates there (10 steps)
+    checker = _checker(7)
+    assert checker.steps_for[7] == 10
+
+
+def test_steps_for_9():
+    # 9 -> 28 -> 14 -> 7 (resolved); 7 was directly evaluated before 9 (3 steps)
+    checker = _checker(9)
+    assert checker.steps_for[9] == 3
+
+
+# --- all integers 1..n are resolved ---
+
+def test_all_resolved_up_to_10():
+    checker = _checker(10)
+    for k in range(1, 11):
+        assert checker.proven(k), f"{k} should be resolved"
+
+
+def test_max_valid():
+    checker = _checker(20)
+    assert checker.max_valid == 20
+
+
+# --- precomputed values are reused (early-termination correctness) ---
+
+def test_precomputed_steps_reused():
+    """Numbers resolved as side-effects of earlier starts must have correct step counts."""
+    checker = _checker(20)
+    expected = {
+        1: 0, 2: 1, 3: 6, 4: 1, 5: 0, 6: 1, 7: 10,
+        8: 0, 9: 3, 10: 0, 11: 0, 12: 1, 13: 0,
+        14: 1, 15: 9, 16: 0, 17: 0, 18: 1, 19: 5, 20: 0,
+    }
+    for k, expected_steps in expected.items():
+        assert checker.steps_for[k] == expected_steps, (
+            f"steps_for[{k}]: expected {expected_steps}, got {checker.steps_for[k]}"
+        )
+
+
+# --- histogram reflects correct step counts ---
+
+def test_histogram_step_zero_for_validated_members():
+    """Integers precomputed as validated path members record 0 steps in the histogram."""
+    checker = _checker(10)
+    # In 1..10: starts 1, 5, 8, 10 are precomputed path members → 0 steps each
+    assert checker.steps_histogram.get(0, 0) == 4
