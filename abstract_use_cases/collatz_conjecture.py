@@ -1,5 +1,5 @@
 """
-collatz_checker.py
+collatz_conjecture.py
 
 Script to evaluate positive integers in the context of the Collatz conjecture.
 
@@ -12,7 +12,7 @@ Behavior:
 - Periodically (configurable interval) update/print `max_valid` to avoid scanning the whole set repeatedly.
 
 Usage:
-    python collatz_checker.py --n 100000 --interval 1000
+    python collatz_conjecture.py --n 100000 --interval 1000
 
 """
 from __future__ import annotations

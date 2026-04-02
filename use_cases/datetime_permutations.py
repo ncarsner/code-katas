@@ -44,6 +44,8 @@ def parse_variations(variations):
 
 # Example datetime
 dt = datetime(2024, 6, 14, 15, 30)  # June 14, 2024, 15:30
+# dt = datetime(2011, 11, 11, 11, 11)  # November 11, 2011, 11:11
+dt = datetime.now()
 
 # Generate variations
 variations = generate_variations(dt)

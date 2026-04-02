@@ -94,7 +94,7 @@ if __name__ == "__main__":
 """Refactored for a Pandas dataframe object."""
 
 
-def select_most_recent(df: pd.DataFrame, field: str) -> Any:
+def select_most_recent_df(df: pd.DataFrame, field: str) -> Any:
     """
     Selects the most recent value for a given field from a DataFrame.
 
@@ -108,7 +108,7 @@ def select_most_recent(df: pd.DataFrame, field: str) -> Any:
     return df.loc[df["timestamp"].idxmax(), field]
 
 
-def select_most_frequent(df: pd.DataFrame, field: str) -> Any:
+def select_most_frequent_df(df: pd.DataFrame, field: str) -> Any:
     """
     Selects the most frequent value for a given field from a DataFrame.
 
@@ -122,7 +122,7 @@ def select_most_frequent(df: pd.DataFrame, field: str) -> Any:
     return df[field].mode()[0]
 
 
-def merge_records(df: pd.DataFrame, rules: Dict[str, str]) -> Dict[str, Any]:
+def merge_records_df(df: pd.DataFrame, rules: Dict[str, str]) -> Dict[str, Any]:
     """
     Merges a DataFrame of records into a single golden record based on specified survivorship rules.
 
@@ -136,9 +136,9 @@ def merge_records(df: pd.DataFrame, rules: Dict[str, str]) -> Dict[str, Any]:
     golden_record = {}
     for field, rule in rules.items():
         if rule == "most_recent":
-            golden_record[field] = select_most_recent(df, field)
+            golden_record[field] = select_most_recent_df(df, field)
         elif rule == "most_frequent":
-            golden_record[field] = select_most_frequent(df, field)
+            golden_record[field] = select_most_frequent_df(df, field)
         else:
             raise ValueError(f"Unknown rule: {rule}")
     return golden_record
@@ -212,6 +212,6 @@ if __name__ == "__main__":
 
     rules = {"name": "most_recent", "email": "most_frequent", "phone": "most_recent"}
 
-    golden_record = merge_records(df, rules)
+    golden_record = merge_records_df(df, rules)
     print(golden_record)
     # Output: {'name': 'John Doe', 'email': 'john@example.com', 'phone': '123-456-7890'}
