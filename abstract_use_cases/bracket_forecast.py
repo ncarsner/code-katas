@@ -529,7 +529,7 @@ def print_scenario(scenario: Dict, scenario_num: int):
         table.add_row([rank_label, participants_str, current_score])
         current_rank += len(tied_participants)
     
-    print("\nTop Participants:")
+    # print("\nTop Participants:")
     print(table)
 
 

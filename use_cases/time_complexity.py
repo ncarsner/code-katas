@@ -1,5 +1,6 @@
 import collections
 import time
+from string import punctuation
 from functools import wraps
 import pandas as pd
 
@@ -21,6 +22,7 @@ def time_complexity(func):
 def calculate_word_frequency_pure_python(text: str) -> dict[str, int]:
     word_freq = {}
     words = text.split()
+    words = [word.strip(punctuation) for word in words]
     for word in words:
         word = word.lower()
         if word in word_freq:
@@ -39,21 +41,24 @@ def count_word_frequency_pure_python(text: str) -> dict[str, int]:
 @time_complexity
 def count_word_frequency_builtin(text: str) -> dict[str, int]:
     words = text.lower().split()
+    words = [word.strip(punctuation) for word in words]
     return dict(collections.Counter(words).most_common(10))
 
 
 @time_complexity
-def count_word_frequency_pandas(text: str) -> dict[str, int]:
+def count_word_frequency_pandas(text: str) -> dict:
     words = pd.Series(text.lower().split())
+    words = words.str.strip(punctuation)
     word_freq = words.value_counts()
     return word_freq.head(10).to_dict()
 
 
 if __name__ == "__main__":
-    with open("example_lorem.txt", "r") as file:
-        text = file.read()
-    if text is None:
-        text = "This is a sample text with several words. This text is just a sample."
+    try:
+        with open("./data/raw/large_file.txt", "r") as file:
+            text = file.read()
+    except FileNotFoundError:
+        text = "This is a sample text with several words. This text is just a sample. No other text is samples other than this text."
     print(count_word_frequency_pure_python(text))
     print(count_word_frequency_builtin(text))
     print(count_word_frequency_pandas(text))

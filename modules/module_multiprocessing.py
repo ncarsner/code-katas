@@ -89,10 +89,13 @@ def main():
     print(processed_records)
 
     # Parallel sum for large datasets
-    large_data = list(range(1_000_000))
+    low = random.randint(10_000, 100_000)
+    high = random.randint(low, low * 10)
+    large_data = [*(range(low, high))]
     print("Summing large dataset in parallel...")
-    total = parallel_sum(large_data, chunk_size=100_000)
-    print(f"Total sum: {total}")
+
+    total = parallel_sum(large_data, chunk_size=low // 2)
+    print(f"Total sum: {total:,}")
 
     # Troubleshooting tips:
     # - Ensure all functions used by multiprocessing are defined at the top level (not nested).

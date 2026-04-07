@@ -4,10 +4,8 @@ collatz_conjecture.py
 Script to evaluate positive integers in the context of the Collatz conjecture.
 
 Behavior:
-- For each start value from 1..n, follow the Collatz sequence until reaching 1 or a number already
-  known to resolve to 1.
-- Maintain a set `resolved` of numbers proven to reach 1; when a sequence reaches a resolved
-  number, mark all visited numbers as resolved.
+- For each start value from 1..n, follow the Collatz sequence until reaching 1 or a number already known to resolve to 1.
+- Maintain a set `resolved` of numbers proven to reach 1; when a sequence reaches a resolved number, mark all visited numbers as resolved.
 - Maintain `max_valid`: the largest consecutive integer k such that all integers 1..k are in `resolved`.
 - Periodically (configurable interval) update/print `max_valid` to avoid scanning the whole set repeatedly.
 
@@ -15,6 +13,7 @@ Usage:
     python collatz_conjecture.py --n 100000 --interval 1000
 
 """
+
 from __future__ import annotations
 import argparse
 import time
@@ -41,7 +40,9 @@ class CollatzChecker:
         while (self.max_valid + 1) in self.resolved:
             self.max_valid += 1
 
-    def ensure_up_to(self, n: int, check_interval: int = 1000, verbose: bool = False) -> None:
+    def ensure_up_to(
+        self, n: int, check_interval: int = 1000, verbose: bool = False
+    ) -> None:
         """
         Ensure that all start values from 1..n have been processed (not necessarily proven),
         populating `self.resolved` with numbers known to reach 1. Periodically updates `max_valid`.
@@ -93,7 +94,9 @@ class CollatzChecker:
                     if i == 0:
                         self.steps_for[val] = total_steps
                     elif i == last_idx:
-                        self.steps_for[val] = 1 if collatz_next(val) in self.resolved else 0
+                        self.steps_for[val] = (
+                            1 if collatz_next(val) in self.resolved else 0
+                        )
                     else:
                         self.steps_for[val] = 0
 
@@ -111,13 +114,17 @@ class CollatzChecker:
                 elapsed = time.time() - last_print
                 last_print = time.time()
                 if verbose:
-                    print(f"Checked up to {start}; max_valid={self.max_valid}; resolved_size={len(self.resolved)}; time={elapsed:.2f}s")
+                    print(
+                        f"Checked up to {start}; max_valid={self.max_valid}; resolved_size={len(self.resolved)}; time={elapsed:.2f}s"
+                    )
 
         # Final update
         self._update_max_valid()
         total_time = time.time() - start_time
         if verbose:
-            print(f"Finished checking 1..{n}; max_valid={self.max_valid}; resolved_size={len(self.resolved)}; total_time={total_time:.2f}s")
+            print(
+                f"Finished checking 1..{n}; max_valid={self.max_valid}; resolved_size={len(self.resolved)}; total_time={total_time:.2f}s"
+            )
             # Print basic histogram summary
             print("Steps histogram (steps -> count of starts):")
             for steps in sorted(self.steps_histogram.keys()):
@@ -129,9 +136,21 @@ class CollatzChecker:
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Collatz checker with caching and incremental max_valid")
-    p.add_argument("--n", type=int, required=True, help="Upper bound (inclusive) of starting integers to check")
-    p.add_argument("--interval", type=int, default=1000, help="How often (in starts) to update/print progress")
+    p = argparse.ArgumentParser(
+        description="Collatz checker with caching and incremental max_valid"
+    )
+    p.add_argument(
+        "--n",
+        type=int,
+        required=True,
+        help="Upper bound (inclusive) of starting integers to check",
+    )
+    p.add_argument(
+        "--interval",
+        type=int,
+        default=1000,
+        help="How often (in starts) to update/print progress",
+    )
     p.add_argument("--verbose", action="store_true", help="Print progress messages")
     return p.parse_args()
 
