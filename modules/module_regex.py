@@ -29,6 +29,22 @@ def fuzzy_match(word, possibilities, threshold=0.6):
     return matches
 
 
+def format_currency(text):
+    """
+    Finds numbers (with or without a 'USD' prefix) and converts them 
+    to a '$amount dollar(s)' format.
+    """
+    # (?:USD\s+)? -> Matches "USD " if present, but doesn't capture it
+    # (\d+)       -> Captures the number as group 1
+    pattern = r'(?:USD\s+)?(\d+)'
+    
+    return re.sub(
+        pattern, 
+        lambda m: f"${(n := m[1])} {'dollar' if n == '1' else 'dollars'}", 
+        text
+    )
+
+
 if __name__ == "__main__":
     # Fuzzy match a word against a list of possibilities
     possibilities = [
@@ -38,6 +54,11 @@ if __name__ == "__main__":
     ]
     word_to_match = random.choice(possibilities)
     matches = fuzzy_match(word_to_match, possibilities, 0.7)
-    print(f"Fuzzy matches for '{word_to_match}':")
+    # print(f"Fuzzy matches for '{word_to_match}':")
     formatted_matches = [{"word": match[0], "percentage": f"{match[1] * 100:.1f}%"} for match in matches]
-    print(json.dumps(formatted_matches, indent=4))
+    # print(json.dumps(formatted_matches, indent=4))
+
+    # Keep backreferences in a replacement
+    text_with_backreferences = "The price is USD 100 and the discount is USD 20 after the USD 15 fine."
+    fixed_text = format_currency(text_with_backreferences)
+    print("Text after keeping backreferences:", fixed_text)
