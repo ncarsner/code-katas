@@ -1,0 +1,30 @@
+{
+  "title": "Talk Preparation Progress Path",
+  "milestones": [
+    {
+      "date": "2026-05-01",
+      "stage": "Kickoff",
+      "note": "Defined talk objective and audience outcomes."
+    },
+    {
+      "date": "2026-05-05",
+      "stage": "Source Review",
+      "note": "Mapped key themes from agents-and-skills material."
+    },
+    {
+      "date": "2026-05-09",
+      "stage": "Draft Slides",
+      "note": "Created quote and focus slides for first narrative pass."
+    },
+    {
+      "date": "2026-05-13",
+      "stage": "Refinement",
+      "note": "Reordered flow and aligned focus points to outcomes."
+    },
+    {
+      "date": "2026-05-16",
+      "stage": "Ready for Delivery",
+      "note": "Final review complete with static timeline visual."
+    }
+  ]
+}
