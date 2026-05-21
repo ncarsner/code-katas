@@ -34,6 +34,13 @@ def sum_of_list(lst):
         return lst[0] + sum_of_list(lst[1:])
 
 
+def sum_up(n):
+    if n <= 0:
+        return 0
+    else:
+        return n + sum_up(n - 1)
+
+
 def find_max(lst):
     """
     Find the maximum element in a list using recursion.
@@ -148,6 +155,7 @@ if __name__ == "__main__":
 
     print(f"Factorial of {INT}: {factorial(INT):,}")
     print(f"Sum of list {LIST}: {sum_of_list(LIST):,}")
+    print(f"Sum of {INT}: {sum_up(INT)}")
     print(f"Max of list {LIST}: {find_max(LIST):,}")
     print(f"Flatten nested list {NESTED_LIST}:", flatten_list(NESTED_LIST),)
 
