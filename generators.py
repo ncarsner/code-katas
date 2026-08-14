@@ -1,10 +1,10 @@
 import sys
 from typing import Generator
-import random
 from string import digits
+import secrets
 
         
-def fibonacci_generator() -> Generator[int, None, None]:
+def fibonacci_generator() -> Generator[str, None, None]:
     """
     A generator function that yields Fibonacci numbers indefinitely.
 
@@ -17,7 +17,7 @@ def fibonacci_generator() -> Generator[int, None, None]:
         a, b = b, (a + b)
 
         
-def prime_generator() -> Generator[int, None, None]:
+def prime_generator() -> Generator[str, None, None]:
     """
     A generator function that yields prime numbers indefinitely.
 
@@ -39,7 +39,7 @@ def otp_generator() -> Generator[str, None, str]:
         str: A random 6-digit OTP.
     """
     while True:
-        yield ''.join([random.choice(digits) for _ in range(6)])
+        yield ''.join([secrets.choice(digits) for _ in range(6)])
 
 
 def read(path: str) -> Generator[str, None, str]:
@@ -66,8 +66,8 @@ def main() -> None:  # 1 usage
     selection = ["fibonacci", "prime", "otp", "reader"]
     selection = selection[2]
 
-    fibonacci: Generator[int, None, None] = fibonacci_generator()
-    primes: Generator[int, None, None] = prime_generator()
+    fibonacci: Generator[str, None, None] = fibonacci_generator()
+    primes: Generator[str, None, None] = prime_generator()
     reader: Generator[str, None, str] = read(r"moon.txt")
     otp: Generator[str, None, str] = otp_generator()
 
