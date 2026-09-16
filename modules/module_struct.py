@@ -111,7 +111,7 @@ if __name__ == "__main__":
     random.shuffle(EMPLOYEES)
     random.shuffle(SALARIES)
 
-    emp = (101, SALARIES[0], EMPLOYEES[0])
+    emp = (101, float(SALARIES[0]), EMPLOYEES[0])
     packed = pack_employee_record(*emp)
     print("Packed bytes:", packed)
     unpacked = unpack_employee_record(packed)
@@ -119,9 +119,9 @@ if __name__ == "__main__":
 
     # Write and read records
     employees = [
-        (101, SALARIES[0], EMPLOYEES[0]),
-        (102, SALARIES[1], EMPLOYEES[1]),
-        (103, SALARIES[2], EMPLOYEES[2]),
+        (101, float(SALARIES[0]), EMPLOYEES[0]),
+        (102, float(SALARIES[1]), EMPLOYEES[1]),
+        (103, float(SALARIES[2]), EMPLOYEES[2]),
     ]
     write_employee_records_to_file('employees.dat', employees)
     loaded = read_employee_records_from_file('employees.dat')

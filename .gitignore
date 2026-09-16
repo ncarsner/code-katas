@@ -30,3 +30,11 @@ venv.bak/
 
 # Pytest
 .pytest*
+
+# Compiled C/C++ binaries
+system_rules
+*.o
+use_cases/fizzbuzz*
+
+# Local-only Markdown notes (dotfiles)
+.*.md
