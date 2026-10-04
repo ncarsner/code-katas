@@ -1,11 +1,12 @@
 """
-GOAL: Create test environment users and passwords, 
+GOAL: Create test environment users and passwords,
 utilizing a subtractive approach to array building by removing characters from a larger array,
 as opposed to the most common additive method.
 """
-import string
-import random
+
 import json
+import secrets
+import string
 
 from names import first_names, surnames
 
@@ -13,46 +14,59 @@ min_pass_length = 12
 max_pass_length = 32
 number_of_users = 10
 
+pw_values = string.printable.replace(string.whitespace, "") + " "
+
 
 def password_generator():
-    pw_values = string.printable.replace(string.whitespace, "") + " "
-    p = (
-        random.choice(pw_values)
-        for _ in range(random.randint(min_pass_length, max_pass_length))
+    # Subtractive: start with a max-length array, then remove random characters down to the target length
+    chars = [secrets.choice(pw_values) for _ in range(max_pass_length)]
+    target_length = min_pass_length + secrets.randbelow(
+        max_pass_length - min_pass_length + 1
     )
-    return "".join(p)
+    while len(chars) > target_length:
+        chars.pop(secrets.randbelow(len(chars)))
+    return "".join(chars)
 
 
-# CREATE USER LIST
-new_users_needing_passwords = [
-    (random.choice(first_names) + " " + random.choice(surnames).title())
-    for _ in range(number_of_users)
-]
+def generate_user_names(count):
+    max_unique = len(set(first_names)) * len(set(surnames))
+    if count > max_unique:
+        raise ValueError(f"Cannot generate {count} unique names; max is {max_unique}")
 
-new_users_passwords = [password_generator() for _ in range(number_of_users)]
-
-
-# GENERATED AS LIST
-def users_list():
-    for i in range(len(new_users_needing_passwords)):
-        user_id = "".join([random.choice(string.digits) for _ in range(8)])
-        user_short_name = new_users_needing_passwords[i].split()
-        user_short_name = "".join(
-            user_short_name[0][0].lower() + user_short_name[1].lower()
+    # Set prevents duplicate names from overwriting each other in the user dict
+    user_names = set()
+    while len(user_names) < count:
+        user_names.add(
+            secrets.choice(first_names) + " " + secrets.choice(surnames).title()
         )
-        user_short_name = f"{user_short_name}{user_id}"
-        user = new_users_needing_passwords[i]
-        user_pass = new_users_passwords[i]
-        spaces = len(max(new_users_needing_passwords, key=len))
-        spacer = " "
-        print(
-            f"[UID] {user_short_name} {spacer*(20-len(user_short_name))} [USER] {user} {spacer*(spaces-len(user))} [PASS] {user_pass}"
-        )
+    return list(user_names)
 
 
 # GENERATED AS DICTIONARY
-user_dict = dict(zip(new_users_needing_passwords, new_users_passwords))
+def generate_users(count=number_of_users):
+    return {name: password_generator() for name in generate_user_names(count)}
+
+
+# GENERATED AS LIST
+def users_list(users):
+    rows = []
+    for user, user_pass in users.items():
+        user_id = "".join(secrets.choice(string.digits) for _ in range(8))
+        first, *rest = user.split()
+        user_short_name = f"{first[0].lower()}{''.join(rest).lower()}{user_id}"
+        rows.append((user_short_name, user, user_pass))
+
+    uid_width = max(len(row[0]) for row in rows)
+    user_width = max(len(row[1]) for row in rows)
+    for user_short_name, user, user_pass in rows:
+        print(
+            f"[UID] {user_short_name:<{uid_width}}  [USER] {user:<{user_width}}  [PASS] {user_pass}"
+        )
+
 
 if __name__ == "__main__":
-    users_list()
+    # Run from the repo root so `names` is importable:
+    #   python3 -m use_cases.generate_users
+    user_dict = generate_users()
+    users_list(user_dict)
     print("\n", json.dumps(user_dict, indent=4))
