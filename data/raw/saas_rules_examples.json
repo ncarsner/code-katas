@@ -1,0 +1,46 @@
+{
+  "scenarios": [
+    {
+      "name": "24/7/365 Service",
+      "basic_rules": "App never goes down. Tech updates happen silently without kicking you off.",
+      "system_rules": "Server checks pass in under a second. Backup systems sync constantly.",
+      "business_rules": "You get real-time status updates. Upgrades get announced days in advance.",
+      "exceptions": "System crashes? Instant automatic reroute. Unresolved alerts ping on-call tech lead."
+    },
+    {
+      "name": "Playing Little League",
+      "basic_rules": "League charter exists. Players must meet age/boundary limits.",
+      "system_rules": "Every player participates at least two innings. Pitch count limits instituted by age group. Required equipment must bear official certification stamps.",
+      "business_rules": "Parent signs waiver, coach submits batting order to umpire, teams play 6 innings, post-game high-five line.",
+      "exceptions": "Play is suspended in cases of weather. Ejections handled by umpires."
+    },
+    {
+      "name": "Making Change",
+      "basic_rules": "Swap must balance to zero. You can't give money you don't physically have.",
+      "system_rules": "Must be real, not fake or damaged, U.S. currency. Total returned bills/coins equal exact amount owed.",
+      "business_rules": "Friend hands you a $20 for a $5 spot. You check your wallet, pull out a $10 and five $1s, trade cash.",
+      "exceptions": "Only have a $5 bill left? Ask a third friend to break a $10, or settle the difference on Venmo."
+    },
+    {
+      "name": "Filing a Car Accident Claim",
+      "basic_rules": "Must have active policy. Personal details and photos locked behind secure encryption.",
+      "system_rules": "Form needs policy number, time, location, and story. Photos under 15MB limit.",
+      "business_rules": "Submit crash details on app. Get claim number. Case assigned to claims adjuster.",
+      "exceptions": "Signed up yesterday and crashed today? System flags potential fraud for human review."
+    },
+    {
+      "name": "Receiving a Work Email",
+      "basic_rules": "Must be an active employee with a real work address. Sender identity verified.",
+      "system_rules": "Message loads fast. Attachments scanned for viruses before landing in inbox.",
+      "business_rules": "Email clears security, hits inbox, updates unread count, sends phone notification.",
+      "exceptions": "Suspicious link detected? Email quarantined. Full mailbox bounces incoming mail to sender."
+    },
+    {
+      "name": "Baking a Pie",
+      "basic_rules": "Internal temp must reach safe levels (165°F). Oven safety locks prevent kitchen fires.",
+      "system_rules": "Crust-to-filling ratio measured right. Timer set in positive minutes.",
+      "business_rules": "Prep crust, mix filling, assemble, preheat oven, bake, let cool before slicing.",
+      "exceptions": "Crust burning early? Shield edges with foil. Oven turns off? Alert baker instantly."
+    }
+  ]
+}
