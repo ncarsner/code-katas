@@ -2,6 +2,8 @@
 
 import random
 from string import digits
+import operator
+from pprint import pprint
 
 def bitmask_n_bits(n):
     return (1 << n) - 1  # fast way to get a bitmask of n bits
@@ -26,6 +28,19 @@ def two_char_state_from_n_bits(n):
 def two_bit_class_from_stepped_slice(n):
     return "0123"[(n & 3)::4]  # fast way to get a two-bit class from a stepped slice based on n bits
 
+def bit_arrays():
+    nums = [*range(1, 10)]
+    ops = {'&': operator.and_, '|': operator.or_, '^': operator.xor}
+
+    symbol = input("Select operator (&, |, ^): ").strip()
+    func = ops[symbol]
+
+    print(f"\nOperator: {symbol}\n")
+    print(f"{'':>4}" + "".join(f"{n:>4}" for n in nums))
+    print("    " + "----" * len(nums))
+
+    for a in nums:
+        print(f"{a:>3} |" + "".join(f"{func(a, b):>4}" for b in nums))
 
 if __name__ == "__main__":
     # Example usage of bitmask_n_bits
@@ -57,3 +72,5 @@ if __name__ == "__main__":
     # Example usage of two_bit_class_from_stepped_slice
     bit_class = two_bit_class_from_stepped_slice(n)
     print(f"Two-bit class from stepped slice for {n} bits: {bit_class}")  # Output: a character from '0', '1', '2', or '3 based on n
+    
+    bit_arrays()
